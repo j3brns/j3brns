@@ -39,7 +39,7 @@
   --red: #C0392B;
   --green: #27AE60;
 
-  /* Dark theme (DEFAULT) */
+  /* Dark theme (DEFAULT) — warm charcoal editorial */
   --bg: #141820;
   --bg-alt: #1A1F2C;
   --bg-card: #1E2433;
@@ -122,7 +122,7 @@ body {
    ════════════════════════════════════════════ */
 .site-wrapper {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 335px 1fr;
   min-height: 100vh;
 }
 
@@ -238,51 +238,107 @@ body {
 .theme-toggle:hover { background: var(--sidebar-box); color: var(--text-secondary); }
 .theme-toggle-icon { font-size: 16px; }
 
-/* Author card */
-.author-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
+/* Semver widget */
+.semver-widget {
   margin-bottom: 20px;
-  border-radius: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.semver-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
   background: var(--sidebar-box);
   border: 1px solid var(--border);
-  text-decoration: none;
+  cursor: pointer;
   transition: all 0.2s ease;
+  user-select: none;
 }
-.author-card:hover {
-  border-color: #0A66C2;
-  background: rgba(10, 102, 194, 0.08);
+
+.semver-badge:hover {
+  border-color: var(--accent);
+  background: rgba(74, 159, 229, 0.12);
 }
-.author-card-icon {
-  flex-shrink: 0;
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  background: #0A66C2;
-  color: #fff;
-}
-.author-card-text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.author-card-name {
-  font-family: 'Outfit', sans-serif;
+
+.semver-label {
+  font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   font-weight: 600;
-  color: var(--text);
-  line-height: 1.2;
+  color: var(--accent);
 }
-.author-card-role {
+
+.semver-date {
   font-family: 'Outfit', sans-serif;
   font-size: 10px;
-  color: #0A66C2;
-  line-height: 1.3;
+  color: var(--text-muted);
+}
+
+.semver-changelog {
+  display: none;
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.semver-changelog.open { display: block; }
+
+.semver-entry {
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.semver-entry:last-child { border-bottom: none; }
+
+.semver-entry strong {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+}
+
+.semver-entry span {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+/* Floating LinkedIn pill */
+.linkedin-float {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: #0A66C2;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+.linkedin-float:hover {
+  background: #004182;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(10, 102, 194, 0.4);
+}
+.linkedin-float svg { flex-shrink: 0; }
+
+@media (max-width: 768px) {
+  .linkedin-float span { display: none; }
+  .linkedin-float { padding: 10px; border-radius: 50%; }
 }
 
 /* Disabled nav link for future articles */
@@ -316,9 +372,9 @@ body {
 @media (max-width: 1024px) {
   .sidebar {
     position: fixed;
-    left: -300px;
+    left: -345px;
     top: 0;
-    width: 280px;
+    width: 335px;
     transition: left 0.3s ease, background 0.3s ease;
     box-shadow: 4px 0 24px var(--shadow-heavy);
   }
@@ -399,12 +455,6 @@ body {
   transition: border-color 0.2s ease;
 }
 .hero-meta a:hover { border-bottom-color: var(--accent); }
-
-.hero-author-link {
-  color: #0A66C2 !important;
-  font-weight: 600;
-}
-.hero-author-link:hover { border-bottom-color: #0A66C2 !important; }
 
 .hero-divider {
   display: flex;
@@ -810,20 +860,22 @@ tbody td:first-child {
   <div class="sidebar-brand">Agentic Protocols</div>
   <div class="sidebar-title">The Infrastructure Reckoning</div>
 
-  <!-- Author card -->
-  <a href="https://www.linkedin.com/in/julian-burns" target="_blank" rel="noopener" class="author-card">
-    <div class="author-card-icon">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  <!-- Semver widget -->
+  <div class="semver-widget">
+    <div class="semver-badge" id="semverToggle" role="button" tabindex="0" aria-expanded="false">
+      <span class="semver-label">v2.1.0</span>
+      <span class="semver-date">Feb 2026</span>
     </div>
-    <div class="author-card-text">
-      <span class="author-card-name">Julian Burns</span>
-      <span class="author-card-role">Connect on LinkedIn</span>
+    <div class="semver-changelog" id="semverChangelog">
+      <div class="semver-entry"><strong>v2.1.0</strong> <span>Feb 2026</span> &mdash; LMOS production checkpoint, A2A v0.3, ANP IETF draft, all diagrams SVG, dark default, GitHub Pages ready</div>
+      <div class="semver-entry"><strong>v2.0.0</strong> <span>Feb 2026</span> &mdash; Web publication build, sticky nav, dispatch cards, protocol validation</div>
+      <div class="semver-entry"><strong>v1.0.0</strong> <span>Jun 2025</span> &mdash; Original three-part editorial package</div>
     </div>
-  </a>
+  </div>
 
   <nav>
     <div class="nav-section-label">This Article</div>
-    <div class="nav-link" data-target="narrative-core" role="button" tabindex="0">Reasoning Substrates Are Not Microservices<span class="reading-time">8 min read</span></div>
+    <div class="nav-link" data-target="narrative-core" role="button" tabindex="0">Reasoning Substrates &ne; Microservices<span class="reading-time">8 min read</span></div>
 
     <div class="nav-section-label">Dispatches</div>
     <div class="nav-link" data-target="dispatch-01" role="button" tabindex="0">01 &mdash; Your Telemetry Is Blind<span class="reading-time">4 min read</span></div>
@@ -858,8 +910,7 @@ tbody td:first-child {
   <h1>Agentic Protocols</h1>
   <div class="hero-subtitle">The Infrastructure Reckoning</div>
   <div class="hero-meta">
-    <a href="https://www.linkedin.com/in/julian-burns" target="_blank" rel="noopener" class="hero-author-link">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:3px;"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Julian Burns</a><br>
+    Julian Burns<br>
     Originally June 2025 &bull; Updated February 2026 &bull; <strong>~38 min total read</strong><br>
     Referencing: <em>A Survey of AI Agent Protocols</em>, arXiv:2504.16736
   </div>
@@ -872,7 +923,7 @@ tbody td:first-child {
      ════════════════════════════════════════════════════════════════════ -->
 <article class="section" id="narrative-core">
   <div class="section-label">Part I &mdash; The Narrative Core</div>
-  <h2>Reasoning Substrates Are Not Microservices</h2>
+  <h2>Reasoning Substrates &ne; Microservices</h2>
   <div class="byline">Julian Burns &nbsp;|&nbsp; Originally June 2025 &bull; Updated February 2026</div>
 
   <p>Here is the category error at the heart of modern agentic infrastructure: we are building reasoning systems and governing them with plumbing designed for stateless data shuttles. We route their outputs through REST gateways, monitor their uptime with Prometheus, wrap them in sidecars like any other container workload &mdash; and then act surprised when none of these rituals explains why an agent just authorised a six-figure purchase order based on a hallucinated context that never existed in any upstream system.</p>
@@ -1447,7 +1498,7 @@ tbody td:first-child {
         <marker id="arrowDark" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--text-muted)"/></marker>
       </defs>
       <!-- START -->
-      <rect x="240" y="10" width="200" height="44" rx="22" fill="#1B2A4A" stroke="none"/>
+      <rect x="240" y="10" width="200" height="44" rx="22" fill="var(--navy)" stroke="none"/>
       <text x="340" y="28" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Agentic Infrastructure</text>
       <text x="340" y="42" text-anchor="middle" font-size="10" fill="#ccc">Decision Triage</text>
       <!-- Arrow START to Q1 -->
@@ -1460,8 +1511,8 @@ tbody td:first-child {
       <line x1="120" y1="94" x2="120" y2="130" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
       <text x="168" y="88" text-anchor="middle" font-size="10" font-weight="600" fill="var(--green)">Yes</text>
       <!-- S1 -->
-      <rect x="30" y="130" width="180" height="50" rx="6" fill="#E8F0FE" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="120" y="150" text-anchor="middle" font-size="10" font-weight="600" fill="var(--navy)">Stage 1: Contained</text>
+      <rect x="30" y="130" width="180" height="50" rx="6" fill="var(--bg-alt)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="120" y="150" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Stage 1: Contained</text>
       <text x="120" y="165" text-anchor="middle" font-size="9" fill="var(--text-secondary)">MCP for tools, standard obs.</text>
       <!-- Q1 No -> Q2 -->
       <line x1="470" y1="94" x2="560" y2="94" stroke="var(--accent)" stroke-width="1.5"/>
@@ -1476,16 +1527,16 @@ tbody td:first-child {
       <line x1="380" y1="150" x2="380" y2="195" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
       <text x="408" y="144" text-anchor="middle" font-size="10" font-weight="600" fill="var(--green)">No</text>
       <!-- S2 -->
-      <rect x="290" y="195" width="180" height="50" rx="6" fill="#E8F0FE" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="380" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="var(--navy)">Stage 2: Coordinated</text>
+      <rect x="290" y="195" width="180" height="50" rx="6" fill="var(--bg-alt)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="380" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Stage 2: Coordinated</text>
       <text x="380" y="230" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Evaluate A2A / LMOS</text>
       <!-- Q2 Yes -> S3 -->
       <line x1="690" y1="150" x2="630" y2="150" stroke="var(--accent)" stroke-width="1.5"/>
       <line x1="630" y1="170" x2="630" y2="195" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
       <text x="660" y="144" text-anchor="middle" font-size="10" font-weight="600" fill="var(--red)">Yes</text>
       <!-- S3 -->
-      <rect x="530" y="195" width="180" height="50" rx="6" fill="#E8F0FE" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="620" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="var(--navy)">Stage 3: Federated</text>
+      <rect x="530" y="195" width="180" height="50" rx="6" fill="var(--bg-alt)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="620" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Stage 3: Federated</text>
       <text x="620" y="230" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Evaluate ANP DID identity</text>
       <!-- All three converge to Q3 -->
       <line x1="120" y1="180" x2="120" y2="300" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
@@ -1503,7 +1554,7 @@ tbody td:first-child {
       <line x1="560" y1="310" x2="560" y2="355" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
       <text x="515" y="304" text-anchor="middle" font-size="10" font-weight="600" fill="var(--red)">No</text>
       <!-- URGENT -->
-      <rect x="470" y="355" width="180" height="44" rx="6" fill="#C0392B" stroke="none"/>
+      <rect x="470" y="355" width="180" height="44" rx="6" fill="var(--red)" stroke="none"/>
       <text x="560" y="373" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">URGENT GAP</text>
       <text x="560" y="387" text-anchor="middle" font-size="9" fill="#fcc">Reasoning-aware obs. now</text>
       <!-- URGENT -> Q4 -->
@@ -1522,7 +1573,7 @@ tbody td:first-child {
       <line x1="110" y1="435" x2="110" y2="480" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
       <text x="148" y="428" text-anchor="middle" font-size="10" font-weight="600" fill="var(--amber)">Yes</text>
       <!-- BUDGET -->
-      <rect x="20" y="480" width="180" height="44" rx="6" fill="#D4A017" stroke="none"/>
+      <rect x="20" y="480" width="180" height="44" rx="6" fill="var(--amber)" stroke="none"/>
       <text x="110" y="498" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">MANDATORY</text>
       <text x="110" y="512" text-anchor="middle" font-size="9" fill="#fff">Token budget enforcement</text>
       <!-- Q4 No -> MONITOR -->
@@ -1530,7 +1581,7 @@ tbody td:first-child {
       <line x1="530" y1="435" x2="530" y2="480" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
       <text x="490" y="428" text-anchor="middle" font-size="10" font-weight="600" fill="var(--green)">No</text>
       <!-- MONITOR -->
-      <rect x="440" y="480" width="180" height="44" rx="6" fill="#27AE60" stroke="none"/>
+      <rect x="440" y="480" width="180" height="44" rx="6" fill="var(--green)" stroke="none"/>
       <text x="530" y="498" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">ADVISABLE</text>
       <text x="530" y="512" text-anchor="middle" font-size="9" fill="#fff">Cost monitoring, defer enforcement</text>
       <!-- Both -> Q5 -->
@@ -1546,15 +1597,15 @@ tbody td:first-child {
       <line x1="180" y1="593" x2="110" y2="593" stroke="var(--accent)" stroke-width="1.5"/>
       <line x1="110" y1="593" x2="110" y2="630" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
       <text x="148" y="588" text-anchor="middle" font-size="10" font-weight="600" fill="var(--green)">Static</text>
-      <rect x="20" y="630" width="180" height="40" rx="6" fill="#E8F0FE" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="110" y="648" text-anchor="middle" font-size="10" font-weight="600" fill="var(--navy)">Standard governance</text>
+      <rect x="20" y="630" width="180" height="40" rx="6" fill="var(--bg-alt)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="110" y="648" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Standard governance</text>
       <text x="110" y="662" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Monitor for emergent patterns</text>
       <!-- Q5 Emergent -->
       <line x1="460" y1="593" x2="530" y2="593" stroke="var(--accent)" stroke-width="1.5"/>
       <line x1="530" y1="593" x2="530" y2="630" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
       <text x="490" y="588" text-anchor="middle" font-size="10" font-weight="600" fill="var(--amber)">Emergent</text>
-      <rect x="440" y="630" width="190" height="40" rx="6" fill="#FFF3CD" stroke="var(--amber)" stroke-width="1.5"/>
-      <text x="535" y="648" text-anchor="middle" font-size="10" font-weight="600" fill="var(--navy)">Coordination governance</text>
+      <rect x="440" y="630" width="190" height="40" rx="6" fill="var(--highlight-bg)" stroke="var(--amber)" stroke-width="1.5"/>
+      <text x="535" y="648" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Coordination governance</text>
       <text x="535" y="662" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Blast radius + drift detection</text>
     </svg>
   </div>
@@ -1569,7 +1620,7 @@ tbody td:first-child {
 
   <p><strong>For organisations planning for Stage 3</strong> with cross-boundary federation: evaluate ANP&rsquo;s DID-based identity model seriously. Begin formal governance framework development. Accept that current protocols will not fully meet your needs and plan for a mixed-protocol architecture with governance bridges.</p>
 
-  <p><strong>For everyone:</strong> do not wait for protocol convergence. The landscape will remain fragmented through 2026 and likely beyond. Adopt what works now, build governance ahead of need, and maintain architectural flexibility. The organisations that navigate this transition successfully will be those that recognised earliest that reasoning substrates are not microservices &mdash; and built accordingly.</p>
+  <p><strong>For everyone:</strong> do not wait for protocol convergence. The landscape will remain fragmented through 2026 and likely beyond. Adopt what works now, build governance ahead of need, and maintain architectural flexibility. The organisations that navigate this transition successfully will be those that recognised earliest that reasoning substrates &ne; microservices &mdash; and built accordingly.</p>
 
   <!-- 7. Twelve-Month Horizon -->
   <h3>7. The Twelve-Month Horizon</h3>
@@ -1600,6 +1651,12 @@ tbody td:first-child {
 
 </main>
 </div>
+
+<!-- Floating LinkedIn pill -->
+<a href="https://www.linkedin.com/in/julian-burns" target="_blank" rel="noopener" class="linkedin-float" aria-label="Julian Burns on LinkedIn">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  <span>Julian Burns</span>
+</a>
 
 <!-- ════════════════════════════════════════════
      JAVASCRIPT
