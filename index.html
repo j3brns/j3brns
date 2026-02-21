@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Protocols: The Infrastructure Reckoning</title>
+<meta name="description" content="An editorial package on agentic infrastructure — reasoning substrates, protocol gaps, and a CIO field manual. Updated February 2026.">
+<meta name="author" content="Julian Burns">
+<link rel="canonical" href="">
+<meta property="og:title" content="Agentic Protocols: The Infrastructure Reckoning">
+<meta property="og:description" content="Five dispatches on the gaps that matter, plus a CIO Hitchhiker's Guide to agentic infrastructure.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="">
+<meta property="article:author" content="https://www.linkedin.com/in/julian-burns">
+<meta property="article:published_time" content="2025-06-01">
+<meta property="article:modified_time" content="2026-02-21">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Agentic Protocols: The Infrastructure Reckoning">
+<meta name="twitter:description" content="Five dispatches on the gaps that matter, plus a CIO Hitchhiker's Guide.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Diagrams rendered as inline SVG - no mermaid dependency -->
+
+<style>
+/* ════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES
+   ════════════════════════════════════════════ */
+:root {
+  /* Palette */
+  --navy: #1B2A4A;
+  --accent: #2E75B6;
+  --accent-light: #4A9FE5;
+  --amber: #D4A017;
+  --amber-soft: #E8B93A;
+  --red: #C0392B;
+  --green: #27AE60;
+
+  /* Dark theme (DEFAULT) */
+  --bg: #141820;
+  --bg-alt: #1A1F2C;
+  --bg-card: #1E2433;
+  --bg-code: #12151C;
+  --text: #D8D4CF;
+  --text-secondary: #A09A92;
+  --text-muted: #6A655E;
+  --border: #2A3040;
+  --border-light: #232838;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-heavy: rgba(0, 0, 0, 0.5);
+  --sidebar-bg: #181C26;
+  --sidebar-active: var(--accent-light);
+  --sidebar-text: #8A8580;
+  --highlight-bg: rgba(212, 160, 23, 0.08);
+  --highlight-border: var(--amber);
+  --sidebar-box: rgba(46, 117, 182, 0.1);
+  --pullquote-bg: rgba(46, 117, 182, 0.06);
+  --update-bg: rgba(212, 160, 23, 0.08);
+}
+
+[data-theme="light"] {
+  --bg: #FAF8F5;
+  --bg-alt: #F2EDE8;
+  --bg-card: #FFFFFF;
+  --bg-code: #2D2D2D;
+  --text: #2C2C2C;
+  --text-secondary: #5A5A5A;
+  --text-muted: #8A8A8A;
+  --border: #DDD5CC;
+  --border-light: #EDE8E2;
+  --shadow: rgba(30, 20, 10, 0.08);
+  --shadow-heavy: rgba(30, 20, 10, 0.14);
+  --sidebar-bg: #F5F0EA;
+  --sidebar-active: var(--accent);
+  --sidebar-text: #5A5A5A;
+  --highlight-bg: #FFF8E1;
+  --highlight-border: var(--amber);
+  --sidebar-box: rgba(46, 117, 182, 0.06);
+  --pullquote-bg: rgba(46, 117, 182, 0.04);
+  --update-bg: #FFF8E1;
+}
+
+/* ════════════════════════════════════════════
+   RESET & BASE
+   ════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.72;
+  transition: background 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ════════════════════════════════════════════
+   PROGRESS BAR
+   ════════════════════════════════════════════ */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--amber));
+  z-index: 1000;
+  transition: width 0.1s linear;
+}
+
+/* ════════════════════════════════════════════
+   LAYOUT
+   ════════════════════════════════════════════ */
+.site-wrapper {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+@media (max-width: 1024px) {
+  .site-wrapper { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════════
+   SIDEBAR NAVIGATION
+   ════════════════════════════════════════════ */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  padding: 32px 20px 40px;
+  z-index: 100;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.sidebar-brand {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.sidebar-title {
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-section-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 20px;
+  margin-bottom: 8px;
+  padding-left: 12px;
+}
+
+.sidebar nav .nav-link {
+  display: block;
+  padding: 7px 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  border-radius: 6px;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+  margin-bottom: 2px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sidebar nav .nav-link:hover {
+  color: var(--text);
+  background: var(--sidebar-box);
+}
+
+.sidebar nav .nav-link.active {
+  color: var(--sidebar-active);
+  border-left-color: var(--sidebar-active);
+  background: var(--sidebar-box);
+  font-weight: 600;
+}
+
+.sidebar nav .nav-link .reading-time {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.sidebar-footer {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* Theme toggle */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  width: 100%;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.theme-toggle:hover { background: var(--sidebar-box); color: var(--text-secondary); }
+.theme-toggle-icon { font-size: 16px; }
+
+/* Author card */
+.author-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background: var(--sidebar-box);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.author-card:hover {
+  border-color: #0A66C2;
+  background: rgba(10, 102, 194, 0.08);
+}
+.author-card-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: #0A66C2;
+  color: #fff;
+}
+.author-card-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.author-card-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+}
+.author-card-role {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  color: #0A66C2;
+  line-height: 1.3;
+}
+
+/* Disabled nav link for future articles */
+.nav-link-disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+  font-style: italic;
+}
+
+/* Mobile nav */
+.mobile-nav-toggle {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 200;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: var(--navy);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px var(--shadow-heavy);
+  transition: transform 0.2s ease;
+}
+.mobile-nav-toggle:hover { transform: scale(1.08); }
+
+@media (max-width: 1024px) {
+  .sidebar {
+    position: fixed;
+    left: -300px;
+    top: 0;
+    width: 280px;
+    transition: left 0.3s ease, background 0.3s ease;
+    box-shadow: 4px 0 24px var(--shadow-heavy);
+  }
+  .sidebar.open { left: 0; }
+  .mobile-nav-toggle { display: flex; align-items: center; justify-content: center; }
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 99;
+  }
+  .nav-overlay.open { display: block; }
+}
+
+/* ════════════════════════════════════════════
+   MAIN CONTENT AREA
+   ════════════════════════════════════════════ */
+.content-area {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 60px 40px 120px;
+}
+
+@media (max-width: 768px) {
+  .content-area { padding: 40px 20px 100px; }
+}
+
+/* ════════════════════════════════════════════
+   HERO / COVER
+   ════════════════════════════════════════════ */
+.hero {
+  text-align: center;
+  padding: 80px 0 60px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-overline {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: clamp(36px, 5vw, 52px);
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-size: clamp(20px, 3vw, 26px);
+  font-style: italic;
+  color: var(--accent);
+  margin-bottom: 32px;
+}
+
+.hero-meta {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.hero-meta a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.hero-meta a:hover { border-bottom-color: var(--accent); }
+
+.hero-author-link {
+  color: #0A66C2 !important;
+  font-weight: 600;
+}
+.hero-author-link:hover { border-bottom-color: #0A66C2 !important; }
+
+.hero-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 40px 0 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  letter-spacing: 0.4em;
+}
+
+/* ════════════════════════════════════════════
+   SECTIONS
+   ════════════════════════════════════════════ */
+.section {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+.section-label {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.section h2 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: clamp(26px, 3.5vw, 34px);
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.section h3 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: clamp(20px, 2.5vw, 24px);
+  color: var(--text);
+  line-height: 1.3;
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
+
+.byline {
+  font-family: 'Crimson Pro', serif;
+  font-size: 15px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 28px;
+}
+
+p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.section p:last-child { margin-bottom: 0; }
+
+strong { font-weight: 700; color: var(--text); }
+em { font-style: italic; }
+
+.section-divider {
+  text-align: center;
+  color: var(--text-muted);
+  letter-spacing: 0.5em;
+  font-size: 14px;
+  margin: 56px 0;
+  border: none;
+}
+
+/* ════════════════════════════════════════════
+   EPIGRAPH (unified with pull-quote style)
+   ════════════════════════════════════════════ */
+.epigraph {
+  border-left: 4px solid var(--amber);
+  padding: 18px 28px;
+  margin: 20px 0 32px;
+  background: var(--update-bg);
+  border-radius: 0 8px 8px 0;
+  font-size: 19px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--amber-soft);
+  line-height: 1.5;
+}
+
+[data-theme="light"] .epigraph { color: var(--amber); }
+
+/* ════════════════════════════════════════════
+   PULL QUOTES
+   ════════════════════════════════════════════ */
+.pull-quote {
+  border-left: 4px solid var(--accent);
+  padding: 20px 28px;
+  margin: 36px 0;
+  background: var(--pullquote-bg);
+  border-radius: 0 8px 8px 0;
+  font-size: 20px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--accent-light);
+  line-height: 1.5;
+}
+
+[data-theme="light"] .pull-quote { color: var(--accent); }
+
+/* ════════════════════════════════════════════
+   UPDATE BOXES
+   ════════════════════════════════════════════ */
+.update-box {
+  border-left: 4px solid var(--amber);
+  background: var(--update-bg);
+  padding: 18px 24px;
+  margin: 28px 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.update-box .update-label {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ════════════════════════════════════════════
+   SIDEBAR BOXES (in content)
+   ════════════════════════════════════════════ */
+.info-box {
+  background: var(--sidebar-box);
+  border-top: 3px solid var(--accent);
+  border-radius: 0 0 8px 8px;
+  padding: 24px 28px;
+  margin: 36px 0;
+}
+
+.info-box-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 10px;
+}
+
+[data-theme="light"] .info-box-title { color: var(--navy); }
+
+.info-box p {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+}
+.info-box p:last-child { margin-bottom: 0; }
+
+/* ════════════════════════════════════════════
+   TABLES
+   ════════════════════════════════════════════ */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 28px 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+}
+
+thead th {
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  padding: 12px 16px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+tbody tr:nth-child(even) { background: var(--bg-alt); }
+
+tbody td:first-child {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.table-balanced tbody td:first-child {
+  white-space: normal;
+}
+
+.table-balanced tbody td {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.table-caption {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+/* ════════════════════════════════════════════
+   MERMAID DIAGRAMS
+   ════════════════════════════════════════════ */
+.diagram-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px 16px;
+  margin: 28px 0;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.diagram-caption {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  margin-bottom: 28px;
+}
+
+/* ════════════════════════════════════════════
+   DISPATCH OVERVIEW STRIP
+   ════════════════════════════════════════════ */
+.dispatch-strip {
+  margin: 24px 0 40px;
+}
+
+.dispatch-strip-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.dispatch-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .dispatch-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .dispatch-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dispatch-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dispatch-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.dispatch-card-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
+  opacity: 0.3;
+  line-height: 1;
+}
+
+.dispatch-card-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.dispatch-card-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 3px;
+  width: fit-content;
+}
+
+.tag-red { background: rgba(192, 57, 43, 0.12); color: var(--red); }
+.tag-amber { background: rgba(212, 160, 23, 0.12); color: var(--amber); }
+.tag-blue { background: rgba(46, 117, 182, 0.12); color: var(--accent); }
+
+/* ════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════ */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 0;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-style: italic;
+  max-width: 600px;
+  margin: 0 auto 12px;
+  line-height: 1.7;
+}
+
+/* ════════════════════════════════════════════
+   ANIMATIONS
+   ════════════════════════════════════════════ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero { animation: fadeInUp 0.7s ease both; }
+.section { animation: fadeInUp 0.5s ease both; }
+
+/* Staggered on load */
+.section:nth-child(1) { animation-delay: 0.1s; }
+.section:nth-child(2) { animation-delay: 0.15s; }
+
+/* ════════════════════════════════════════════
+   SELECTION
+   ════════════════════════════════════════════ */
+::selection {
+  background: rgba(46, 117, 182, 0.2);
+  color: inherit;
+}
+
+/* ════════════════════════════════════════════
+   SCROLLBAR
+   ════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+</style>
+</head>
+
+<body>
+<div id="progress-bar"></div>
+<div class="nav-overlay" id="navOverlay"></div>
+
+<button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">&#9776;</button>
+
+<div class="site-wrapper">
+
+<!-- ════════════════════════════════════════════
+     SIDEBAR
+     ════════════════════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">Agentic Protocols</div>
+  <div class="sidebar-title">The Infrastructure Reckoning</div>
+
+  <!-- Author card -->
+  <a href="https://www.linkedin.com/in/julian-burns" target="_blank" rel="noopener" class="author-card">
+    <div class="author-card-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </div>
+    <div class="author-card-text">
+      <span class="author-card-name">Julian Burns</span>
+      <span class="author-card-role">Connect on LinkedIn</span>
+    </div>
+  </a>
+
+  <nav>
+    <div class="nav-section-label">This Article</div>
+    <div class="nav-link" data-target="narrative-core" role="button" tabindex="0">Reasoning Substrates Are Not Microservices<span class="reading-time">8 min read</span></div>
+
+    <div class="nav-section-label">Dispatches</div>
+    <div class="nav-link" data-target="dispatch-01" role="button" tabindex="0">01 &mdash; Your Telemetry Is Blind<span class="reading-time">4 min read</span></div>
+    <div class="nav-link" data-target="dispatch-02" role="button" tabindex="0">02 &mdash; The &pound;10,000 Lunch<span class="reading-time">4 min read</span></div>
+    <div class="nav-link" data-target="dispatch-03" role="button" tabindex="0">03 &mdash; Epistemic 500<span class="reading-time">4 min read</span></div>
+    <div class="nav-link" data-target="dispatch-04" role="button" tabindex="0">04 &mdash; Your Firewall Cannot Read Minds<span class="reading-time">4 min read</span></div>
+    <div class="nav-link" data-target="dispatch-05" role="button" tabindex="0">05 &mdash; The Network That Thinks<span class="reading-time">4 min read</span></div>
+
+    <div class="nav-section-label">Field Manual</div>
+    <div class="nav-link" data-target="guide" role="button" tabindex="0">CIO&rsquo;s Hitchhiker&rsquo;s Guide<span class="reading-time">10 min read</span></div>
+
+    <div class="nav-section-label" style="margin-top:28px; opacity:0.5;">Coming Next</div>
+    <div class="nav-link nav-link-disabled" tabindex="-1">The MCP Gateway Problem<span class="reading-time">TBD</span></div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <span class="theme-toggle-icon" id="themeIcon">&#9788;</span>
+      <span id="themeLabel">Light mode</span>
+    </button>
+  </div>
+</aside>
+
+<!-- ════════════════════════════════════════════
+     MAIN CONTENT
+     ════════════════════════════════════════════ -->
+<main class="content-area">
+
+<!-- ──── HERO ──── -->
+<header class="hero">
+  <div class="hero-overline">An Editorial Package in Three Parts</div>
+  <h1>Agentic Protocols</h1>
+  <div class="hero-subtitle">The Infrastructure Reckoning</div>
+  <div class="hero-meta">
+    <a href="https://www.linkedin.com/in/julian-burns" target="_blank" rel="noopener" class="hero-author-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:3px;"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Julian Burns</a><br>
+    Originally June 2025 &bull; Updated February 2026 &bull; <strong>~38 min total read</strong><br>
+    Referencing: <em>A Survey of AI Agent Protocols</em>, arXiv:2504.16736
+  </div>
+  <div class="hero-divider">&bull; &bull; &bull;</div>
+</header>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PART I — NARRATIVE CORE
+     ════════════════════════════════════════════════════════════════════ -->
+<article class="section" id="narrative-core">
+  <div class="section-label">Part I &mdash; The Narrative Core</div>
+  <h2>Reasoning Substrates Are Not Microservices</h2>
+  <div class="byline">Julian Burns &nbsp;|&nbsp; Originally June 2025 &bull; Updated February 2026</div>
+
+  <p>Here is the category error at the heart of modern agentic infrastructure: we are building reasoning systems and governing them with plumbing designed for stateless data shuttles. We route their outputs through REST gateways, monitor their uptime with Prometheus, wrap them in sidecars like any other container workload &mdash; and then act surprised when none of these rituals explains why an agent just authorised a six-figure purchase order based on a hallucinated context that never existed in any upstream system.</p>
+
+  <p>The error is seductive because it&rsquo;s partially true. Agents <em>do</em> make HTTP calls. They <em>do</em> run in containers. You <em>can</em> scrape their metrics. But monitoring the observable surface of a reasoning system is like auditing a company by counting its electricity bills. You&rsquo;ll know it&rsquo;s running. You won&rsquo;t know what it&rsquo;s doing.</p>
+
+  <div class="epigraph">&ldquo;We persist in treating them as microservices with unusually high RAM bills.&rdquo;</div>
+
+  <p>Eight months ago, I wrote those words about the emerging agentic protocol landscape &mdash; Anthropic&rsquo;s MCP, Google&rsquo;s A2A, the community-driven ANP. The thesis was that these protocols, however useful, risked encoding a persistent architectural misclassification: treating reasoning as service invocation, cognitive state as request-response, and distributed intelligence as stateless architecture. The authors of <em>A Survey of AI Agent Protocols</em> offered a calm, systematic taxonomy of this space. Between the lines, a quieter truth emerged: our infrastructure patterns are out of phase with the systems we are actually building.</p>
+
+  <p>I stand by that core argument. But the landscape has moved, and honesty demands I account for what&rsquo;s shifted and what hasn&rsquo;t.</p>
+
+  <h3>What Has Changed</h3>
+
+  <p>MCP has achieved something approaching a <em>de facto</em> standard for tool-use integration. This was driven less by technical superiority and more by ecosystem momentum &mdash; the same force that made VHS outlast Betamax and USB-C eventually displace everything with a different shaped hole. Adoption through late 2025 was steeper than most predicted, particularly in developer tooling and IDE integrations. The &ldquo;desktop tool with enterprise challenges&rdquo; characterisation from June was fair at the time; it&rsquo;s now only half-right. MCP&rsquo;s gateway story has improved materially, though robust separation of state and authentication from resource servers remains unfinished.</p>
+
+  <p>A2A has matured substantially, reaching v0.3 in July 2025 with gRPC support and signed security cards, and was donated to the Linux Foundation in June &mdash; a governance move that signals staying power beyond any single vendor&rsquo;s roadmap. Over 150 organisations now support the protocol, including Microsoft, SAP, and Salesforce. One notes, with the weariness of long experience, that Google&rsquo;s enterprise coordination protocol pairs conveniently with Google&rsquo;s enterprise coordination infrastructure &mdash; but the Linux Foundation move dilutes that concern somewhat. The Agent Card pattern has become richer, and built-in OpenTelemetry observability addresses transport-level tracing. It still describes capabilities rather than cognitive state &mdash; a distinction I&rsquo;ll return to.</p>
+
+  <p>ANP has progressed from community project to something with institutional weight. An IETF Internet-Draft for AI agent network frameworks was submitted in October 2025, backed by China Mobile, China Telecom, China Unicom, and Huawei. The protocol now defines a three-layer architecture &mdash; identity and encrypted communication, meta-protocol negotiation, and application protocol &mdash; with a published technical white paper on arXiv. A DID-based end-to-end encryption layer is substantially complete, and an MCP-to-ANP bridge exists for interoperability. It remains the most architecturally ambitious of the three service-oriented protocols, and the telecom-industry backing gives it infrastructure credibility that pure community projects struggle to achieve.</p>
+
+  <h3>What Has Not Changed</h3>
+
+  <p>The five conceptual gaps I identified in June &mdash; discovery, epistemic failure, governance, cost attribution, and emergent topology &mdash; remain substantially open. Protocols have grown more capable at the transport layer. They have not grown measurably more capable at the cognitive layer. We can move agent messages more reliably. We cannot yet inspect, bound, or govern what those messages mean.</p>
+
+  <p>This should concern us. Not because the sky is falling, but because production agentic deployments are accelerating faster than the control plane that should accompany them. We&rsquo;ve been here before &mdash; it&rsquo;s the early days of cloud security, when adoption outran governance by a comfortable margin, and the industry spent the following decade bolting on controls that should have been native from day one.</p>
+
+  <div class="pull-quote">We can move agent messages more reliably. We cannot yet inspect, bound, or govern what those messages mean.</div>
+
+  <h3>The Halting Problem Is Not Academic</h3>
+
+  <p>The most intellectually distinctive feature of reasoning substrates &mdash; and the one most consistently underappreciated in the protocol discourse &mdash; is that they collide with computational undecidability in practice, not just in theory. The halting problem tells us that no general algorithm can determine whether an arbitrary computation will terminate. Applied to agents, this means: you cannot build a protocol that <em>guarantees</em> it can determine what an agent is &ldquo;thinking,&rdquo; whether its reasoning will complete, or whether its current deliberation represents progress or an infinite loop.</p>
+
+  <p>This is not a bug to be patched. It is a mathematical boundary condition. We cannot have both genuine cognitive autonomy and full predictability; the mathematics forbids it. What we can have is <strong>bounded unpredictability</strong>: circuit breakers that distinguish &ldquo;stuck&rdquo; from &ldquo;deep thought,&rdquo; semantic checkpoints that capture reasoning state at decision boundaries, and budget controls that bound reasoning depth rather than just execution time. The dispatches that follow explore these constraints in operational terms.</p>
+
+  <h3>The Core Argument, Refined</h3>
+
+  <p>What we are building are reasoning substrates. Not services, not functions, and not agents in the legacy sense of backup scripts and build runners. These are systems where the computational process itself is the product, where the &ldquo;work&rdquo; happens inside the inference, and where the failure modes are epistemic rather than mechanical.</p>
+
+  <p>This has three practical consequences. First, observability must extend beyond latency and throughput to encompass reasoning traces, confidence signals, and token economics. Second, failure handling must evolve from retry-and-circuit-break to epistemic state management &mdash; understanding not just <em>that</em> something failed, but <em>what the agent believed</em> when it failed. Third, governance cannot remain a perimeter concern; it must travel with the cognitive process itself, embedded in the protocol rather than stapled to the edge.</p>
+
+  <p>The dispatches that follow sharpen each of these themes into standalone arguments. The Hitchhiker&rsquo;s Guide at the end translates the lot into a practical decision framework for technology leaders who need to act now whilst the ground is still moving.</p>
+
+  <p>My recommendation from June stands, updated only in emphasis: keep vertical agents safely inside your own trust boundaries. Trial selected protocols across internal trust zones. But do so with clear sight of the architectural mismatch between what these systems <em>are</em> and what our tooling assumes them to be.</p>
+</article>
+
+<div class="section-divider">&bull; &bull; &bull;</div>
+
+<!-- Dispatch at-a-glance strip -->
+<div class="dispatch-strip">
+  <div class="dispatch-strip-title">Five Dispatches &mdash; At a Glance</div>
+  <div class="dispatch-cards">
+    <div class="dispatch-card" data-target="dispatch-01" role="button" tabindex="0">
+      <span class="dispatch-card-num">01</span>
+      <span class="dispatch-card-label">Your Telemetry Is Blind</span>
+      <span class="dispatch-card-tag tag-red">Observability</span>
+    </div>
+    <div class="dispatch-card" data-target="dispatch-02" role="button" tabindex="0">
+      <span class="dispatch-card-num">02</span>
+      <span class="dispatch-card-label">The &pound;10,000 Lunch</span>
+      <span class="dispatch-card-tag tag-amber">Cost</span>
+    </div>
+    <div class="dispatch-card" data-target="dispatch-03" role="button" tabindex="0">
+      <span class="dispatch-card-num">03</span>
+      <span class="dispatch-card-label">Epistemic 500</span>
+      <span class="dispatch-card-tag tag-blue">Failure</span>
+    </div>
+    <div class="dispatch-card" data-target="dispatch-04" role="button" tabindex="0">
+      <span class="dispatch-card-num">04</span>
+      <span class="dispatch-card-label">Your Firewall Cannot Read Minds</span>
+      <span class="dispatch-card-tag tag-red">Governance</span>
+    </div>
+    <div class="dispatch-card" data-target="dispatch-05" role="button" tabindex="0">
+      <span class="dispatch-card-num">05</span>
+      <span class="dispatch-card-label">The Network That Thinks</span>
+      <span class="dispatch-card-tag tag-amber">Topology</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     DISPATCH 01
+     ════════════════════════════════════════════════════════════════════ -->
+<article class="section" id="dispatch-01">
+  <div class="section-label">Part II &mdash; Dispatch 01 of 05</div>
+  <h2>Your Telemetry Is Blind</h2>
+  <div class="byline">Julian Burns &nbsp;|&nbsp; February 2026</div>
+
+  <p>Your observability stack is lying to you. Not maliciously &mdash; it&rsquo;s reporting exactly what it was designed to report. Latency percentiles, error rates, throughput, resource utilisation. Every dashboard is green. Every SLO is met. And somewhere in your infrastructure, an agent is three reasoning steps into a hallucination cascade that will cost you a client relationship and a regulatory filing.</p>
+
+  <p>The problem is not that your telemetry is broken. The problem is that it was built for a category of system where the interesting failures are mechanical: timeouts, resource exhaustion, network partitions. Agentic systems fail epistemically. They form false beliefs. They lose confidence. They drift semantically. And none of this is visible to Prometheus, Grafana, Jaeger, or any tracing system built for request-response architectures.</p>
+
+  <p>Consider what a traditional tracing span tells you about an agent&rsquo;s operation. It records that a call was made, how long it took, and whether it returned an error code. It does not record how many tokens the agent burned deliberating before making that call. It does not capture the agent&rsquo;s confidence in its chosen action. It does not flag that a hallucinated tool call was generated, evaluated, and discarded mid-thought. It does not distinguish between an agent that completed a task efficiently and one that spiralled through four reasoning loops before arriving at the same answer by accident.</p>
+
+  <div class="pull-quote">In traditional infrastructure, observability tells us how fast something happened. In agent infrastructure, we need to know why it thought that was a good idea.</div>
+
+  <p>This is not a tooling gap that existing vendors will close with a plugin update. It requires a conceptual expansion of what observability means. Reasoning-aware observability needs to capture at minimum: token consumption per reasoning step with attribution to specific decisions, confidence signals at decision boundaries, tool-call provenance including calls considered and rejected, context window state including what was summarised or evicted and when, and semantic drift indicators that flag when an agent&rsquo;s working model has diverged from its initial context.</p>
+
+  <p>None of this exists in any current protocol specification. MCP does not define reasoning trace formats. A2A does not expose cognitive state metadata. ANP&rsquo;s identity layer tells you who an agent is, not what it currently believes. The observability conversation in the agentic ecosystem remains fixated on the transport layer &mdash; <em>did the message arrive?</em> &mdash; when the question that matters is: <em>what did the agent conclude from it?</em></p>
+
+  <p>And here&rsquo;s where the halting problem bites operationally. An agent could theoretically deliberate indefinitely about which tools to invoke, each reasoning step appearing productive whilst never reaching a decision. Your timeout will eventually fire, but it cannot tell you whether it interrupted genuine deep thought or an infinite loop. A reasoning-aware observability system would need semantic checkpoints &mdash; periodic snapshots of the agent&rsquo;s reasoning state that allow external systems to assess progress, not just duration.</p>
+
+  <div class="update-box">
+    <span class="update-label">&#9654; February 2026 Update</span>
+    Through late 2025, some LLM providers began exposing structured reasoning traces as part of their inference APIs. This is encouraging but insufficient: the traces remain internal to the model provider, not standardised across protocols. An organisation running agents across multiple model providers has no unified view of reasoning behaviour. We can increasingly see what a model thought. We cannot yet compare, correlate, or govern those thoughts at the infrastructure layer.
+  </div>
+
+  <p>The immediate ask is modest: define a standard schema for reasoning trace metadata that can travel alongside protocol messages. Not a complete solution &mdash; just enough structure that observability tools have something cognitive to index. Token counts per step. Confidence scores at decision points. Tool-call provenance. Context mutations. The data exists inside the models; it needs a protocol-level surface.</p>
+
+  <p>Until observability grows beyond counting packets and measuring latency, we remain blind to the thing that makes agents interesting &mdash; and dangerous: their internal decision-making. Your dashboards will stay green right up until the moment they become irrelevant.</p>
+</article>
+
+<div class="section-divider">&bull; &bull; &bull;</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     DISPATCH 02
+     ════════════════════════════════════════════════════════════════════ -->
+<article class="section" id="dispatch-02">
+  <div class="section-label">Part II &mdash; Dispatch 02 of 05</div>
+  <h2>The &pound;10,000 Lunch: When Reasoning Eats Your Budget</h2>
+  <div class="byline">Julian Burns &nbsp;|&nbsp; February 2026</div>
+
+  <p>Early serverless taught us a valuable, expensive lesson about scale without unit economics. Lambda functions that cost fractions of a penny per invocation turned out to cost a fortune when nobody was watching the invocation count. The cloud providers, to their credit, eventually built billing alerts and spending caps. The lesson seemed learned.</p>
+
+  <p>We are about to learn it again. This time, the invoice will be larger and the explanation harder to give to finance.</p>
+
+  <p>Agentic systems don&rsquo;t just cost in CPU cycles and memory. They cost in tokens, which translate directly to GPU time and money. And token cost is profoundly nonlinear. A prompt lengthens as context accumulates. A context window overflows and triggers summarisation or retrieval. A reasoning chain loops &mdash; not because it&rsquo;s broken, but because the problem space is complex &mdash; and your fleet has consumed five figures before anyone&rsquo;s finished their morning coffee. The &ldquo;who approved this?&rdquo; meeting that follows will be longer and less pleasant than the reasoning chain that caused it.</p>
+
+  <p>The serverless analogy is instructive but insufficient. With Lambda, the runaway cost was driven by <em>volume</em> &mdash; too many invocations. With agents, the runaway cost is driven by <em>depth</em> &mdash; too much thinking. You&rsquo;re not paying for the number of calls; you&rsquo;re paying for the length and complexity of the reasoning within each call. And reasoning depth is far harder to predict, monitor, or cap than invocation count. At least with Lambda you could count the triggers. Try counting thoughts.</p>
+
+  <div class="pull-quote">Agentic without a resource budget is not autonomous. It is unbounded. That isn&rsquo;t intelligence &mdash; it&rsquo;s entropy.</div>
+
+  <p>Here&rsquo;s what current protocols offer on cost control: nothing meaningful. No runtime budget enforcement. No token-level quota management. No mechanism for an agent to declare &ldquo;I&rsquo;ve consumed 80% of my allocated reasoning budget and am degrading gracefully.&rdquo; The survey of agentic protocols lists efficiency as one of seven evaluation dimensions, but none of the protocols reviewed enforce cost attribution at the protocol level. LMOS shows promise by treating economic reality as a first-class concern, but it remains largely conceptual.</p>
+
+  <p>What we need is straightforward in concept, even if implementation is non-trivial. Protocols should carry budget envelopes &mdash; metadata that travels with each request, declaring the token budget, the cost policy, and the expected reasoning depth. Something as structurally simple as headers: <em>X-Token-Budget: 4000, X-Policy-Context: Budgeted</em>. When the budget is exhausted, the agent degrades, summarises, or escalates &mdash; it does not silently continue consuming resources.</p>
+
+  <div class="update-box">
+    <span class="update-label">&#9654; February 2026 Update</span>
+    By February 2026, token costs have dropped roughly 40% from June 2025 levels. This has made the problem worse, not better. Cheaper tokens mean more ambitious reasoning chains, longer context windows, and larger agent fleets &mdash; total spend has increased even as unit costs have fallen. This is the Jevons Paradox applied to inference: efficiency gains drive consumption increases that more than offset the savings. Every CFO who approved an agentic pilot on the basis of declining token prices is about to discover that unit economics and total economics are different things.
+  </div>
+
+  <p>The fix is not primarily technical. It&rsquo;s cultural. We need to treat token budgets with the same rigour we apply to compute budgets, and embed cost awareness into the protocol layer rather than leaving it to dashboards that nobody checks until the invoice arrives. In microservices, cost is a hosting concern dealt with by policers and rate limiters. In agentic systems, cost is a reasoning concern. The distinction matters.</p>
+</article>
+
+<div class="section-divider">&bull; &bull; &bull;</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     DISPATCH 03
+     ════════════════════════════════════════════════════════════════════ -->
+<article class="section" id="dispatch-03">
+  <div class="section-label">Part II &mdash; Dispatch 03 of 05</div>
+  <h2>Epistemic 500: When Failure Becomes a False Belief</h2>
+  <div class="byline">Julian Burns &nbsp;|&nbsp; February 2026</div>
+
+  <p>When a microservice fails, the response is well-understood: retry, circuit-break, check idempotency, fail over. The error is mechanical. The recovery is mechanical. The playbook works because the failure modes are structural and the state is either correct or absent.</p>
+
+  <p>Agents fail differently. An agent&rsquo;s failure mode is not a crashed process or a timeout. It&rsquo;s a <strong>false belief</strong>.</p>
+
+  <p>Consider a planner agent that requests a flight booking. The downstream tool returns malformed data. In a microservice world, you retry the call or return an error to the client. In an agentic world, the agent&rsquo;s next reasoning step might incorporate that malformed data as if it were valid. Or worse: the agent might attempt to recover by <em>hallucinating</em> what it thinks the response should have been, based on its training data and current context. The failure has been promoted from a transport error to an epistemic contamination.</p>
+
+  <p>False beliefs propagate through reasoning chains the way cascading failures propagate through distributed systems, but with a critical difference: traditional circuit breakers are useless. A circuit breaker trips on observable failure &mdash; timeouts, error codes, resource exhaustion. An agent carrying a false belief exhibits no observable failure at the transport layer. It continues making calls, returning responses, and appearing healthy. The pathology is in the reasoning, not the infrastructure.</p>
+
+  <div class="pull-quote">In microservices, we retry a call. In agent systems, we need to retry a thought &mdash; but only if we understand what it was thinking when it failed.</div>
+
+  <p>What we need &mdash; and what no current protocol provides &mdash; is <strong>epistemic state management</strong>. Structured mechanisms for agents to express uncertainty, to declare degraded confidence, to checkpoint their reasoning state before risky operations, and to roll back not just actions but beliefs. Something like: &ldquo;I am continuing with degraded context. My confidence in the downstream booking data is low. I am flagging this reasoning chain for human review before committing.&rdquo;</p>
+
+  <p>A2A supports long-running workflows, which is promising. But it stops short of defining semantic rollback, reasoning checkpoints, or degraded-confidence fallbacks. MCP focuses on tool invocation, not on what the agent believes about the tool&rsquo;s output. ANP&rsquo;s identity layer tells you <em>who</em> the agent is, not <em>what it currently thinks it knows</em>.</p>
+
+  <div class="update-box">
+    <span class="update-label">&#9654; February 2026 Update</span>
+    The emergence of structured reasoning traces in some LLM providers through late 2025 is a partial step, but it addresses the wrong layer. Provider-side traces let you inspect what a model thought after the fact. What we need is protocol-level epistemic signalling: real-time confidence metadata that downstream systems and orchestrators can act on before a false belief propagates. The difference is between a post-mortem and a circuit breaker &mdash; between forensics and prevention. No major protocol has introduced confidence-aware message schemas, degraded-context declarations, or reasoning rollback primitives. The gap between failure-as-error and failure-as-false-belief remains entirely unbridged at the protocol level.
+  </div>
+
+  <p>Until we build retry logic that operates on beliefs rather than bytes &mdash; until our protocols can distinguish &ldquo;tool call failed&rdquo; from &ldquo;agent&rsquo;s understanding of reality has become contaminated&rdquo; &mdash; we will continue to experience failures that look, from the outside, like perfectly healthy systems making inexplicably wrong decisions.</p>
+</article>
+
+<div class="section-divider">&bull; &bull; &bull;</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     DISPATCH 04
+     ════════════════════════════════════════════════════════════════════ -->
+<article class="section" id="dispatch-04">
+  <div class="section-label">Part II &mdash; Dispatch 04 of 05</div>
+  <h2>Your Firewall Cannot Read Minds</h2>
+  <div class="byline">Julian Burns &nbsp;|&nbsp; February 2026</div>
+
+  <p>Most agent protocols operate without a concept of trust zones. When they&rsquo;re experimental, this is understandable &mdash; you don&rsquo;t need passport control in a laboratory. But the laboratory phase is ending, and production is arriving faster than governance.</p>
+
+  <p>The governance challenge for agentic systems is structurally different from anything we&rsquo;ve dealt with in traditional infrastructure. When a microservice makes a call, the question is: <em>is this caller authenticated and authorised?</em> When an agent makes a decision, the questions multiply: Who authorised this agent to act? What context was it reasoning within? Whose policy was it applying? What was the reasoning chain that led to this decision? And can any of that be verified after the fact?</p>
+
+  <p>Discovery compounds the problem. In microservices, discovery is solved &mdash; DNS, service registries, sidecar proxies. You know where a service is and what version it&rsquo;s running. For agents, the question isn&rsquo;t just &ldquo;where is this agent?&rdquo; but &ldquo;what is this agent capable of <em>right now</em>?&rdquo; What tools does it have access to? What context is it carrying? What is it about to do next? A2A&rsquo;s Agent Cards describe capabilities. They do not describe cognitive state. That&rsquo;s rather like a passport that lists your nationality but not whether you&rsquo;re currently carrying a suitcase full of someone else&rsquo;s money.</p>
+
+  <div class="pull-quote">Your firewall knows what port was used. Your security model must know what purpose the port was opened for.</div>
+
+  <p>ANP&rsquo;s approach using W3C DID standards is architecturally sound and gaining institutional traction. An IETF Internet-Draft submitted in October 2025, backed by China Mobile, China Telecom, China Unicom, and Huawei, defines a framework for AI agent networks using ANP as the baseline protocol. Each agent gets a decentralised identifier backed by HTTPS-hosted DID documents, enabling verifiable identity without central authorities. Eclipse LMOS experiments with economic-aware agent coordination and is already in production at enterprise scale. Both represent progress.</p>
+
+  <p>But authentication is not authority. Identity is not attestation. The structural gap is this: agents must not merely authenticate &mdash; they must <strong>attest</strong>. They must carry verifiable statements: &ldquo;I am acting under authority X. I am operating within budget Y. This decision derived from context Z at time T, with reasoning chain R traceable to source S.&rdquo; Those statements must be signed, revocable, and inspectable. They must travel with the cognitive process, embedded in the protocol, not bolted on at the perimeter.</p>
+
+  <p>We already know from bitter experience that 99% secure is, in practice, the same as 100% insecure. Helpful LLM assistants are ready to follow any instruction that reaches them. The combination of undertested governance and overcompliant agents is not a theoretical risk &mdash; it&rsquo;s the obvious attack surface of the next two years.</p>
+
+  <div class="update-box">
+    <span class="update-label">&#9654; February 2026 Update</span>
+    The broader AI governance conversation has intensified through late 2025, but it is focused almost entirely on model-level concerns: bias, safety, alignment, responsible use. Infrastructure-level governance &mdash; controlling what agents can do in production, not just what models can say in benchmarks &mdash; remains an underdeveloped field. This is the blind spot. The EU AI Act regulates model risk. Nobody is yet regulating the agent that deploys the model into a multi-step workflow with financial authority and cross-boundary access. That is not a gap the model providers will fill. It is an infrastructure problem, and it is ours.
+  </div>
+
+  <p>Policy must live inside the message. Not at the edge. Not in a dashboard. Inside the protocol, travelling with the intent it governs. Until it does, every agent that crosses a trust boundary is an unattested actor carrying unverifiable authority. That&rsquo;s not a security model. That&rsquo;s a prayer.</p>
+</article>
+
+<div class="section-divider">&bull; &bull; &bull;</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     DISPATCH 05
+     ════════════════════════════════════════════════════════════════════ -->
+<article class="section" id="dispatch-05">
+  <div class="section-label">Part II &mdash; Dispatch 05 of 05</div>
+  <h2>The Network That Thinks About Thinking</h2>
+  <div class="byline">Julian Burns &nbsp;|&nbsp; February 2026</div>
+
+  <p>In service meshes, topology is declarative. You define who calls whom. You plan for blast radius. You draw architecture diagrams that remain broadly accurate for months at a time. The relationships are explicit, the dependencies are mapped, and when something goes wrong, you can trace the path.</p>
+
+  <p>In agent systems, topology is emergent. A planner agent may spin up five helper agents. One of those helpers may recruit another. An unexpected coordination path may form across vendors, clouds, and organisational domains. Unlike services, these agents carry intent, context, and memory. The network is not shaped by calls. It is shaped by beliefs.</p>
+
+  <p>This is the gap that sounds most abstract and is, in practice, most dangerous. Emergent topology means emergent blast radius. If you cannot predict the coordination graph, you cannot predict the failure domain. And if agents are reasoning about what other agents might be reasoning about &mdash; a form of recursive deliberation that is intrinsic to multi-agent coordination &mdash; the topology itself becomes recursively complex. In the worst case, agents reasoning about other agents&rsquo; reasoning creates a group descent: an escalating coordination loop where no participant has the authority or context to terminate the cycle.</p>
+
+  <div class="pull-quote">The topology is no longer shaped by calls. It is shaped by beliefs. And beliefs about beliefs. The coordination graph is written in intent, not in YAML.</div>
+
+  <p>What&rsquo;s missing is a theory of coordination. Not just message passing, but group consensus mechanisms: Who leads a coalition of agents? What constitutes quorum? What happens when one agent&rsquo;s context drifts from the group&rsquo;s shared understanding? How do you detect and handle defection &mdash; not malicious defection, but simple epistemic drift where one agent&rsquo;s model of the world has diverged from its peers?</p>
+
+  <p>Some early work hints at answers. The concept of agent mesh protocols, where group interactions become coordination graphs, is a promising direction. Eclipse LMOS&rsquo;s operating-system approach to agent coordination addresses structural lifecycle concerns and is already handling multi-agent routing in production at enterprise scale. Agora, from Oxford, tackled the most profound challenge directly: the Agent Communication Trilemma, which holds that you cannot simultaneously optimise for versatility, efficiency, and portability in agent communication. Agora&rsquo;s answer &mdash; meta-protocol negotiation, where agents negotiate their own interaction models dynamically &mdash; is the most intellectually ambitious proposal in the space. Its ICLR 2025 submission was withdrawn, and no open-source implementation exists, but the ideas have propagated: ANP&rsquo;s meta-protocol negotiation layer reflects Agora&rsquo;s core insight directly. The distance between idea and implementation is shrinking, even if Agora itself hasn&rsquo;t closed it.</p>
+
+  <div class="update-box">
+    <span class="update-label">&#9654; February 2026 Update</span>
+    Multi-agent orchestration became the fastest-growing deployment pattern through late 2025, driven by enterprise workflows that chain specialised agents together. The topology problem is no longer theoretical. Organisations are discovering emergent coordination patterns in production that were never designed, never tested, and are proving extremely difficult to debug. One enterprise architect described their agent coordination graph as &ldquo;a YAML file that writes itself and nobody can read.&rdquo; The blast radius of a confused agent in a multi-agent graph is consistently larger than architecture diagrams predicted, because the diagrams never accounted for belief propagation.
+  </div>
+
+  <p>Until protocols can safely bound recursive reasoning across coordination graphs, model group consensus, and detect memory decay in multi-agent coalitions, emergent topology will remain a hidden risk vector &mdash; invisible to observability, ungoverned by policy, and capable of producing outcomes that no individual agent or architect intended.</p>
+</article>
+
+<div class="section-divider">&bull; &bull; &bull;</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PART III — HITCHHIKER'S GUIDE
+     ════════════════════════════════════════════════════════════════════ -->
+<article class="section" id="guide">
+  <div class="section-label">Part III &mdash; The Hitchhiker&rsquo;s Guide</div>
+  <h2>A CIO&rsquo;s Field Manual for Agentic Infrastructure</h2>
+  <div class="byline">Julian Burns &nbsp;|&nbsp; February 2026</div>
+
+  <div class="epigraph">&ldquo;Don&rsquo;t Panic.&rdquo; &mdash; Douglas Adams. Reasonable advice, provided you&rsquo;ve read the manual first.</div>
+
+  <p>This guide distils the architectural analysis in Parts I and II into a practical decision framework for technology leaders navigating agentic infrastructure in 2026. It assumes you are already deploying or evaluating agentic systems and need to make investment, governance, and architectural decisions in the near term.</p>
+
+  <p>It is deliberately concise. The full reasoning appears in the preceding dispatches. What follows is the operational extract.</p>
+
+  <!-- 1. Strategic Context -->
+  <h3>1. The Strategic Context: Where We Stand in February 2026</h3>
+
+  <p>The agentic protocol landscape has consolidated around three primary standards for service-oriented agent communication &mdash; MCP for tool integration, A2A for enterprise coordination, and ANP for decentralised identity &mdash; with cognitive-native approaches representing an emerging second wave. None of these protocols is complete. All of them are useful. The strategic challenge is knowing which to adopt, when, and with what guardrails.</p>
+
+  <p>The tension is between architectural familiarity and cognitive adequacy. Service-oriented protocols achieve adoption through patterns that enterprise teams already understand: request-response, capability discovery, API gateways. But they do not address the novel failure modes, cost dynamics, and governance requirements of reasoning systems. Cognitive-native protocols address these concerns more directly but are immature and operationally unproven.</p>
+
+  <p>The pragmatic path is staged adoption: start with service-oriented protocols where they are strong, build governance and observability capabilities ahead of need, and prepare for a transition to cognitive-native patterns as they mature. The worst strategy is to wait for convergence. The second worst is to adopt everything at once.</p>
+
+  <!-- LMOS checkpoint sidebar -->
+  <div class="info-box" style="border-top-color: var(--amber);">
+    <div class="info-box-title" style="color: var(--amber);">&#9733; Protocol Checkpoint: Eclipse LMOS &mdash; Further Along Than You Think</div>
+    <p>In our June 2025 analysis, LMOS was characterised as &ldquo;early conceptual stage.&rdquo; That assessment requires correction. Eclipse LMOS is now hosted by the Eclipse Foundation under Apache 2.0, and &mdash; critically &mdash; is <strong>already in production at Deutsche Telekom</strong>, powering an award-winning consumer-facing AI system that processes millions of service and sales interactions across multiple countries.</p>
+    <p>The platform provides a Kubernetes-native agent lifecycle manager, an Agent Definition Language for model-neutral behaviour specification, a runtime router that dynamically matches queries to agents by capability, and a protocol layer built on W3C Web of Things architecture that is transport-protocol agnostic. It supports multi-tenant, multi-channel deployments out of the box. The Agent ReaCtor framework offers a Kotlin DSL for building agents, with integration paths to LangChain, LlamaIndex, and Langchain4j.</p>
+    <p>LMOS is no longer a research proposal. It is the only protocol in this landscape with a verified, large-scale production deployment processing real customer interactions at enterprise volume. Its relative obscurity outside the Eclipse and European telco communities is a visibility problem, not a maturity problem. If your architecture requires Kubernetes-native agent orchestration with proper lifecycle management, LMOS deserves serious evaluation alongside MCP and A2A.</p>
+  </div>
+
+  <!-- Cognitive-native horizon sidebar -->
+  <div class="info-box">
+    <div class="info-box-title">The Cognitive-Native Horizon: LMOS, ANP, and Agora</div>
+    <p>Three projects represent genuinely different thinking about agentic infrastructure. Eclipse LMOS has moved furthest toward production reality, providing an operating system for reasoning substrates rather than extending API patterns to cognitive workloads. Its W3C WoT foundation and Kubernetes-native deployment model give it an infrastructure maturity that most protocol projects lack.</p>
+    <p>ANP&rsquo;s three-layer architecture &mdash; identity, meta-protocol negotiation, and application &mdash; addresses the trust and discovery challenges that service-oriented protocols sidestep. The IETF Internet-Draft submission and telecom-industry backing from China Mobile, China Telecom, China Unicom, and Huawei give it institutional weight. Its meta-protocol negotiation layer, where agents negotiate interaction models dynamically, echoes the academic insights of Agora.</p>
+    <p>Agora, from Oxford, remains the most intellectually ambitious contribution: the Agent Communication Trilemma &mdash; the impossibility of simultaneously optimising for versatility, efficiency, and portability &mdash; is a genuinely useful framing. Its answer, Protocol Documents that enable autonomous meta-protocol negotiation, was submitted to ICLR 2025 and subsequently withdrawn. No open-source implementation exists. Agora&rsquo;s ideas are influential &mdash; ANP&rsquo;s meta-protocol layer reflects them directly &mdash; but the project itself remains theoretical. Track the ideas. Don&rsquo;t wait for the implementation.</p>
+  </div>
+
+  <!-- 2. Protocol Landscape -->
+  <h3>2. Protocol Landscape: What to Use, Where</h3>
+
+  <p>The following table summarises the current protocol landscape as of February 2026. Maturity assessments are based on production adoption evidence, specification completeness, and ecosystem support.</p>
+
+  <!-- Protocol timeline infographic -->
+  <div class="diagram-container">
+    <svg viewBox="0 0 700 170" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
+      <!-- Timeline axis -->
+      <line x1="50" y1="80" x2="660" y2="80" stroke="var(--border)" stroke-width="2"/>
+      <!-- Tick marks and labels -->
+      <line x1="90" y1="74" x2="90" y2="86" stroke="var(--text-muted)" stroke-width="2"/>
+      <text x="90" y="105" text-anchor="middle" font-size="10" fill="var(--text-muted)">Apr 2025</text>
+      <line x1="220" y1="74" x2="220" y2="86" stroke="var(--text-muted)" stroke-width="2"/>
+      <text x="220" y="105" text-anchor="middle" font-size="10" fill="var(--text-muted)">Jun 2025</text>
+      <line x1="350" y1="74" x2="350" y2="86" stroke="var(--text-muted)" stroke-width="2"/>
+      <text x="350" y="105" text-anchor="middle" font-size="10" fill="var(--text-muted)">Oct 2025</text>
+      <line x1="480" y1="74" x2="480" y2="86" stroke="var(--text-muted)" stroke-width="2"/>
+      <text x="480" y="105" text-anchor="middle" font-size="10" fill="var(--text-muted)">Dec 2025</text>
+      <line x1="620" y1="74" x2="620" y2="86" stroke="var(--accent)" stroke-width="2"/>
+      <text x="620" y="105" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Feb 2026</text>
+      <!-- Events - above the line -->
+      <circle cx="90" cy="80" r="5" fill="var(--accent)"/>
+      <text x="90" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="var(--accent)">A2A launched</text>
+      <text x="90" y="66" text-anchor="middle" font-size="8" fill="var(--text-muted)">Google, 50+ partners</text>
+      <circle cx="190" cy="80" r="5" fill="var(--accent)"/>
+      <text x="190" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="var(--accent)">A2A v0.2</text>
+      <text x="190" y="66" text-anchor="middle" font-size="8" fill="var(--text-muted)">Python SDK, auth</text>
+      <circle cx="245" cy="80" r="5" fill="#0A66C2"/>
+      <text x="245" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="#0A66C2">A2A + Linux Fdn</text>
+      <!-- Events - below the line -->
+      <circle cx="350" cy="80" r="5" fill="var(--amber)"/>
+      <text x="350" y="125" text-anchor="middle" font-size="9" font-weight="600" fill="var(--amber)">ANP IETF Draft</text>
+      <text x="350" y="136" text-anchor="middle" font-size="8" fill="var(--text-muted)">Telecom backing</text>
+      <circle cx="300" cy="80" r="5" fill="var(--amber)"/>
+      <text x="300" y="125" text-anchor="middle" font-size="9" font-weight="600" fill="var(--amber)">A2A v0.3</text>
+      <text x="300" y="136" text-anchor="middle" font-size="8" fill="var(--text-muted)">gRPC, 150+ orgs</text>
+      <!-- LMOS milestone -->
+      <circle cx="480" cy="80" r="6" fill="var(--green)"/>
+      <text x="480" y="125" text-anchor="middle" font-size="9" font-weight="600" fill="var(--green)">LMOS in production</text>
+      <text x="480" y="136" text-anchor="middle" font-size="8" fill="var(--text-muted)">Deutsche Telekom, millions</text>
+      <!-- Now marker -->
+      <rect x="605" y="64" width="30" height="32" rx="4" fill="var(--accent)" opacity="0.15"/>
+      <text x="620" y="82" text-anchor="middle" font-size="9" font-weight="700" fill="var(--accent)">NOW</text>
+      <!-- Title -->
+      <text x="350" y="16" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text)">Protocol Landscape Timeline: April 2025 - February 2026</text>
+    </svg>
+  </div>
+  <div class="diagram-caption">Figure 1b: Key protocol milestones. The acceleration through late 2025 is driven by enterprise demand, not technical convergence.</div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Protocol</th><th>Primary Use</th><th>Maturity</th><th>Best Fit</th><th>Watch For</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>MCP</td><td>Tool integration, context passing</td><td>High &mdash; approaching de facto standard</td><td>Single-agent tool use, IDE and developer tooling</td><td>Enterprise auth gaps, state management at scale</td></tr>
+        <tr><td>A2A</td><td>Enterprise agent-to-agent coordination</td><td>High &mdash; v0.3, Linux Foundation, 150+ orgs</td><td>Internal enterprise orchestration, vertical workflows</td><td>Google ecosystem gravity, Agent Cards lack cognitive state</td></tr>
+        <tr><td>ANP</td><td>Decentralised identity and discovery at internet scale</td><td>Medium &mdash; IETF draft, telecom-industry backing</td><td>Cross-org agent trust, decentralised scenarios</td><td>Adoption outside Asia-Pacific, operational complexity</td></tr>
+        <tr><td>LMOS</td><td>Agent lifecycle, routing, multi-tenant orchestration</td><td>Medium &mdash; Eclipse Foundation, production at Deutsche Telekom</td><td>Enterprise multi-agent platforms, Kubernetes-native deployments</td><td>Kotlin-centric tooling, ecosystem breadth vs MCP/A2A</td></tr>
+        <tr><td>Agora</td><td>Meta-protocol negotiation, Agent Communication Trilemma</td><td>Research &mdash; ICLR 2025 withdrawn, no implementation</td><td>Dynamic protocol adaptation, future interoperability</td><td>Ideas influential but no code; ANP absorbing core concepts</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-caption">Table 1: Protocol landscape summary, February 2026</div>
+
+  <p>A practical note on MCP&rsquo;s dominance: its adoption trajectory resembles USB or HTTP itself &mdash; not because it&rsquo;s the best technical solution for every scenario, but because ecosystem momentum creates a gravitational field that pulls adoption regardless of alternatives. For tool integration specifically, MCP is the pragmatic default. For anything beyond tool integration, evaluate carefully.</p>
+
+  <!-- Diagram: Protocol Quadrant -->
+  <div class="diagram-container">
+    <svg viewBox="0 0 600 440" xmlns="http://www.w3.org/2000/svg" style="max-width:600px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
+      <!-- Quadrant backgrounds -->
+      <rect x="60" y="30" width="250" height="185" rx="4" fill="var(--sidebar-box)" opacity="0.5"/>
+      <rect x="310" y="30" width="250" height="185" rx="4" fill="var(--pullquote-bg)" opacity="0.5"/>
+      <rect x="60" y="215" width="250" height="185" rx="4" fill="var(--bg-alt)" opacity="0.6"/>
+      <rect x="310" y="215" width="250" height="185" rx="4" fill="var(--sidebar-box)" opacity="0.3"/>
+      <!-- Quadrant labels -->
+      <text x="185" y="56" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text-muted)" opacity="0.7">Cognitive-native pioneers</text>
+      <text x="435" y="56" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text-muted)" opacity="0.7">Future leaders</text>
+      <text x="185" y="390" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text-muted)" opacity="0.7">Emerging contenders</text>
+      <text x="435" y="390" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text-muted)" opacity="0.7">Pragmatic defaults</text>
+      <!-- Axes -->
+      <line x1="60" y1="215" x2="560" y2="215" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="310" y1="30" x2="310" y2="400" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>
+      <!-- Axis labels -->
+      <text x="310" y="425" text-anchor="middle" font-size="12" fill="var(--text-muted)">Adoption Readiness &#x2192;</text>
+      <text x="22" y="215" text-anchor="middle" font-size="12" fill="var(--text-muted)" transform="rotate(-90,22,215)">Cognitive Adequacy &#x2192;</text>
+      <!-- Data points -->
+      <!-- Agora: low adoption, high cognition -->
+      <circle cx="110" cy="82" r="22" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="110" y="86" text-anchor="middle" font-size="12" font-weight="600" fill="var(--accent)">Agora</text>
+      <!-- LMOS: mid adoption (production!), high-med cognition -->
+      <circle cx="220" cy="120" r="24" fill="var(--amber)" opacity="0.15" stroke="var(--amber)" stroke-width="2"/>
+      <text x="220" y="124" text-anchor="middle" font-size="12" font-weight="600" fill="var(--amber)">LMOS</text>
+      <!-- ANP: mid adoption, mid cognition -->
+      <circle cx="260" cy="200" r="22" fill="var(--amber)" opacity="0.15" stroke="var(--amber)" stroke-width="2"/>
+      <text x="260" y="204" text-anchor="middle" font-size="12" font-weight="600" fill="var(--amber)">ANP</text>
+      <!-- A2A: high adoption, lower cognition -->
+      <circle cx="420" cy="268" r="22" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" stroke-width="2"/>
+      <text x="420" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="var(--accent)">A2A</text>
+      <!-- MCP: highest adoption, lowest cognition -->
+      <circle cx="490" cy="290" r="26" fill="var(--accent)" opacity="0.2" stroke="var(--accent)" stroke-width="2.5"/>
+      <text x="490" y="294" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">MCP</text>
+      <!-- Title -->
+      <text x="310" y="18" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text)">Protocol Landscape: Adoption vs Cognitive Adequacy</text>
+    </svg>
+  </div>
+  <div class="diagram-caption">Figure 1: Protocol positioning by adoption readiness and cognitive adequacy. The gap between where adoption is and where cognition needs to be is the core challenge of 2026.</div>
+
+  <!-- 3. Five Gaps -->
+  <h3>3. The Five Gaps: What Your Architecture Is Missing</h3>
+
+  <p>Five structural gaps exist between current agentic protocols and the requirements of production reasoning systems. These gaps are being encountered in production deployments now. Each is covered in depth in the dispatches; what follows is the executive summary.</p>
+
+  <p><strong>Observability for reasoning, not just transport.</strong> Current observability tools measure latency, throughput, and error rates. Agentic systems additionally require reasoning traces, confidence signals, token consumption tracking, and the ability to distinguish productive deliberation from infinite loops. No current protocol provides this natively.</p>
+
+  <p><strong>Epistemic failure handling.</strong> Agents fail by forming false beliefs, not just by timing out. Retry logic and circuit breakers do not help when the problem is contaminated reasoning. Protocols need to support semantic checkpoints, confidence declarations, and reasoning rollback.</p>
+
+  <p><strong>Governance embedded in the protocol.</strong> Authentication is not authority. Identity is not attestation. When agents cross trust boundaries, they must carry verifiable statements of authority, budget, and reasoning provenance &mdash; inside the protocol, not at the perimeter.</p>
+
+  <p><strong>Cost attribution at the protocol layer.</strong> Token costs are nonlinear and driven by reasoning depth, not invocation volume. Protocols should carry budget envelopes and enforce runtime cost limits. Without this, agentic systems will replicate the early serverless cost surprise at greater scale.</p>
+
+  <p><strong>Topology governance for emergent coordination.</strong> Agent coordination graphs are emergent, not declared. Blast radius is unpredictable, failure domains are invisible, and debugging requires understanding belief propagation, not just call graphs. Protocols need coordination governance mechanisms that do not yet exist.</p>
+
+  <!-- Diagram: Five gaps (SVG - mindmap unstable in mermaid 10.9.1) -->
+  <div class="diagram-container">
+    <svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="max-width:720px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
+      <!-- Central node -->
+      <rect x="250" y="175" width="220" height="50" rx="25" fill="var(--navy)" stroke="none"/>
+      <text x="360" y="205" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Agentic Protocol Gaps</text>
+      <!-- Branch 1: Observability (top-left) -->
+      <line x1="280" y1="185" x2="110" y2="70" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
+      <rect x="10" y="18" width="200" height="105" rx="8" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="110" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Observability</text>
+      <text x="110" y="58" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Reasoning traces</text>
+      <text x="110" y="72" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Confidence signals</text>
+      <text x="110" y="86" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Token economics</text>
+      <text x="110" y="100" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Semantic drift detection</text>
+      <text x="110" y="114" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Deep thought vs infinite loop</text>
+      <!-- Branch 2: Epistemic Failure (top-right) -->
+      <line x1="440" y1="185" x2="600" y2="70" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
+      <rect x="500" y="18" width="210" height="105" rx="8" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="605" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Epistemic Failure</text>
+      <text x="605" y="58" text-anchor="middle" font-size="10" fill="var(--text-secondary)">False beliefs propagate silently</text>
+      <text x="605" y="72" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Circuit breakers are blind</text>
+      <text x="605" y="86" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Semantic checkpoints needed</text>
+      <text x="605" y="100" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Reasoning rollback required</text>
+      <text x="605" y="114" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Confidence declarations missing</text>
+      <!-- Branch 3: Governance (left) -->
+      <line x1="265" y1="215" x2="110" y2="290" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
+      <rect x="10" y="248" width="200" height="105" rx="8" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="110" y="270" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Governance</text>
+      <text x="110" y="288" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Authentication is not authority</text>
+      <text x="110" y="302" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Identity is not attestation</text>
+      <text x="110" y="316" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Policy must travel in the message</text>
+      <text x="110" y="330" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Verifiable intent required</text>
+      <text x="110" y="344" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Cross-boundary trust unsolved</text>
+      <!-- Branch 4: Cost Attribution (right) -->
+      <line x1="455" y1="215" x2="600" y2="290" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
+      <rect x="500" y="248" width="210" height="105" rx="8" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="605" y="270" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Cost Attribution</text>
+      <text x="605" y="288" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Token cost is nonlinear</text>
+      <text x="605" y="302" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Driven by reasoning depth</text>
+      <text x="605" y="316" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Budget envelopes needed</text>
+      <text x="605" y="330" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Jevons Paradox applies</text>
+      <text x="605" y="344" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Runtime enforcement absent</text>
+      <!-- Branch 5: Emergent Topology (bottom centre) -->
+      <line x1="360" y1="225" x2="360" y2="330" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
+      <rect x="255" y="335" width="210" height="80" rx="8" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="360" y="357" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Emergent Topology</text>
+      <text x="360" y="375" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Coordination graphs emergent, blast radius unpredictable</text>
+      <text x="360" y="389" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Beliefs shape network structure, group consensus missing</text>
+      <text x="360" y="403" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Recursive deliberation risk</text>
+    </svg>
+  </div>
+  <div class="diagram-caption">Figure 2: The five structural gaps in agentic infrastructure. Each represents a category of concern that current protocols do not address at the cognitive layer.</div>
+
+  <!-- Halting problem sidebar -->
+  <div class="info-box">
+    <div class="info-box-title">Why Your Agents May Not Be Broken, But Still Never Finish</div>
+    <p>The halting problem is not academic when applied to reasoning substrates. It is a mathematical proof that no general algorithm can determine whether an arbitrary computation will terminate. For agents, this means: you cannot build a system that reliably distinguishes an agent engaged in productive deep reasoning from one trapped in an infinite deliberation loop. Your timeout will eventually fire, but it cannot tell you whether it interrupted genuine progress or a spiral.</p>
+    <p>This is not a bug to be patched. It is a boundary condition of computation itself. The practical consequence for CIOs: you cannot have both genuine cognitive autonomy and full predictability. What you can have is bounded unpredictability &mdash; token budgets that cap reasoning depth, semantic checkpoints that snapshot reasoning state at decision boundaries, and circuit breakers that operate on cognitive progress indicators rather than wall-clock time alone. Design for bounded unpredictability. Do not design for control you cannot mathematically possess.</p>
+  </div>
+
+  <!-- 4. Maturity Model -->
+  <h3>4. The Maturity Model: Know Where You Are</h3>
+
+  <p>Not every organisation faces every gap equally. The appropriate level of protocol sophistication depends on where your agentic deployment sits on a maturity curve. The following model provides a framework for self-assessment.</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Stage</th><th>Characteristics</th><th>Protocol Needs</th><th>Risk Profile</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1. Contained</td><td>Single agents, single trust zone, tool-use only</td><td>MCP sufficient</td><td>Low &mdash; bounded by isolation</td></tr>
+        <tr><td>2. Coordinated</td><td>Multi-agent within enterprise, orchestrated workflows</td><td>A2A or LMOS for coordination, MCP for tools</td><td>Medium &mdash; emergent topology begins</td></tr>
+        <tr><td>3. Federated</td><td>Agents crossing trust boundaries, cross-org</td><td>ANP for identity, verifiable attestation required</td><td>High &mdash; governance gaps become critical</td></tr>
+        <tr><td>4. Autonomous</td><td>Self-organising coalitions, dynamic topology</td><td>Cognitive-native protocols, LMOS-class or successor</td><td>Very High &mdash; controls largely do not yet exist</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-caption">Table 2: Agentic infrastructure maturity model</div>
+
+  <!-- Diagram: Maturity state diagram (SVG) -->
+  <div class="diagram-container">
+    <svg viewBox="0 0 780 200" xmlns="http://www.w3.org/2000/svg" style="max-width:780px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
+      <!-- Stage 1 -->
+      <rect x="10" y="20" width="170" height="160" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="95" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent)">1. Contained</text>
+      <line x1="30" y1="55" x2="160" y2="55" stroke="var(--border)" stroke-width="1"/>
+      <text x="95" y="75" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Single agents, single trust zone</text>
+      <text x="95" y="92" text-anchor="middle" font-size="10" fill="var(--text-secondary)">MCP for tool integration</text>
+      <text x="95" y="115" text-anchor="middle" font-size="11" font-weight="600" fill="var(--green)">Risk: Low</text>
+      <!-- Arrow 1-2 -->
+      <line x1="180" y1="100" x2="200" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <text x="190" y="88" text-anchor="middle" font-size="8" fill="var(--text-muted)" transform="rotate(-90, 190, 88)"></text>
+      <!-- Stage 2 -->
+      <rect x="200" y="20" width="170" height="160" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="285" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent)">2. Coordinated</text>
+      <line x1="220" y1="55" x2="350" y2="55" stroke="var(--border)" stroke-width="1"/>
+      <text x="285" y="75" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Multi-agent within enterprise</text>
+      <text x="285" y="92" text-anchor="middle" font-size="10" fill="var(--text-secondary)">A2A or LMOS for coordination</text>
+      <text x="285" y="115" text-anchor="middle" font-size="11" font-weight="600" fill="var(--amber)">Risk: Medium</text>
+      <!-- Arrow 2-3 -->
+      <line x1="370" y1="100" x2="390" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <!-- Stage 3 -->
+      <rect x="390" y="20" width="170" height="160" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="475" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent)">3. Federated</text>
+      <line x1="410" y1="55" x2="540" y2="55" stroke="var(--border)" stroke-width="1"/>
+      <text x="475" y="75" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Agents crossing org boundaries</text>
+      <text x="475" y="92" text-anchor="middle" font-size="10" fill="var(--text-secondary)">ANP for identity + attestation</text>
+      <text x="475" y="115" text-anchor="middle" font-size="11" font-weight="600" fill="var(--red)">Risk: High</text>
+      <!-- Arrow 3-4 -->
+      <line x1="560" y1="100" x2="580" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <!-- Stage 4 -->
+      <rect x="580" y="20" width="190" height="160" rx="10" fill="var(--pullquote-bg)" stroke="var(--red)" stroke-width="2"/>
+      <text x="675" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="var(--red)">4. Autonomous</text>
+      <line x1="600" y1="55" x2="750" y2="55" stroke="var(--border)" stroke-width="1"/>
+      <text x="675" y="75" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Dynamic topology, self-organising</text>
+      <text x="675" y="92" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Cognitive-native protocols required</text>
+      <text x="675" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="var(--red)">Risk: Very High</text>
+      <!-- Transition labels -->
+      <text x="190" y="148" text-anchor="middle" font-size="8" fill="var(--text-muted)">Multi-agent</text>
+      <text x="190" y="158" text-anchor="middle" font-size="8" fill="var(--text-muted)">workflows adopted</text>
+      <text x="380" y="148" text-anchor="middle" font-size="8" fill="var(--text-muted)">Cross trust</text>
+      <text x="380" y="158" text-anchor="middle" font-size="8" fill="var(--text-muted)">boundaries</text>
+      <text x="570" y="148" text-anchor="middle" font-size="8" fill="var(--text-muted)">Self-organising</text>
+      <text x="570" y="158" text-anchor="middle" font-size="8" fill="var(--text-muted)">coalitions emerge</text>
+      <!-- Arrowhead marker -->
+      <defs>
+        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="var(--accent)"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="diagram-caption">Figure 3: Maturity model as state progression. Each stage builds governance, observability, and operational capability required for the next.</div>
+
+  <p>Most enterprises in February 2026 are at Stage 1 or early Stage 2. The temptation to skip stages is strong and should be resisted. Each stage builds the governance, observability, and operational muscle required for the next. Organisations that deploy federated agents without having mastered coordinated agents within their own boundaries will discover their governance gaps the hard way.</p>
+
+  <!-- 5. Decision Framework -->
+  <h3>5. Decision Framework: What to Do on Monday</h3>
+
+  <p>The following decision matrix translates the architectural analysis into actionable questions. Work through these with your architecture and security teams to identify your most pressing gaps and appropriate next steps.</p>
+
+  <div class="table-wrapper">
+    <table class="table-balanced">
+      <colgroup>
+        <col style="width:36%">
+        <col style="width:32%">
+        <col style="width:32%">
+      </colgroup>
+      <thead>
+        <tr><th>Question</th><th>If Yes</th><th>If No</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Are agents confined to a single trust zone?</td><td>MCP for tools, standard observability may suffice for now. You are at Stage 1.</td><td>You need inter-agent protocols. Consider A2A for enterprise, ANP for cross-boundary. Advance to Stage 2 planning.</td></tr>
+        <tr><td>Do agents make decisions with financial or contractual consequences?</td><td>Token budget enforcement is mandatory. Build cost attribution into your protocol layer now.</td><td>Cost monitoring still advisable, but enforcement can be deferred.</td></tr>
+        <tr><td>Can you trace the reasoning chain that led to any agent decision?</td><td>Good. Ensure traces are retained, signed, and auditable. Invest in reasoning-aware observability.</td><td>This is your most urgent gap. Without reasoning traceability, you cannot govern, audit, or debug agent behaviour.</td></tr>
+        <tr><td>Do agents coordinate with agents you do not control?</td><td>You need verifiable attestation, not just authentication. ANP&rsquo;s DID approach is worth evaluating.</td><td>Internal governance controls may be sufficient for now, but plan for federation.</td></tr>
+        <tr><td>Is your agent topology static or emergent?</td><td>If emergent: you need coordination governance, blast radius planning, and mechanisms to detect epistemic drift across agents.</td><td>If static: standard architecture governance applies, but monitor for emergent patterns as complexity grows.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-caption">Table 3: Agentic infrastructure decision matrix</div>
+
+  <!-- Diagram: Decision flowchart (SVG) -->
+  <div class="diagram-container">
+    <svg viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--accent)"/></marker>
+        <marker id="arrowDark" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--text-muted)"/></marker>
+      </defs>
+      <!-- START -->
+      <rect x="240" y="10" width="200" height="44" rx="22" fill="#1B2A4A" stroke="none"/>
+      <text x="340" y="28" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Agentic Infrastructure</text>
+      <text x="340" y="42" text-anchor="middle" font-size="10" fill="#ccc">Decision Triage</text>
+      <!-- Arrow START to Q1 -->
+      <line x1="340" y1="54" x2="340" y2="74" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <!-- Q1 -->
+      <rect x="210" y="74" width="260" height="40" rx="6" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="340" y="98" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)">Agents confined to a single trust zone?</text>
+      <!-- Q1 Yes -> S1 -->
+      <line x1="210" y1="94" x2="120" y2="94" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="120" y1="94" x2="120" y2="130" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="168" y="88" text-anchor="middle" font-size="10" font-weight="600" fill="var(--green)">Yes</text>
+      <!-- S1 -->
+      <rect x="30" y="130" width="180" height="50" rx="6" fill="#E8F0FE" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="120" y="150" text-anchor="middle" font-size="10" font-weight="600" fill="var(--navy)">Stage 1: Contained</text>
+      <text x="120" y="165" text-anchor="middle" font-size="9" fill="var(--text-secondary)">MCP for tools, standard obs.</text>
+      <!-- Q1 No -> Q2 -->
+      <line x1="470" y1="94" x2="560" y2="94" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="560" y1="94" x2="560" y2="130" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="510" y="88" text-anchor="middle" font-size="10" font-weight="600" fill="var(--red)">No</text>
+      <!-- Q2 -->
+      <rect x="430" y="130" width="260" height="40" rx="6" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="560" y="147" text-anchor="middle" font-size="10" font-weight="600" fill="var(--text)">Coordinate with agents you</text>
+      <text x="560" y="160" text-anchor="middle" font-size="10" font-weight="600" fill="var(--text)">do not control?</text>
+      <!-- Q2 No -> S2 -->
+      <line x1="430" y1="150" x2="380" y2="150" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="380" y1="150" x2="380" y2="195" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="408" y="144" text-anchor="middle" font-size="10" font-weight="600" fill="var(--green)">No</text>
+      <!-- S2 -->
+      <rect x="290" y="195" width="180" height="50" rx="6" fill="#E8F0FE" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="380" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="var(--navy)">Stage 2: Coordinated</text>
+      <text x="380" y="230" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Evaluate A2A / LMOS</text>
+      <!-- Q2 Yes -> S3 -->
+      <line x1="690" y1="150" x2="630" y2="150" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="630" y1="170" x2="630" y2="195" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="660" y="144" text-anchor="middle" font-size="10" font-weight="600" fill="var(--red)">Yes</text>
+      <!-- S3 -->
+      <rect x="530" y="195" width="180" height="50" rx="6" fill="#E8F0FE" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="620" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="var(--navy)">Stage 3: Federated</text>
+      <text x="620" y="230" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Evaluate ANP DID identity</text>
+      <!-- All three converge to Q3 -->
+      <line x1="120" y1="180" x2="120" y2="300" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="120" y1="300" x2="240" y2="300" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="380" y1="245" x2="380" y2="280" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="380" y1="280" x2="340" y2="280" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="340" y1="280" x2="340" y2="290" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="620" y1="245" x2="620" y2="300" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="620" y1="300" x2="440" y2="300" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <!-- Q3 -->
+      <rect x="200" y="290" width="280" height="40" rx="6" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="340" y="314" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)">Can you trace reasoning chains?</text>
+      <!-- Q3 No -> URGENT -->
+      <line x1="480" y1="310" x2="560" y2="310" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="560" y1="310" x2="560" y2="355" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="515" y="304" text-anchor="middle" font-size="10" font-weight="600" fill="var(--red)">No</text>
+      <!-- URGENT -->
+      <rect x="470" y="355" width="180" height="44" rx="6" fill="#C0392B" stroke="none"/>
+      <text x="560" y="373" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">URGENT GAP</text>
+      <text x="560" y="387" text-anchor="middle" font-size="9" fill="#fcc">Reasoning-aware obs. now</text>
+      <!-- URGENT -> Q4 -->
+      <line x1="470" y1="377" x2="440" y2="377" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="440" y1="377" x2="440" y2="430" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="440" y1="430" x2="400" y2="430" stroke="var(--accent)" stroke-width="1.5"/>
+      <!-- Q3 Yes -> Q4 -->
+      <line x1="340" y1="330" x2="340" y2="415" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="326" y="370" text-anchor="middle" font-size="10" font-weight="600" fill="var(--green)">Yes</text>
+      <!-- Q4 -->
+      <rect x="180" y="415" width="280" height="40" rx="6" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="320" y="432" text-anchor="middle" font-size="10" font-weight="600" fill="var(--text)">Agents make financial / contractual</text>
+      <text x="320" y="446" text-anchor="middle" font-size="10" font-weight="600" fill="var(--text)">decisions?</text>
+      <!-- Q4 Yes -> BUDGET -->
+      <line x1="180" y1="435" x2="110" y2="435" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="110" y1="435" x2="110" y2="480" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="148" y="428" text-anchor="middle" font-size="10" font-weight="600" fill="var(--amber)">Yes</text>
+      <!-- BUDGET -->
+      <rect x="20" y="480" width="180" height="44" rx="6" fill="#D4A017" stroke="none"/>
+      <text x="110" y="498" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">MANDATORY</text>
+      <text x="110" y="512" text-anchor="middle" font-size="9" fill="#fff">Token budget enforcement</text>
+      <!-- Q4 No -> MONITOR -->
+      <line x1="460" y1="435" x2="530" y2="435" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="530" y1="435" x2="530" y2="480" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="490" y="428" text-anchor="middle" font-size="10" font-weight="600" fill="var(--green)">No</text>
+      <!-- MONITOR -->
+      <rect x="440" y="480" width="180" height="44" rx="6" fill="#27AE60" stroke="none"/>
+      <text x="530" y="498" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">ADVISABLE</text>
+      <text x="530" y="512" text-anchor="middle" font-size="9" fill="#fff">Cost monitoring, defer enforcement</text>
+      <!-- Both -> Q5 -->
+      <line x1="110" y1="524" x2="110" y2="560" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="110" y1="560" x2="260" y2="560" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="530" y1="524" x2="530" y2="560" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="530" y1="560" x2="380" y2="560" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="320" y1="560" x2="320" y2="575" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <!-- Q5 -->
+      <rect x="180" y="575" width="280" height="36" rx="6" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="320" y="598" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)">Agent topology static or emergent?</text>
+      <!-- Q5 Static -->
+      <line x1="180" y1="593" x2="110" y2="593" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="110" y1="593" x2="110" y2="630" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="148" y="588" text-anchor="middle" font-size="10" font-weight="600" fill="var(--green)">Static</text>
+      <rect x="20" y="630" width="180" height="40" rx="6" fill="#E8F0FE" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="110" y="648" text-anchor="middle" font-size="10" font-weight="600" fill="var(--navy)">Standard governance</text>
+      <text x="110" y="662" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Monitor for emergent patterns</text>
+      <!-- Q5 Emergent -->
+      <line x1="460" y1="593" x2="530" y2="593" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="530" y1="593" x2="530" y2="630" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="490" y="588" text-anchor="middle" font-size="10" font-weight="600" fill="var(--amber)">Emergent</text>
+      <rect x="440" y="630" width="190" height="40" rx="6" fill="#FFF3CD" stroke="var(--amber)" stroke-width="1.5"/>
+      <text x="535" y="648" text-anchor="middle" font-size="10" font-weight="600" fill="var(--navy)">Coordination governance</text>
+      <text x="535" y="662" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Blast radius + drift detection</text>
+    </svg>
+  </div>
+  <div class="diagram-caption">Figure 4: CIO decision triage. Red = urgent gap. Amber = mandatory action for agents with financial authority. Green = lower priority, can be sequenced.</div>
+
+  <!-- 6. Immediate Recommendations -->
+  <h3>6. Immediate Recommendations</h3>
+
+  <p><strong>For organisations at Stage 1</strong> with contained, single-zone agents: adopt MCP for tool integration. Invest in token-level cost monitoring now, even if enforcement feels premature. Begin building reasoning trace capture, even if rudimentary. The data you collect now will be invaluable when you need to debug your first hallucination cascade.</p>
+
+  <p><strong>For organisations at Stage 2</strong> with coordinated multi-agent workflows: evaluate A2A for enterprise orchestration. Begin designing your attestation model &mdash; how will agents declare authority and provenance? Stand up epistemic failure detection, even if manual. Invest in understanding your emergent topology before it surprises you.</p>
+
+  <p><strong>For organisations planning for Stage 3</strong> with cross-boundary federation: evaluate ANP&rsquo;s DID-based identity model seriously. Begin formal governance framework development. Accept that current protocols will not fully meet your needs and plan for a mixed-protocol architecture with governance bridges.</p>
+
+  <p><strong>For everyone:</strong> do not wait for protocol convergence. The landscape will remain fragmented through 2026 and likely beyond. Adopt what works now, build governance ahead of need, and maintain architectural flexibility. The organisations that navigate this transition successfully will be those that recognised earliest that reasoning substrates are not microservices &mdash; and built accordingly.</p>
+
+  <!-- 7. Twelve-Month Horizon -->
+  <h3>7. The Twelve-Month Horizon</h3>
+
+  <p>Three developments will shape the next twelve months in agentic infrastructure, and I am prepared to be specific about what each looks like.</p>
+
+  <p><strong>MCP&rsquo;s enterprise reckoning.</strong> The gap between developer-tooling adoption and enterprise-grade governance will force a fork. Either MCP matures rapidly &mdash; adding proper OAuth 2.1 flows, scoped capability delegation, and audit-grade logging &mdash; or enterprise gateway vendors will build proprietary governance layers on top, fragmenting the ecosystem into &ldquo;vanilla MCP&rdquo; for developer tooling and &ldquo;enterprise MCP&rdquo; for production. Expect the first &ldquo;MCP Gateway&rdquo; product announcements by mid-2026, branded as &ldquo;security and governance for your agent tools&rdquo; and priced accordingly.</p>
+
+  <p><strong>The first serious agentic security incident.</strong> Not a research demonstration or a red-team exercise, but a production incident where an agent&rsquo;s reasoning chain is exploited or contaminated to authorise an action that causes material harm &mdash; financial, reputational, or regulatory. The most likely vector: prompt injection through a tool response that contaminates an agent&rsquo;s downstream reasoning, leading to an authorised action the human principal never intended. This will shift the industry conversation from capability to governance overnight. The organisations that have reasoning traceability and attestation frameworks in place will navigate the aftermath. Those that don&rsquo;t will become the case study.</p>
+
+  <p><strong>Multi-agent topology as the dominant deployment pattern.</strong> Enterprise workflows that chain specialised agents will overtake single-agent tool-use as the primary agentic deployment model. This will make the topology and coordination gaps acute rather than theoretical. Expect the first wave of &ldquo;agent mesh&rdquo; tooling &mdash; coordination governance, topology visualisation, blast-radius analysis &mdash; to emerge from the observability vendors, likely positioned as extensions to existing service mesh products. Whether those extensions will address cognitive coordination or merely apply service-mesh metaphors to agent call graphs remains an open question. Bet on the latter initially.</p>
+
+  <p>Plan for these. The organisations that anticipated the cloud security reckoning of the early 2010s were far better positioned than those that reacted to it. The agentic infrastructure reckoning is arriving on a similar trajectory, at a faster pace.</p>
+
+  <!-- 8. Closing -->
+  <h3>8. Closing Thought</h3>
+
+  <p>Douglas Adams&rsquo; Hitchhiker&rsquo;s Guide offered two pieces of enduring advice: &ldquo;Don&rsquo;t Panic&rdquo; and &ldquo;Always know where your towel is.&rdquo; In the context of agentic infrastructure, the towel is your governance framework. Keep it close, keep it current, and don&rsquo;t let anyone convince you that you won&rsquo;t need it because the protocols will sort themselves out.</p>
+
+  <p>They won&rsquo;t. That&rsquo;s your job. Build accordingly.</p>
+</article>
+
+<!-- ──── FOOTER ──── -->
+<footer class="site-footer">
+  <div class="section-divider">&bull; &bull; &bull;</div>
+  <p>This editorial package is based on original analysis by Julian Burns, June 2025, with reference to &ldquo;A Survey of AI Agent Protocols&rdquo; by the research community, arXiv:2504.16736. The narrative overlay, opinions, six-month update, and editorial structure are the author&rsquo;s own. Protocol assessments reflect the state of the landscape as of February 2026 and will date. The arguments, I suspect, will not.</p>
+</footer>
+
+</main>
+</div>
+
+<!-- ════════════════════════════════════════════
+     JAVASCRIPT
+     ════════════════════════════════════════════ -->
+<script>
+// ── Theme management ──
+(function() {
+  const html = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      html.setAttribute('data-theme', 'light');
+    } else {
+      html.removeAttribute('data-theme');
+    }
+    if (theme === 'dark') {
+      icon.textContent = '\u2600';
+      label.textContent = 'Light mode';
+    } else {
+      icon.textContent = '\u263E';
+      label.textContent = 'Dark mode';
+    }
+  }
+
+  function getCurrentTheme() {
+    return html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  }
+
+  // Load stored preference or default to dark (CSS default)
+  const stored = localStorage.getItem('theme');
+  if (stored) applyTheme(stored);
+  // If no stored pref, CSS default is already dark — do nothing
+
+  toggle.addEventListener('click', () => {
+    const next = getCurrentTheme() === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    applyTheme(next);
+  });
+})();
+
+// ── Scroll progress bar ──
+window.addEventListener('scroll', () => {
+  const winScroll = document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById('progress-bar').style.width = scrolled + '%';
+}, { passive: true });
+
+// ── Active nav tracking ──
+(function() {
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('.sidebar nav .nav-link[data-target]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const activeLink = document.querySelector(`.sidebar nav .nav-link[data-target="${entry.target.id}"]`);
+        if (activeLink) activeLink.classList.add('active');
+      }
+    });
+  }, {
+    rootMargin: '-20% 0px -60% 0px',
+    threshold: 0,
+  });
+
+  sections.forEach(section => observer.observe(section));
+
+  // Click-to-scroll navigation
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('data-target');
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Also handle dispatch card clicks
+  document.querySelectorAll('.dispatch-card[data-target]').forEach(card => {
+    card.addEventListener('click', () => {
+      const target = document.getElementById(card.getAttribute('data-target'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
+
+// ── Mobile nav ──
+(function() {
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('mobileNavToggle');
+  const overlay = document.getElementById('navOverlay');
+
+  function open() { sidebar.classList.add('open'); overlay.classList.add('open'); }
+  function close() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? close() : open();
+  });
+  overlay.addEventListener('click', close);
+
+  // Close on nav link click (mobile)
+  document.querySelectorAll('.sidebar nav .nav-link').forEach(link => {
+    link.addEventListener('click', close);
+  });
+})();
+</script>
+
+</body>
+</html>
