@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<script>
+// Run before first paint: force dark unless user explicitly chose light
+(function(){
+  var s = localStorage.getItem('theme');
+  if (s === 'light') document.documentElement.className = 'theme-light';
+})();
+</script>
 <title>Agentic Protocols: The Infrastructure Reckoning</title>
 <meta name="description" content="An editorial package on agentic infrastructure — reasoning substrates, protocol gaps, and a CIO field manual. Updated February 2026.">
 <meta name="author" content="Julian Burns">
@@ -30,6 +38,7 @@
    CSS CUSTOM PROPERTIES
    ════════════════════════════════════════════ */
 :root {
+  color-scheme: dark;
   /* Palette */
   --navy: #1B2A4A;
   --accent: #2E75B6;
@@ -61,7 +70,8 @@
   --update-bg: rgba(212, 160, 23, 0.08);
 }
 
-[data-theme="light"] {
+.theme-light {
+  color-scheme: light;
   --bg: #FAF8F5;
   --bg-alt: #F2EDE8;
   --bg-card: #FFFFFF;
@@ -549,7 +559,7 @@ em { font-style: italic; }
   line-height: 1.5;
 }
 
-[data-theme="light"] .epigraph { color: var(--amber); }
+.theme-light .epigraph { color: var(--amber); }
 
 /* ════════════════════════════════════════════
    PULL QUOTES
@@ -567,7 +577,7 @@ em { font-style: italic; }
   line-height: 1.5;
 }
 
-[data-theme="light"] .pull-quote { color: var(--accent); }
+.theme-light .pull-quote { color: var(--accent); }
 
 /* ════════════════════════════════════════════
    UPDATE BOXES
@@ -613,7 +623,7 @@ em { font-style: italic; }
   margin-bottom: 10px;
 }
 
-[data-theme="light"] .info-box-title { color: var(--navy); }
+.theme-light .info-box-title { color: var(--navy); }
 
 .info-box p {
   font-size: 16px;
@@ -692,11 +702,12 @@ tbody td:first-child {
 .diagram-container {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 32px 16px;
-  margin: 28px 0;
+  border-radius: 12px;
+  padding: 32px 24px;
+  margin: 32px 0 12px;
   overflow-x: auto;
   text-align: center;
+  box-shadow: 0 2px 12px var(--shadow);
 }
 
 .diagram-caption {
@@ -1210,45 +1221,50 @@ tbody td:first-child {
 
   <!-- Protocol timeline infographic -->
   <div class="diagram-container">
-    <svg viewBox="0 0 700 170" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
-      <!-- Timeline axis -->
-      <line x1="50" y1="80" x2="660" y2="80" stroke="var(--border)" stroke-width="2"/>
-      <!-- Tick marks and labels -->
-      <line x1="90" y1="74" x2="90" y2="86" stroke="var(--text-muted)" stroke-width="2"/>
-      <text x="90" y="105" text-anchor="middle" font-size="10" fill="var(--text-muted)">Apr 2025</text>
-      <line x1="220" y1="74" x2="220" y2="86" stroke="var(--text-muted)" stroke-width="2"/>
-      <text x="220" y="105" text-anchor="middle" font-size="10" fill="var(--text-muted)">Jun 2025</text>
-      <line x1="350" y1="74" x2="350" y2="86" stroke="var(--text-muted)" stroke-width="2"/>
-      <text x="350" y="105" text-anchor="middle" font-size="10" fill="var(--text-muted)">Oct 2025</text>
-      <line x1="480" y1="74" x2="480" y2="86" stroke="var(--text-muted)" stroke-width="2"/>
-      <text x="480" y="105" text-anchor="middle" font-size="10" fill="var(--text-muted)">Dec 2025</text>
-      <line x1="620" y1="74" x2="620" y2="86" stroke="var(--accent)" stroke-width="2"/>
-      <text x="620" y="105" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Feb 2026</text>
-      <!-- Events - above the line -->
-      <circle cx="90" cy="80" r="5" fill="var(--accent)"/>
-      <text x="90" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="var(--accent)">A2A launched</text>
-      <text x="90" y="66" text-anchor="middle" font-size="8" fill="var(--text-muted)">Google, 50+ partners</text>
-      <circle cx="190" cy="80" r="5" fill="var(--accent)"/>
-      <text x="190" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="var(--accent)">A2A v0.2</text>
-      <text x="190" y="66" text-anchor="middle" font-size="8" fill="var(--text-muted)">Python SDK, auth</text>
-      <circle cx="245" cy="80" r="5" fill="#0A66C2"/>
-      <text x="245" y="55" text-anchor="middle" font-size="9" font-weight="600" fill="#0A66C2">A2A + Linux Fdn</text>
-      <!-- Events - below the line -->
-      <circle cx="350" cy="80" r="5" fill="var(--amber)"/>
-      <text x="350" y="125" text-anchor="middle" font-size="9" font-weight="600" fill="var(--amber)">ANP IETF Draft</text>
-      <text x="350" y="136" text-anchor="middle" font-size="8" fill="var(--text-muted)">Telecom backing</text>
-      <circle cx="300" cy="80" r="5" fill="var(--amber)"/>
-      <text x="300" y="125" text-anchor="middle" font-size="9" font-weight="600" fill="var(--amber)">A2A v0.3</text>
-      <text x="300" y="136" text-anchor="middle" font-size="8" fill="var(--text-muted)">gRPC, 150+ orgs</text>
-      <!-- LMOS milestone -->
-      <circle cx="480" cy="80" r="6" fill="var(--green)"/>
-      <text x="480" y="125" text-anchor="middle" font-size="9" font-weight="600" fill="var(--green)">LMOS in production</text>
-      <text x="480" y="136" text-anchor="middle" font-size="8" fill="var(--text-muted)">Deutsche Telekom, millions</text>
-      <!-- Now marker -->
-      <rect x="605" y="64" width="30" height="32" rx="4" fill="var(--accent)" opacity="0.15"/>
-      <text x="620" y="82" text-anchor="middle" font-size="9" font-weight="700" fill="var(--accent)">NOW</text>
+    <svg viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
       <!-- Title -->
-      <text x="350" y="16" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text)">Protocol Landscape Timeline: April 2025 - February 2026</text>
+      <text x="340" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text)">Protocol Milestones: Apr 2025 &#8211; Feb 2026</text>
+      <!-- Timeline axis -->
+      <line x1="40" y1="105" x2="648" y2="105" stroke="var(--border)" stroke-width="2"/>
+      <!-- Date markers -->
+      <line x1="70" y1="98" x2="70" y2="112" stroke="var(--text-muted)" stroke-width="1.5"/>
+      <text x="70" y="130" text-anchor="middle" font-size="11" fill="var(--text-muted)">Apr 2025</text>
+      <line x1="220" y1="98" x2="220" y2="112" stroke="var(--text-muted)" stroke-width="1.5"/>
+      <text x="220" y="130" text-anchor="middle" font-size="11" fill="var(--text-muted)">Jun 2025</text>
+      <line x1="370" y1="98" x2="370" y2="112" stroke="var(--text-muted)" stroke-width="1.5"/>
+      <text x="370" y="130" text-anchor="middle" font-size="11" fill="var(--text-muted)">Sep 2025</text>
+      <line x1="510" y1="98" x2="510" y2="112" stroke="var(--text-muted)" stroke-width="1.5"/>
+      <text x="510" y="130" text-anchor="middle" font-size="11" fill="var(--text-muted)">Dec 2025</text>
+      <!-- NOW marker -->
+      <rect x="614" y="89" width="42" height="32" rx="6" fill="var(--accent)" opacity="0.15"/>
+      <text x="635" y="109" text-anchor="middle" font-size="11" font-weight="700" fill="var(--accent)">NOW</text>
+      <text x="635" y="130" text-anchor="middle" font-size="10" fill="var(--accent)">Feb 2026</text>
+      <!-- Events ABOVE line -->
+      <circle cx="70" cy="105" r="6" fill="var(--accent)"/>
+      <line x1="70" y1="99" x2="70" y2="74" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
+      <text x="70" y="65" text-anchor="middle" font-size="11" font-weight="700" fill="var(--accent)">A2A launched</text>
+      <text x="70" y="50" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Google, 50+ partners</text>
+      <circle cx="195" cy="105" r="5" fill="var(--accent)"/>
+      <line x1="195" y1="99" x2="195" y2="74" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
+      <text x="195" y="65" text-anchor="middle" font-size="11" font-weight="600" fill="var(--accent)">A2A v0.2</text>
+      <text x="195" y="50" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Python SDK + auth</text>
+      <circle cx="340" cy="105" r="5" fill="var(--accent)"/>
+      <line x1="340" y1="99" x2="340" y2="74" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
+      <text x="340" y="65" text-anchor="middle" font-size="11" font-weight="600" fill="var(--accent)">A2A v0.3</text>
+      <text x="340" y="50" text-anchor="middle" font-size="10" fill="var(--text-secondary)">gRPC, 150+ orgs</text>
+      <!-- Events BELOW line -->
+      <circle cx="240" cy="105" r="6" fill="#0A66C2"/>
+      <line x1="240" y1="112" x2="240" y2="150" stroke="#0A66C2" stroke-width="1" opacity="0.4"/>
+      <text x="240" y="163" text-anchor="middle" font-size="11" font-weight="700" fill="#0A66C2">Linux Foundation</text>
+      <text x="240" y="178" text-anchor="middle" font-size="10" fill="var(--text-secondary)">A2A donated, Jun 2025</text>
+      <circle cx="395" cy="105" r="6" fill="var(--amber)"/>
+      <line x1="395" y1="112" x2="395" y2="150" stroke="var(--amber)" stroke-width="1" opacity="0.4"/>
+      <text x="395" y="163" text-anchor="middle" font-size="11" font-weight="700" fill="var(--amber)">ANP IETF Draft</text>
+      <text x="395" y="178" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Telecom consortium</text>
+      <circle cx="530" cy="105" r="7" fill="var(--green)"/>
+      <line x1="530" y1="112" x2="530" y2="150" stroke="var(--green)" stroke-width="1" opacity="0.4"/>
+      <text x="530" y="163" text-anchor="middle" font-size="11" font-weight="700" fill="var(--green)">LMOS Production</text>
+      <text x="530" y="178" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Deutsche Telekom, millions</text>
     </svg>
   </div>
   <div class="diagram-caption">Figure 1b: Key protocol milestones. The acceleration through late 2025 is driven by enterprise demand, not technical convergence.</div>
@@ -1327,55 +1343,51 @@ tbody td:first-child {
 
   <p><strong>Topology governance for emergent coordination.</strong> Agent coordination graphs are emergent, not declared. Blast radius is unpredictable, failure domains are invisible, and debugging requires understanding belief propagation, not just call graphs. Protocols need coordination governance mechanisms that do not yet exist.</p>
 
-  <!-- Diagram: Five gaps (SVG - mindmap unstable in mermaid 10.9.1) -->
+  <!-- Diagram: Five gaps (SVG) -->
   <div class="diagram-container">
-    <svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="max-width:720px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
+    <svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
       <!-- Central node -->
-      <rect x="250" y="175" width="220" height="50" rx="25" fill="var(--navy)" stroke="none"/>
-      <text x="360" y="205" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Agentic Protocol Gaps</text>
+      <rect x="240" y="168" width="220" height="44" rx="22" fill="var(--accent)" opacity="0.9"/>
+      <text x="350" y="195" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Agentic Protocol Gaps</text>
       <!-- Branch 1: Observability (top-left) -->
-      <line x1="280" y1="185" x2="110" y2="70" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
-      <rect x="10" y="18" width="200" height="105" rx="8" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="110" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Observability</text>
-      <text x="110" y="58" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Reasoning traces</text>
-      <text x="110" y="72" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Confidence signals</text>
-      <text x="110" y="86" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Token economics</text>
-      <text x="110" y="100" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Semantic drift detection</text>
-      <text x="110" y="114" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Deep thought vs infinite loop</text>
+      <line x1="270" y1="175" x2="120" y2="65" stroke="var(--accent)" stroke-width="1.5" opacity="0.3"/>
+      <rect x="10" y="12" width="215" height="110" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1"/>
+      <text x="117" y="36" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Observability</text>
+      <text x="117" y="55" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Reasoning traces</text>
+      <text x="117" y="71" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Confidence signals</text>
+      <text x="117" y="87" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Token economics</text>
+      <text x="117" y="103" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Deep thought vs infinite loop</text>
       <!-- Branch 2: Epistemic Failure (top-right) -->
-      <line x1="440" y1="185" x2="600" y2="70" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
-      <rect x="500" y="18" width="210" height="105" rx="8" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="605" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Epistemic Failure</text>
-      <text x="605" y="58" text-anchor="middle" font-size="10" fill="var(--text-secondary)">False beliefs propagate silently</text>
-      <text x="605" y="72" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Circuit breakers are blind</text>
-      <text x="605" y="86" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Semantic checkpoints needed</text>
-      <text x="605" y="100" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Reasoning rollback required</text>
-      <text x="605" y="114" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Confidence declarations missing</text>
-      <!-- Branch 3: Governance (left) -->
-      <line x1="265" y1="215" x2="110" y2="290" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
-      <rect x="10" y="248" width="200" height="105" rx="8" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="110" y="270" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Governance</text>
-      <text x="110" y="288" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Authentication is not authority</text>
-      <text x="110" y="302" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Identity is not attestation</text>
-      <text x="110" y="316" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Policy must travel in the message</text>
-      <text x="110" y="330" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Verifiable intent required</text>
-      <text x="110" y="344" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Cross-boundary trust unsolved</text>
-      <!-- Branch 4: Cost Attribution (right) -->
-      <line x1="455" y1="215" x2="600" y2="290" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
-      <rect x="500" y="248" width="210" height="105" rx="8" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="605" y="270" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Cost Attribution</text>
-      <text x="605" y="288" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Token cost is nonlinear</text>
-      <text x="605" y="302" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Driven by reasoning depth</text>
-      <text x="605" y="316" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Budget envelopes needed</text>
-      <text x="605" y="330" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Jevons Paradox applies</text>
-      <text x="605" y="344" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Runtime enforcement absent</text>
+      <line x1="430" y1="175" x2="580" y2="65" stroke="var(--accent)" stroke-width="1.5" opacity="0.3"/>
+      <rect x="475" y="12" width="215" height="110" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1"/>
+      <text x="582" y="36" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Epistemic Failure</text>
+      <text x="582" y="55" text-anchor="middle" font-size="11" fill="var(--text-secondary)">False beliefs propagate silently</text>
+      <text x="582" y="71" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Circuit breakers are blind</text>
+      <text x="582" y="87" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Semantic checkpoints needed</text>
+      <text x="582" y="103" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Reasoning rollback required</text>
+      <!-- Branch 3: Governance (bottom-left) -->
+      <line x1="270" y1="205" x2="120" y2="280" stroke="var(--accent)" stroke-width="1.5" opacity="0.3"/>
+      <rect x="10" y="250" width="215" height="110" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1"/>
+      <text x="117" y="274" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Governance</text>
+      <text x="117" y="293" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Authentication is not authority</text>
+      <text x="117" y="309" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Identity is not attestation</text>
+      <text x="117" y="325" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Policy must travel in the message</text>
+      <text x="117" y="341" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Verifiable intent required</text>
+      <!-- Branch 4: Cost Attribution (bottom-right) -->
+      <line x1="430" y1="205" x2="580" y2="280" stroke="var(--accent)" stroke-width="1.5" opacity="0.3"/>
+      <rect x="475" y="250" width="215" height="110" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1"/>
+      <text x="582" y="274" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Cost Attribution</text>
+      <text x="582" y="293" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Token cost is nonlinear</text>
+      <text x="582" y="309" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Driven by reasoning depth</text>
+      <text x="582" y="325" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Budget envelopes needed</text>
+      <text x="582" y="341" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Jevons Paradox applies</text>
       <!-- Branch 5: Emergent Topology (bottom centre) -->
-      <line x1="360" y1="225" x2="360" y2="330" stroke="var(--accent)" stroke-width="2" opacity="0.5"/>
-      <rect x="255" y="335" width="210" height="80" rx="8" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="360" y="357" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">Emergent Topology</text>
-      <text x="360" y="375" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Coordination graphs emergent, blast radius unpredictable</text>
-      <text x="360" y="389" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Beliefs shape network structure, group consensus missing</text>
-      <text x="360" y="403" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Recursive deliberation risk</text>
+      <line x1="350" y1="212" x2="350" y2="306" stroke="var(--accent)" stroke-width="1.5" opacity="0.3"/>
+      <rect x="235" y="310" width="230" height="80" rx="10" fill="var(--pullquote-bg)" stroke="var(--amber)" stroke-width="1.5"/>
+      <text x="350" y="334" text-anchor="middle" font-size="13" font-weight="700" fill="var(--amber)">Emergent Topology</text>
+      <text x="350" y="354" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Coordination graphs emergent</text>
+      <text x="350" y="370" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Blast radius unpredictable</text>
+      <text x="350" y="386" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Group consensus missing</text>
     </svg>
   </div>
   <div class="diagram-caption">Figure 2: The five structural gaps in agentic infrastructure. Each represents a category of concern that current protocols do not address at the cognitive layer.</div>
@@ -1409,55 +1421,54 @@ tbody td:first-child {
 
   <!-- Diagram: Maturity state diagram (SVG) -->
   <div class="diagram-container">
-    <svg viewBox="0 0 780 200" xmlns="http://www.w3.org/2000/svg" style="max-width:780px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
-      <!-- Stage 1 -->
-      <rect x="10" y="20" width="170" height="160" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="95" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent)">1. Contained</text>
-      <line x1="30" y1="55" x2="160" y2="55" stroke="var(--border)" stroke-width="1"/>
-      <text x="95" y="75" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Single agents, single trust zone</text>
-      <text x="95" y="92" text-anchor="middle" font-size="10" fill="var(--text-secondary)">MCP for tool integration</text>
-      <text x="95" y="115" text-anchor="middle" font-size="11" font-weight="600" fill="var(--green)">Risk: Low</text>
-      <!-- Arrow 1-2 -->
-      <line x1="180" y1="100" x2="200" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowhead)"/>
-      <text x="190" y="88" text-anchor="middle" font-size="8" fill="var(--text-muted)" transform="rotate(-90, 190, 88)"></text>
-      <!-- Stage 2 -->
-      <rect x="200" y="20" width="170" height="160" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="285" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent)">2. Coordinated</text>
-      <line x1="220" y1="55" x2="350" y2="55" stroke="var(--border)" stroke-width="1"/>
-      <text x="285" y="75" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Multi-agent within enterprise</text>
-      <text x="285" y="92" text-anchor="middle" font-size="10" fill="var(--text-secondary)">A2A or LMOS for coordination</text>
-      <text x="285" y="115" text-anchor="middle" font-size="11" font-weight="600" fill="var(--amber)">Risk: Medium</text>
-      <!-- Arrow 2-3 -->
-      <line x1="370" y1="100" x2="390" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowhead)"/>
-      <!-- Stage 3 -->
-      <rect x="390" y="20" width="170" height="160" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="2"/>
-      <text x="475" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent)">3. Federated</text>
-      <line x1="410" y1="55" x2="540" y2="55" stroke="var(--border)" stroke-width="1"/>
-      <text x="475" y="75" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Agents crossing org boundaries</text>
-      <text x="475" y="92" text-anchor="middle" font-size="10" fill="var(--text-secondary)">ANP for identity + attestation</text>
-      <text x="475" y="115" text-anchor="middle" font-size="11" font-weight="600" fill="var(--red)">Risk: High</text>
-      <!-- Arrow 3-4 -->
-      <line x1="560" y1="100" x2="580" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowhead)"/>
-      <!-- Stage 4 -->
-      <rect x="580" y="20" width="190" height="160" rx="10" fill="var(--pullquote-bg)" stroke="var(--red)" stroke-width="2"/>
-      <text x="675" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="var(--red)">4. Autonomous</text>
-      <line x1="600" y1="55" x2="750" y2="55" stroke="var(--border)" stroke-width="1"/>
-      <text x="675" y="75" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Dynamic topology, self-organising</text>
-      <text x="675" y="92" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Cognitive-native protocols required</text>
-      <text x="675" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="var(--red)">Risk: Very High</text>
-      <!-- Transition labels -->
-      <text x="190" y="148" text-anchor="middle" font-size="8" fill="var(--text-muted)">Multi-agent</text>
-      <text x="190" y="158" text-anchor="middle" font-size="8" fill="var(--text-muted)">workflows adopted</text>
-      <text x="380" y="148" text-anchor="middle" font-size="8" fill="var(--text-muted)">Cross trust</text>
-      <text x="380" y="158" text-anchor="middle" font-size="8" fill="var(--text-muted)">boundaries</text>
-      <text x="570" y="148" text-anchor="middle" font-size="8" fill="var(--text-muted)">Self-organising</text>
-      <text x="570" y="158" text-anchor="middle" font-size="8" fill="var(--text-muted)">coalitions emerge</text>
-      <!-- Arrowhead marker -->
+    <svg viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg" style="max-width:720px;margin:0 auto;display:block;font-family:Outfit,sans-serif;">
       <defs>
-        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <polygon points="0 0, 8 3, 0 6" fill="var(--accent)"/>
-        </marker>
+        <marker id="stageArrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--text-muted)"/></marker>
       </defs>
+      <!-- Stage 1 -->
+      <rect x="8" y="24" width="155" height="135" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="85" y="50" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">1. Contained</text>
+      <line x1="24" y1="58" x2="148" y2="58" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="85" y="78" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Single agents</text>
+      <text x="85" y="95" text-anchor="middle" font-size="11" fill="var(--text-secondary)">single trust zone</text>
+      <text x="85" y="115" text-anchor="middle" font-size="11" fill="var(--text-muted)">MCP for tools</text>
+      <rect x="36" y="130" width="98" height="20" rx="4" fill="var(--green)" opacity="0.15"/>
+      <text x="85" y="144" text-anchor="middle" font-size="11" font-weight="600" fill="var(--green)">Risk: Low</text>
+      <!-- Arrow 1-2 -->
+      <line x1="163" y1="90" x2="182" y2="90" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#stageArrow)"/>
+      <!-- Stage 2 -->
+      <rect x="184" y="24" width="155" height="135" rx="10" fill="var(--pullquote-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="261" y="50" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">2. Coordinated</text>
+      <line x1="200" y1="58" x2="324" y2="58" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="261" y="78" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Multi-agent</text>
+      <text x="261" y="95" text-anchor="middle" font-size="11" fill="var(--text-secondary)">within enterprise</text>
+      <text x="261" y="115" text-anchor="middle" font-size="11" fill="var(--text-muted)">A2A or LMOS</text>
+      <rect x="212" y="130" width="98" height="20" rx="4" fill="var(--amber)" opacity="0.15"/>
+      <text x="261" y="144" text-anchor="middle" font-size="11" font-weight="600" fill="var(--amber)">Risk: Medium</text>
+      <!-- Arrow 2-3 -->
+      <line x1="339" y1="90" x2="358" y2="90" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#stageArrow)"/>
+      <!-- Stage 3 -->
+      <rect x="360" y="24" width="155" height="135" rx="10" fill="var(--pullquote-bg)" stroke="var(--amber)" stroke-width="1.5"/>
+      <text x="437" y="50" text-anchor="middle" font-size="13" font-weight="700" fill="var(--amber)">3. Federated</text>
+      <line x1="376" y1="58" x2="500" y2="58" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="437" y="78" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Agents crossing</text>
+      <text x="437" y="95" text-anchor="middle" font-size="11" fill="var(--text-secondary)">org boundaries</text>
+      <text x="437" y="115" text-anchor="middle" font-size="11" fill="var(--text-muted)">ANP for identity</text>
+      <rect x="388" y="130" width="98" height="20" rx="4" fill="var(--red)" opacity="0.15"/>
+      <text x="437" y="144" text-anchor="middle" font-size="11" font-weight="600" fill="var(--red)">Risk: High</text>
+      <!-- Arrow 3-4 -->
+      <line x1="515" y1="90" x2="534" y2="90" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#stageArrow)"/>
+      <!-- Stage 4 -->
+      <rect x="536" y="24" width="175" height="135" rx="10" fill="var(--pullquote-bg)" stroke="var(--red)" stroke-width="2"/>
+      <text x="623" y="50" text-anchor="middle" font-size="13" font-weight="700" fill="var(--red)">4. Autonomous</text>
+      <line x1="552" y1="58" x2="696" y2="58" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="623" y="78" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Self-organising</text>
+      <text x="623" y="95" text-anchor="middle" font-size="11" fill="var(--text-secondary)">dynamic topology</text>
+      <text x="623" y="115" text-anchor="middle" font-size="11" fill="var(--text-muted)">Cognitive-native</text>
+      <rect x="574" y="130" width="98" height="20" rx="4" fill="var(--red)" opacity="0.2"/>
+      <text x="623" y="144" text-anchor="middle" font-size="11" font-weight="700" fill="var(--red)">Risk: Very High</text>
+      <!-- Progression label -->
+      <text x="360" y="180" text-anchor="middle" font-size="10" fill="var(--text-muted)">Each stage builds the governance, observability, and operational muscle required for the next &#8594;</text>
     </svg>
   </div>
   <div class="diagram-caption">Figure 3: Maturity model as state progression. Each stage builds governance, observability, and operational capability required for the next.</div>
@@ -1513,7 +1524,7 @@ tbody td:first-child {
       <!-- S1 -->
       <rect x="30" y="130" width="180" height="50" rx="6" fill="var(--bg-alt)" stroke="var(--accent)" stroke-width="1.5"/>
       <text x="120" y="150" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Stage 1: Contained</text>
-      <text x="120" y="165" text-anchor="middle" font-size="9" fill="var(--text-secondary)">MCP for tools, standard obs.</text>
+      <text x="120" y="165" text-anchor="middle" font-size="10" fill="var(--text-secondary)">MCP for tools, standard obs.</text>
       <!-- Q1 No -> Q2 -->
       <line x1="470" y1="94" x2="560" y2="94" stroke="var(--accent)" stroke-width="1.5"/>
       <line x1="560" y1="94" x2="560" y2="130" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
@@ -1529,7 +1540,7 @@ tbody td:first-child {
       <!-- S2 -->
       <rect x="290" y="195" width="180" height="50" rx="6" fill="var(--bg-alt)" stroke="var(--accent)" stroke-width="1.5"/>
       <text x="380" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Stage 2: Coordinated</text>
-      <text x="380" y="230" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Evaluate A2A / LMOS</text>
+      <text x="380" y="230" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Evaluate A2A / LMOS</text>
       <!-- Q2 Yes -> S3 -->
       <line x1="690" y1="150" x2="630" y2="150" stroke="var(--accent)" stroke-width="1.5"/>
       <line x1="630" y1="170" x2="630" y2="195" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
@@ -1537,7 +1548,7 @@ tbody td:first-child {
       <!-- S3 -->
       <rect x="530" y="195" width="180" height="50" rx="6" fill="var(--bg-alt)" stroke="var(--accent)" stroke-width="1.5"/>
       <text x="620" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Stage 3: Federated</text>
-      <text x="620" y="230" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Evaluate ANP DID identity</text>
+      <text x="620" y="230" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Evaluate ANP DID identity</text>
       <!-- All three converge to Q3 -->
       <line x1="120" y1="180" x2="120" y2="300" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
       <line x1="120" y1="300" x2="240" y2="300" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
@@ -1556,7 +1567,7 @@ tbody td:first-child {
       <!-- URGENT -->
       <rect x="470" y="355" width="180" height="44" rx="6" fill="var(--red)" stroke="none"/>
       <text x="560" y="373" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">URGENT GAP</text>
-      <text x="560" y="387" text-anchor="middle" font-size="9" fill="#fcc">Reasoning-aware obs. now</text>
+      <text x="560" y="387" text-anchor="middle" font-size="10" fill="#fcc">Reasoning-aware obs. now</text>
       <!-- URGENT -> Q4 -->
       <line x1="470" y1="377" x2="440" y2="377" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
       <line x1="440" y1="377" x2="440" y2="430" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
@@ -1575,7 +1586,7 @@ tbody td:first-child {
       <!-- BUDGET -->
       <rect x="20" y="480" width="180" height="44" rx="6" fill="var(--amber)" stroke="none"/>
       <text x="110" y="498" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">MANDATORY</text>
-      <text x="110" y="512" text-anchor="middle" font-size="9" fill="#fff">Token budget enforcement</text>
+      <text x="110" y="512" text-anchor="middle" font-size="10" fill="#fff">Token budget enforcement</text>
       <!-- Q4 No -> MONITOR -->
       <line x1="460" y1="435" x2="530" y2="435" stroke="var(--accent)" stroke-width="1.5"/>
       <line x1="530" y1="435" x2="530" y2="480" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
@@ -1583,7 +1594,7 @@ tbody td:first-child {
       <!-- MONITOR -->
       <rect x="440" y="480" width="180" height="44" rx="6" fill="var(--green)" stroke="none"/>
       <text x="530" y="498" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">ADVISABLE</text>
-      <text x="530" y="512" text-anchor="middle" font-size="9" fill="#fff">Cost monitoring, defer enforcement</text>
+      <text x="530" y="512" text-anchor="middle" font-size="10" fill="#fff">Cost monitoring, defer enforcement</text>
       <!-- Both -> Q5 -->
       <line x1="110" y1="524" x2="110" y2="560" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
       <line x1="110" y1="560" x2="260" y2="560" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
@@ -1599,14 +1610,14 @@ tbody td:first-child {
       <text x="148" y="588" text-anchor="middle" font-size="10" font-weight="600" fill="var(--green)">Static</text>
       <rect x="20" y="630" width="180" height="40" rx="6" fill="var(--bg-alt)" stroke="var(--accent)" stroke-width="1.5"/>
       <text x="110" y="648" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Standard governance</text>
-      <text x="110" y="662" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Monitor for emergent patterns</text>
+      <text x="110" y="662" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Monitor for emergent patterns</text>
       <!-- Q5 Emergent -->
       <line x1="460" y1="593" x2="530" y2="593" stroke="var(--accent)" stroke-width="1.5"/>
       <line x1="530" y1="593" x2="530" y2="630" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow)"/>
       <text x="490" y="588" text-anchor="middle" font-size="10" font-weight="600" fill="var(--amber)">Emergent</text>
       <rect x="440" y="630" width="190" height="40" rx="6" fill="var(--highlight-bg)" stroke="var(--amber)" stroke-width="1.5"/>
       <text x="535" y="648" text-anchor="middle" font-size="10" font-weight="600" fill="var(--accent)">Coordination governance</text>
-      <text x="535" y="662" text-anchor="middle" font-size="9" fill="var(--text-secondary)">Blast radius + drift detection</text>
+      <text x="535" y="662" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Blast radius + drift detection</text>
     </svg>
   </div>
   <div class="diagram-caption">Figure 4: CIO decision triage. Red = urgent gap. Amber = mandatory action for agents with financial authority. Green = lower priority, can be sequenced.</div>
@@ -1671,9 +1682,9 @@ tbody td:first-child {
 
   function applyTheme(theme) {
     if (theme === 'light') {
-      html.setAttribute('data-theme', 'light');
+      document.documentElement.classList.add('theme-light');
     } else {
-      html.removeAttribute('data-theme');
+      document.documentElement.classList.remove('theme-light');
     }
     if (theme === 'dark') {
       icon.textContent = '\u2600';
@@ -1685,13 +1696,12 @@ tbody td:first-child {
   }
 
   function getCurrentTheme() {
-    return html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    return document.documentElement.classList.contains('theme-light') ? 'light' : 'dark';
   }
 
   // Load stored preference or default to dark (CSS default)
   const stored = localStorage.getItem('theme');
-  if (stored) applyTheme(stored);
-  // If no stored pref, CSS default is already dark — do nothing
+  applyTheme(stored || 'dark');
 
   toggle.addEventListener('click', () => {
     const next = getCurrentTheme() === 'dark' ? 'light' : 'dark';
@@ -1747,6 +1757,16 @@ window.addEventListener('scroll', () => {
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  // Semver changelog toggle
+  const semverToggle = document.getElementById('semverToggle');
+  const semverChangelog = document.getElementById('semverChangelog');
+  if (semverToggle && semverChangelog) {
+    semverToggle.addEventListener('click', () => {
+      const open = semverChangelog.classList.toggle('open');
+      semverToggle.setAttribute('aria-expanded', open);
+    });
+  }
 })();
 
 // ── Mobile nav ──
