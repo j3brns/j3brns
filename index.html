@@ -21,7 +21,7 @@
 <meta property="og:url" content="">
 <meta property="article:author" content="https://www.linkedin.com/in/julian-burns">
 <meta property="article:published_time" content="2025-06-01">
-<meta property="article:modified_time" content="2026-03-21">
+<meta property="article:modified_time" content="2026-02-21">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Agentic Protocols: The Infrastructure Reckoning">
 <meta name="twitter:description" content="Five dispatches on the gaps that matter, plus a CIO Hitchhiker's Guide.">
@@ -874,11 +874,10 @@ tbody td:first-child {
   <!-- Semver widget -->
   <div class="semver-widget">
     <div class="semver-badge" id="semverToggle" role="button" tabindex="0" aria-expanded="false">
-      <span class="semver-label">v2.2.0</span>
-      <span class="semver-date">Mar 2026</span>
+      <span class="semver-label">v2.1.0</span>
+      <span class="semver-date">Feb 2026</span>
     </div>
     <div class="semver-changelog" id="semverChangelog">
-      <div class="semver-entry"><strong>v2.2.0</strong> <span>Mar 2026</span> &mdash; A2A v1.0, AAIF governance, fact-check corrections, SVG timeline fixes</div>
       <div class="semver-entry"><strong>v2.1.0</strong> <span>Feb 2026</span> &mdash; LMOS production checkpoint, A2A v0.3, ANP IETF draft, all diagrams SVG, dark default, GitHub Pages ready</div>
       <div class="semver-entry"><strong>v2.0.0</strong> <span>Feb 2026</span> &mdash; Web publication build, sticky nav, dispatch cards, protocol validation</div>
       <div class="semver-entry"><strong>v1.0.0</strong> <span>Jun 2025</span> &mdash; Original three-part editorial package</div>
@@ -923,7 +922,7 @@ tbody td:first-child {
   <div class="hero-subtitle">The Infrastructure Reckoning</div>
   <div class="hero-meta">
     Julian Burns<br>
-    Originally June 2025 &bull; Updated March 2026 &bull; <strong>~38 min total read</strong><br>
+    Originally June 2025 &bull; Updated February 2026 &bull; <strong>~38 min total read</strong><br>
     Referencing: <em>A Survey of AI Agent Protocols</em>, arXiv:2504.16736
   </div>
   <div class="hero-divider">&bull; &bull; &bull;</div>
@@ -952,7 +951,7 @@ tbody td:first-child {
 
   <p>MCP has achieved something approaching a <em>de facto</em> standard for tool-use integration. This was driven less by technical superiority and more by ecosystem momentum &mdash; the same force that made VHS outlast Betamax and USB-C eventually displace everything with a different shaped hole. Adoption through late 2025 was steeper than most predicted, particularly in developer tooling and IDE integrations. The &ldquo;desktop tool with enterprise challenges&rdquo; characterisation from June was fair at the time; it&rsquo;s now only half-right. MCP&rsquo;s gateway story has improved materially, though robust separation of state and authentication from resource servers remains unfinished.</p>
 
-  <p>A2A has matured substantially, reaching v0.3 in July 2025 with gRPC support and signed security cards, and was donated to the Linux Foundation in June &mdash; a governance move that signals staying power beyond any single vendor&rsquo;s roadmap. Over 150 organisations now support the protocol, including Microsoft, SAP, and Salesforce. In a further significant development, A2A reached v1.0 in early 2026, marking its first stable, production-ready specification with multi-tenancy support, signed Agent Cards providing cryptographic identity verification, and multi-protocol bindings. The Technical Steering Committee now includes AWS, Cisco, Google, IBM Research, Microsoft, Salesforce, SAP, and ServiceNow. Meanwhile, in December 2025, the Linux Foundation launched the Agentic AI Foundation with OpenAI, Anthropic, Google, Microsoft, AWS, and Block as co-founders, housing both A2A and MCP under neutral governance &mdash; substantially diluting the earlier concern about Google ecosystem gravity. The Agent Card pattern has become richer, and built-in OpenTelemetry observability addresses transport-level tracing. It still describes capabilities rather than cognitive state &mdash; a distinction I&rsquo;ll return to.</p>
+  <p>A2A has matured substantially, reaching v0.3 in July 2025 with gRPC support and signed security cards, and was donated to the Linux Foundation in June &mdash; a governance move that signals staying power beyond any single vendor&rsquo;s roadmap. Over 150 organisations now support the protocol, including Microsoft, SAP, and Salesforce. One notes, with the weariness of long experience, that Google&rsquo;s enterprise coordination protocol pairs conveniently with Google&rsquo;s enterprise coordination infrastructure &mdash; but the Linux Foundation move dilutes that concern somewhat. The Agent Card pattern has become richer, and built-in OpenTelemetry observability addresses transport-level tracing. It still describes capabilities rather than cognitive state &mdash; a distinction I&rsquo;ll return to.</p>
 
   <p>ANP has progressed from community project to something with institutional weight. An IETF Internet-Draft for AI agent network frameworks was submitted in October 2025, backed by China Mobile, China Telecom, China Unicom, and Huawei. The protocol now defines a three-layer architecture &mdash; identity and encrypted communication, meta-protocol negotiation, and application protocol &mdash; with a published technical white paper on arXiv. A DID-based end-to-end encryption layer is substantially complete, and an MCP-to-ANP bridge exists for interoperability. It remains the most architecturally ambitious of the three service-oriented protocols, and the telecom-industry backing gives it infrastructure credibility that pure community projects struggle to achieve.</p>
 
@@ -1138,7 +1137,7 @@ tbody td:first-child {
 
   <div class="update-box">
     <span class="update-label">&#9654; February 2026 Update</span>
-    The broader AI governance conversation has intensified through late 2025, but it is focused almost entirely on model-level concerns: bias, safety, alignment, responsible use. Infrastructure-level governance &mdash; controlling what agents can do in production, not just what models can say in benchmarks &mdash; remains an underdeveloped field. The December 2025 launch of the Agentic AI Foundation under the Linux Foundation, with OpenAI, Anthropic, Google, Microsoft, AWS, and Block as co-founders, is a structural step in the right direction &mdash; placing both MCP and A2A under neutral governance. But governance standards and governance infrastructure are different things; the Foundation addresses the former whilst the latter remains substantially unbuilt. The EU AI Act regulates model risk. Nobody is yet regulating the agent that deploys the model into a multi-step workflow with financial authority and cross-boundary access. That is not a gap the model providers will fill. It is an infrastructure problem, and it is ours.
+    The broader AI governance conversation has intensified through late 2025, but it is focused almost entirely on model-level concerns: bias, safety, alignment, responsible use. Infrastructure-level governance &mdash; controlling what agents can do in production, not just what models can say in benchmarks &mdash; remains an underdeveloped field. This is the blind spot. The EU AI Act regulates model risk. Nobody is yet regulating the agent that deploys the model into a multi-step workflow with financial authority and cross-boundary access. That is not a gap the model providers will fill. It is an infrastructure problem, and it is ours.
   </div>
 
   <p>Policy must live inside the message. Not at the edge. Not in a dashboard. Inside the protocol, travelling with the intent it governs. Until it does, every agent that crosses a trust boundary is an unattested actor carrying unverifiable authority. That&rsquo;s not a security model. That&rsquo;s a prayer.</p>
@@ -1182,7 +1181,7 @@ tbody td:first-child {
 <article class="section" id="guide">
   <div class="section-label">Part III &mdash; The Hitchhiker&rsquo;s Guide</div>
   <h2>A CIO&rsquo;s Field Manual for Agentic Infrastructure</h2>
-  <div class="byline">Julian Burns &nbsp;|&nbsp; March 2026</div>
+  <div class="byline">Julian Burns &nbsp;|&nbsp; February 2026</div>
 
   <div class="epigraph">&ldquo;Don&rsquo;t Panic.&rdquo; &mdash; Douglas Adams. Reasonable advice, provided you&rsquo;ve read the manual first.</div>
 
@@ -1193,7 +1192,7 @@ tbody td:first-child {
   <!-- 1. Strategic Context -->
   <h3>1. The Strategic Context: Where We Stand in February 2026</h3>
 
-  <p>The agentic protocol landscape has consolidated around three primary standards for service-oriented agent communication &mdash; MCP for tool integration, A2A for enterprise coordination, and ANP for decentralised identity &mdash; with cognitive-native approaches representing an emerging second wave. The December 2025 launch of the Linux Foundation&rsquo;s Agentic AI Foundation, housing both MCP and A2A under neutral governance with six major co-founders, has accelerated convergence at the standards layer even as the cognitive gaps remain open. None of these protocols is complete. All of them are useful. The strategic challenge is knowing which to adopt, when, and with what guardrails.</p>
+  <p>The agentic protocol landscape has consolidated around three primary standards for service-oriented agent communication &mdash; MCP for tool integration, A2A for enterprise coordination, and ANP for decentralised identity &mdash; with cognitive-native approaches representing an emerging second wave. None of these protocols is complete. All of them are useful. The strategic challenge is knowing which to adopt, when, and with what guardrails.</p>
 
   <p>The tension is between architectural familiarity and cognitive adequacy. Service-oriented protocols achieve adoption through patterns that enterprise teams already understand: request-response, capability discovery, API gateways. But they do not address the novel failure modes, cost dynamics, and governance requirements of reasoning systems. Cognitive-native protocols address these concerns more directly but are immature and operationally unproven.</p>
 
@@ -1249,15 +1248,10 @@ tbody td:first-child {
       <line x1="195" y1="99" x2="195" y2="74" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
       <text x="195" y="65" text-anchor="middle" font-size="11" font-weight="600" fill="var(--accent)">A2A v0.2</text>
       <text x="195" y="50" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Python SDK + auth</text>
-      <circle cx="285" cy="105" r="5" fill="var(--accent)"/>
-      <line x1="285" y1="99" x2="285" y2="74" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
-      <text x="285" y="65" text-anchor="middle" font-size="11" font-weight="600" fill="var(--accent)">A2A v0.3</text>
-      <text x="285" y="50" text-anchor="middle" font-size="10" fill="var(--text-secondary)">gRPC, 150+ orgs</text>
-      <!-- A2A v1.0 -->
-      <circle cx="620" cy="105" r="6" fill="var(--accent)"/>
-      <line x1="620" y1="99" x2="620" y2="74" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
-      <text x="620" y="65" text-anchor="middle" font-size="11" font-weight="700" fill="var(--accent)">A2A v1.0</text>
-      <text x="620" y="50" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Production-ready</text>
+      <circle cx="340" cy="105" r="5" fill="var(--accent)"/>
+      <line x1="340" y1="99" x2="340" y2="74" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
+      <text x="340" y="65" text-anchor="middle" font-size="11" font-weight="600" fill="var(--accent)">A2A v0.3</text>
+      <text x="340" y="50" text-anchor="middle" font-size="10" fill="var(--text-secondary)">gRPC, 150+ orgs</text>
       <!-- Events BELOW line -->
       <circle cx="240" cy="105" r="6" fill="#0A66C2"/>
       <line x1="240" y1="112" x2="240" y2="150" stroke="#0A66C2" stroke-width="1" opacity="0.4"/>
@@ -1267,15 +1261,10 @@ tbody td:first-child {
       <line x1="395" y1="112" x2="395" y2="150" stroke="var(--amber)" stroke-width="1" opacity="0.4"/>
       <text x="395" y="163" text-anchor="middle" font-size="11" font-weight="700" fill="var(--amber)">ANP IETF Draft</text>
       <text x="395" y="178" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Telecom consortium</text>
-      <circle cx="510" cy="105" r="7" fill="var(--green)"/>
-      <line x1="510" y1="112" x2="510" y2="150" stroke="var(--green)" stroke-width="1" opacity="0.4"/>
-      <text x="510" y="163" text-anchor="middle" font-size="11" font-weight="700" fill="var(--green)">LMOS Production</text>
-      <text x="510" y="178" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Deutsche Telekom, millions</text>
-      <!-- AAIF launch -->
-      <circle cx="570" cy="105" r="6" fill="#0A66C2"/>
-      <line x1="570" y1="112" x2="570" y2="150" stroke="#0A66C2" stroke-width="1" opacity="0.4"/>
-      <text x="570" y="163" text-anchor="middle" font-size="11" font-weight="700" fill="#0A66C2">AAIF Launch</text>
-      <text x="570" y="178" text-anchor="middle" font-size="10" fill="var(--text-secondary)">MCP + A2A, Dec 2025</text>
+      <circle cx="530" cy="105" r="7" fill="var(--green)"/>
+      <line x1="530" y1="112" x2="530" y2="150" stroke="var(--green)" stroke-width="1" opacity="0.4"/>
+      <text x="530" y="163" text-anchor="middle" font-size="11" font-weight="700" fill="var(--green)">LMOS Production</text>
+      <text x="530" y="178" text-anchor="middle" font-size="10" fill="var(--text-secondary)">Deutsche Telekom, millions</text>
     </svg>
   </div>
   <div class="diagram-caption">Figure 1b: Key protocol milestones. The acceleration through late 2025 is driven by enterprise demand, not technical convergence.</div>
@@ -1287,16 +1276,16 @@ tbody td:first-child {
       </thead>
       <tbody>
         <tr><td>MCP</td><td>Tool integration, context passing</td><td>High &mdash; approaching de facto standard</td><td>Single-agent tool use, IDE and developer tooling</td><td>Enterprise auth gaps, state management at scale</td></tr>
-        <tr><td>A2A</td><td>Enterprise agent-to-agent coordination</td><td>High &mdash; v1.0 production-ready, Linux Foundation AAIF, 150+ orgs</td><td>Internal enterprise orchestration, vertical workflows</td><td>AAIF neutral governance reduces vendor gravity; Agent Cards still lack cognitive state</td></tr>
+        <tr><td>A2A</td><td>Enterprise agent-to-agent coordination</td><td>High &mdash; v0.3, Linux Foundation, 150+ orgs</td><td>Internal enterprise orchestration, vertical workflows</td><td>Google ecosystem gravity, Agent Cards lack cognitive state</td></tr>
         <tr><td>ANP</td><td>Decentralised identity and discovery at internet scale</td><td>Medium &mdash; IETF draft, telecom-industry backing</td><td>Cross-org agent trust, decentralised scenarios</td><td>Adoption outside Asia-Pacific, operational complexity</td></tr>
         <tr><td>LMOS</td><td>Agent lifecycle, routing, multi-tenant orchestration</td><td>Medium &mdash; Eclipse Foundation, production at Deutsche Telekom</td><td>Enterprise multi-agent platforms, Kubernetes-native deployments</td><td>Kotlin-centric tooling, ecosystem breadth vs MCP/A2A</td></tr>
         <tr><td>Agora</td><td>Meta-protocol negotiation, Agent Communication Trilemma</td><td>Research &mdash; ICLR 2025 withdrawn, no implementation</td><td>Dynamic protocol adaptation, future interoperability</td><td>Ideas influential but no code; ANP absorbing core concepts</td></tr>
       </tbody>
     </table>
   </div>
-  <div class="table-caption">Table 1: Protocol landscape summary, March 2026</div>
+  <div class="table-caption">Table 1: Protocol landscape summary, February 2026</div>
 
-  <p>A practical note on MCP&rsquo;s dominance: its adoption trajectory resembles USB or HTTP itself &mdash; not because it&rsquo;s the best technical solution for every scenario, but because ecosystem momentum creates a gravitational field that pulls adoption regardless of alternatives. The December 2025 formation of the Agentic AI Foundation under the Linux Foundation, jointly housing MCP and A2A with co-founders including OpenAI, Anthropic, Google, Microsoft, AWS, and Block, has formalised the complementary relationship between the two protocols and placed both under neutral governance. For tool integration specifically, MCP is the pragmatic default. For anything beyond tool integration, evaluate carefully.</p>
+  <p>A practical note on MCP&rsquo;s dominance: its adoption trajectory resembles USB or HTTP itself &mdash; not because it&rsquo;s the best technical solution for every scenario, but because ecosystem momentum creates a gravitational field that pulls adoption regardless of alternatives. For tool integration specifically, MCP is the pragmatic default. For anything beyond tool integration, evaluate carefully.</p>
 
   <!-- Diagram: Protocol Quadrant -->
   <div class="diagram-container">
@@ -1649,7 +1638,7 @@ tbody td:first-child {
 
   <p>Three developments will shape the next twelve months in agentic infrastructure, and I am prepared to be specific about what each looks like.</p>
 
-  <p><strong>MCP&rsquo;s enterprise reckoning.</strong> The gap between developer-tooling adoption and enterprise-grade governance will force a fork. Either MCP matures rapidly &mdash; adding proper OAuth 2.1 flows, scoped capability delegation, and audit-grade logging &mdash; or enterprise gateway vendors will build proprietary governance layers on top, fragmenting the ecosystem into &ldquo;vanilla MCP&rdquo; for developer tooling and &ldquo;enterprise MCP&rdquo; for production. The formation of the Agentic AI Foundation in December 2025 may accelerate the former outcome by providing neutral governance and multi-vendor investment in the specification. Expect the first &ldquo;MCP Gateway&rdquo; product announcements by mid-2026, branded as &ldquo;security and governance for your agent tools&rdquo; and priced accordingly.</p>
+  <p><strong>MCP&rsquo;s enterprise reckoning.</strong> The gap between developer-tooling adoption and enterprise-grade governance will force a fork. Either MCP matures rapidly &mdash; adding proper OAuth 2.1 flows, scoped capability delegation, and audit-grade logging &mdash; or enterprise gateway vendors will build proprietary governance layers on top, fragmenting the ecosystem into &ldquo;vanilla MCP&rdquo; for developer tooling and &ldquo;enterprise MCP&rdquo; for production. Expect the first &ldquo;MCP Gateway&rdquo; product announcements by mid-2026, branded as &ldquo;security and governance for your agent tools&rdquo; and priced accordingly.</p>
 
   <p><strong>The first serious agentic security incident.</strong> Not a research demonstration or a red-team exercise, but a production incident where an agent&rsquo;s reasoning chain is exploited or contaminated to authorise an action that causes material harm &mdash; financial, reputational, or regulatory. The most likely vector: prompt injection through a tool response that contaminates an agent&rsquo;s downstream reasoning, leading to an authorised action the human principal never intended. This will shift the industry conversation from capability to governance overnight. The organisations that have reasoning traceability and attestation frameworks in place will navigate the aftermath. Those that don&rsquo;t will become the case study.</p>
 
@@ -1668,7 +1657,7 @@ tbody td:first-child {
 <!-- ──── FOOTER ──── -->
 <footer class="site-footer">
   <div class="section-divider">&bull; &bull; &bull;</div>
-  <p>This editorial package is based on original analysis by Julian Burns, June 2025, with reference to &ldquo;A Survey of AI Agent Protocols&rdquo; by the research community, arXiv:2504.16736. The narrative overlay, opinions, six-month update, and editorial structure are the author&rsquo;s own. Protocol assessments reflect the state of the landscape as of March 2026 and will date. The arguments, I suspect, will not.</p>
+  <p>This editorial package is based on original analysis by Julian Burns, June 2025, with reference to &ldquo;A Survey of AI Agent Protocols&rdquo; by the research community, arXiv:2504.16736. The narrative overlay, opinions, six-month update, and editorial structure are the author&rsquo;s own. Protocol assessments reflect the state of the landscape as of February 2026 and will date. The arguments, I suspect, will not.</p>
 </footer>
 
 </main>
