@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
 <script>
-// Run before first paint: force dark unless user explicitly chose light
+// Run before first paint: force light unless user explicitly chose dark
 (function(){
   var s = localStorage.getItem('theme');
-  if (s === 'light') document.documentElement.className = 'theme-light';
+  if (s === 'dark') {
+    document.documentElement.className = 'theme-dark';
+  }
 })();
 </script>
 <title>Agentic Protocols: The Infrastructure Reckoning</title>
@@ -38,8 +40,8 @@
    CSS CUSTOM PROPERTIES
    ════════════════════════════════════════════ */
 :root {
-  color-scheme: dark;
-  /* Palette */
+  color-scheme: light;
+  /* Palette (Common to both) */
   --navy: #1B2A4A;
   --accent: #2E75B6;
   --accent-light: #4A9FE5;
@@ -48,30 +50,7 @@
   --red: #C0392B;
   --green: #27AE60;
 
-  /* Dark theme (DEFAULT) — warm charcoal editorial */
-  --bg: #141820;
-  --bg-alt: #1A1F2C;
-  --bg-card: #1E2433;
-  --bg-code: #12151C;
-  --text: #D8D4CF;
-  --text-secondary: #A09A92;
-  --text-muted: #6A655E;
-  --border: #2A3040;
-  --border-light: #232838;
-  --shadow: rgba(0, 0, 0, 0.3);
-  --shadow-heavy: rgba(0, 0, 0, 0.5);
-  --sidebar-bg: #181C26;
-  --sidebar-active: var(--accent-light);
-  --sidebar-text: #8A8580;
-  --highlight-bg: rgba(212, 160, 23, 0.08);
-  --highlight-border: var(--amber);
-  --sidebar-box: rgba(46, 117, 182, 0.1);
-  --pullquote-bg: rgba(46, 117, 182, 0.06);
-  --update-bg: rgba(212, 160, 23, 0.08);
-}
-
-.theme-light {
-  color-scheme: light;
+  /* LIGHT THEME (NOW DEFAULT) */
   --bg: #FAF8F5;
   --bg-alt: #F2EDE8;
   --bg-card: #FFFFFF;
@@ -91,6 +70,30 @@
   --sidebar-box: rgba(46, 117, 182, 0.06);
   --pullquote-bg: rgba(46, 117, 182, 0.04);
   --update-bg: #FFF8E1;
+}
+
+/* DARK THEME (NOW OPTIONAL OVERRIDE) */
+.theme-dark {
+  color-scheme: dark;
+  --bg: #141820;
+  --bg-alt: #1A1F2C;
+  --bg-card: #1E2433;
+  --bg-code: #12151C;
+  --text: #D8D4CF;
+  --text-secondary: #A09A92;
+  --text-muted: #6A655E;
+  --border: #2A3040;
+  --border-light: #232838;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-heavy: rgba(0, 0, 0, 0.5);
+  --sidebar-bg: #181C26;
+  --sidebar-active: var(--accent-light);
+  --sidebar-text: #8A8580;
+  --highlight-bg: rgba(212, 160, 23, 0.08);
+  --highlight-border: var(--amber);
+  --sidebar-box: rgba(46, 117, 182, 0.1);
+  --pullquote-bg: rgba(46, 117, 182, 0.06);
+  --update-bg: rgba(212, 160, 23, 0.08);
 }
 
 /* ════════════════════════════════════════════
