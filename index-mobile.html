@@ -1080,27 +1080,33 @@ tbody td:first-child {
    ════════════════════════════════════════════ */
 
 /*
- * Modern fluid approach:
- *  - overflow-x: clip  clips without creating a new BFC so pinch-zoom
- *    still works (unlike overflow-x: hidden which blocks it).
- *  - overflow-wrap + hyphens stops text from being the source of overflow.
- *  - clamp() type scales continuously with viewport width so nothing is
- *    ever wider than the screen; no overflow-x: hidden needed.
+ * overflow-x: hidden on BODY (not html) stops the viewport expanding
+ * to fit wide content on Android/iOS without breaking pinch-zoom.
+ * overflow on html blocks zoom; overflow on body does not.
+ * width: 100% on .content-area and min-width: 0 on grid children
+ * ensure the layout never generates the overflow in the first place.
  */
-html { overflow-x: clip; }
-
 body {
+  overflow-x: hidden;
   overflow-wrap: break-word;
   word-break:    break-word;
   -webkit-hyphens: auto;
   hyphens: auto;
 }
 
-/* Every element stays within the viewport */
-img, svg, video, iframe, pre, table { max-width: 100%; }
+img, svg, video, iframe, pre { max-width: 100%; }
 
 @media (max-width: 1024px) {
-  /* Reposition the existing FAB to top-right */
+  /* Grid children must be able to shrink below their content size */
+  .site-wrapper > * { min-width: 0; }
+
+  /* Content area explicitly contained */
+  .content-area {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Reposition FAB to top-right */
   .mobile-nav-toggle {
     display: flex !important;
     top:    14px;
@@ -1115,7 +1121,7 @@ img, svg, video, iframe, pre, table { max-width: 100%; }
     box-shadow: 0 2px 10px rgba(0,0,0,0.25);
   }
 
-  /* Bigger tap targets in the drawer */
+  /* Bigger drawer tap targets */
   .sidebar nav .nav-link {
     padding:      12px 14px;
     font-size:    15px;
@@ -1127,54 +1133,52 @@ img, svg, video, iframe, pre, table { max-width: 100%; }
   }
 }
 
-/* Topbar not used */
 .mobile-topbar { display: none !important; }
 
 @media (max-width: 768px) {
   body { line-height: 1.85; }
 
-  /* ── Fluid type: scales with viewport, never overflows ── */
-  p             { font-size: clamp(17px, 4.8vw, 21px); }
-  .pull-quote   { font-size: clamp(17px, 4.8vw, 21px); padding: 18px 20px; margin: 28px 0; }
-  .epigraph     { font-size: clamp(16px, 4.5vw, 20px); padding: 18px 20px; }
-  .update-box   { font-size: clamp(15px, 4.2vw, 18px); padding: 16px 20px; }
-  .info-box p   { font-size: clamp(15px, 4.2vw, 18px); }
-  .concern-block p       { font-size: clamp(15px, 4.2vw, 18px); }
-  .update-box-coda p     { font-size: clamp(15px, 4.2vw, 18px); }
+  /* Fluid type — minimum raised to 19px so small phones get real size */
+  p             { font-size: clamp(19px, 4.8vw, 21px); }
+  .pull-quote   { font-size: clamp(19px, 4.8vw, 21px); padding: 18px 20px; margin: 28px 0; }
+  .epigraph     { font-size: clamp(17px, 4.5vw, 20px); padding: 18px 20px; }
+  .update-box   { font-size: clamp(17px, 4.2vw, 19px); padding: 16px 20px; }
+  .info-box p            { font-size: clamp(17px, 4.2vw, 19px); }
+  .concern-block p       { font-size: clamp(17px, 4.2vw, 19px); }
+  .update-box-coda p     { font-size: clamp(17px, 4.2vw, 19px); }
 
-  /* ── Hero: fluid title that can never overflow ── */
-  .hero         { padding: 52px 0 32px; margin-bottom: 28px; }
-  .hero h1      { font-size: clamp(28px, 8.5vw, 52px); }
-  .hero-subtitle { font-size: clamp(17px, 5vw, 26px); }
-  .hero-overline {
-    font-size:     clamp(8px, 2.2vw, 11px);
-    letter-spacing: 0.06em;
-    white-space:   normal;
-    line-height:   1.7;
-  }
-  .hero-meta    { font-size: clamp(11px, 3vw, 13px); }
-  .hero-divider { margin: 28px 0 0; }
-
-  /* ── Content column ── */
   .content-area { padding: 52px 22px 100px; }
 
-  /* ── Headings ── */
-  .section h2   { font-size: clamp(22px, 6.5vw, 34px); }
-  .section h3   { font-size: clamp(18px, 5vw, 24px); margin-top: 32px; }
+  /* Hero */
+  .hero          { padding: 40px 0 32px; margin-bottom: 28px; }
+  .hero h1       { font-size: clamp(28px, 8.5vw, 52px); }
+  .hero-subtitle { font-size: clamp(17px, 5vw, 26px); }
+  .hero-overline {
+    font-size:      clamp(8px, 2.2vw, 11px);
+    letter-spacing: 0.05em;
+    white-space:    normal;
+    line-height:    1.7;
+  }
+  .hero-meta     { font-size: clamp(11px, 3vw, 13px); }
+  .hero-divider  { margin: 28px 0 0; }
 
-  /* ── Info / concern / stat boxes ── */
-  .info-box       { padding: 20px 22px; margin: 28px 0; }
-  .concern-block  { padding: 16px 18px; margin: 16px 0; }
+  /* Headings */
+  .section h2 { font-size: clamp(22px, 6.5vw, 34px); }
+  .section h3 { font-size: clamp(18px, 5vw, 24px); margin-top: 32px; }
+
+  /* Boxes */
+  .info-box        { padding: 20px 22px; margin: 28px 0; }
+  .concern-block   { padding: 16px 18px; margin: 16px 0; }
   .update-box-coda { padding: 18px 20px 20px; }
-  .stat-row       { gap: 12px; padding: 16px 18px; }
+  .stat-row        { gap: 12px; padding: 16px 18px; }
 
-  /* ── Ref links ── */
-  .ref-links              { padding: 20px; margin: 24px 0 6px; }
-  .ref-link-card strong   { font-size: clamp(14px, 4vw, 17px); }
-  .ref-link-card span     { font-size: clamp(12px, 3.5vw, 15px); }
+  /* Ref links */
+  .ref-links            { padding: 20px; margin: 24px 0 6px; }
+  .ref-link-card strong { font-size: clamp(14px, 4vw, 17px); }
+  .ref-link-card span   { font-size: clamp(12px, 3.5vw, 15px); }
 
-  /* ── Tables: scroll inside wrapper, hint user ── */
-  .table-wrapper { overflow-x: auto; }
+  /* Tables */
+  .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .table-wrapper::after {
     content: 'swipe \2192';
     display: block;
@@ -1185,18 +1189,18 @@ img, svg, video, iframe, pre, table { max-width: 100%; }
     padding: 4px 8px 2px;
   }
 
-  /* ── Diagrams: scroll inside container ── */
+  /* Diagrams */
   .diagram-container {
     padding: 16px 8px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 
-  /* ── Misc ── */
+  /* Misc */
   .byline          { font-size: clamp(13px, 3.5vw, 16px); margin-bottom: 22px; }
   .section-divider { margin: 40px 0; }
-  .linkedin-float  { bottom: 72px; }
   .dispatch-cards  { grid-template-columns: repeat(2, 1fr); }
+  .linkedin-float  { bottom: 72px; }
 }
 
 @media (max-width: 480px) {
@@ -1225,10 +1229,11 @@ img, svg, video, iframe, pre, table { max-width: 100%; }
   <!-- Semver widget -->
   <div class="semver-widget">
     <div class="semver-badge" id="semverToggle" role="button" tabindex="0" aria-expanded="false">
-      <span class="semver-label">v2.5.6</span>
+      <span class="semver-label">v2.5.7</span>
       <span class="semver-date">May 2026</span>
     </div>
     <div class="semver-changelog" id="semverChangelog">
+      <div class="semver-entry"><strong>v2.5.7</strong> <span>May 2026</span> &mdash; Mobile edition: overflow-x: hidden on body (not html, preserves zoom), min-width: 0 on grid children, explicit width/overflow on .content-area, font minimum raised to 19px.</div>
       <div class="semver-entry"><strong>v2.5.6</strong> <span>May 2026</span> &mdash; Mobile edition: fixed CSS grid blowout (min-width:0 on grid children) which was the root cause of horizontal overflow despite overflow-wrap being set.</div>
       <div class="semver-entry"><strong>v2.5.5</strong> <span>May 2026</span> &mdash; Mobile edition: fluid clamp() typography throughout, overflow-x: clip (restores pinch-zoom), overflow-wrap + hyphens prevent text overflow without hiding content.</div>
       <div class="semver-entry"><strong>v2.5.4</strong> <span>May 2026</span> &mdash; Mobile edition: fixed horizontal overflow (hero overline, SVGs, viewport bleed), replaced topbar with repositioned top-right FAB, body copy 21px, boxed text 18px.</div>
