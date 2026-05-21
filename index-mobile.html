@@ -1119,15 +1119,10 @@ tbody td:first-child {
 .mobile-topbar-btn:hover { background: var(--sidebar-box); }
 
 @media (max-width: 1024px) {
-  /* Show top bar, hide floating bottom button */
   .mobile-topbar { display: flex; }
   .mobile-nav-toggle { display: none !important; }
-
-  /* Push everything down so topbar doesn't overlap content */
   body { padding-top: 54px; }
   html { scroll-padding-top: 70px; }
-
-  /* Touch-friendly sidebar nav links */
   .sidebar nav .nav-link {
     padding: 12px 14px;
     font-size: 15px;
@@ -1140,91 +1135,52 @@ tbody td:first-child {
 }
 
 @media (max-width: 768px) {
-  /* ── Larger body text ── */
-  p { font-size: 19px; }
-
-  /* ── More breathing room in content column ── */
-  .content-area { padding: 40px 24px 100px; }
-
-  /* ── Hero ── */
+  body { line-height: 1.85; }
+  p { font-size: 21px; }
+  .content-area { padding: 40px 28px 100px; }
   .hero { padding: 40px 0 32px; margin-bottom: 28px; }
   .hero-divider { margin: 28px 0 0; }
-
-  /* ── Epigraph ── */
-  .epigraph { padding: 18px 20px; font-size: 18px; }
-
-  /* ── Pull-quotes ── */
-  .pull-quote { padding: 16px 20px; font-size: 19px; margin: 28px 0; }
-
-  /* ── Update boxes ── */
-  .update-box { padding: 14px 18px; font-size: 16px; }
-
-  /* ── Info boxes ── */
-  .info-box { padding: 18px 20px; margin: 28px 0; }
-  .info-box p { font-size: 16px; }
-
-  /* ── Section headings ── */
-  .section h3 { margin-top: 32px; font-size: clamp(19px, 5vw, 22px); }
-
-  /* ── Concern blocks ── */
-  .concern-block { padding: 14px 16px; margin: 16px 0; }
-  .concern-block p { font-size: 16px; }
-
-  /* ── Stat rows ── */
+  .epigraph { padding: 18px 20px; font-size: 20px; }
+  .pull-quote { padding: 18px 22px; font-size: 21px; margin: 28px 0; }
+  .update-box { padding: 16px 20px; font-size: 18px; }
+  .info-box { padding: 20px 22px; margin: 28px 0; }
+  .info-box p { font-size: 18px; }
+  .section h3 { margin-top: 32px; font-size: clamp(20px, 5vw, 24px); }
+  .concern-block { padding: 16px 18px; margin: 16px 0; }
+  .concern-block p { font-size: 18px; }
   .stat-row { gap: 12px; padding: 16px 18px; }
-
-  /* ── Coda update box ── */
   .update-box-coda { padding: 18px 20px 20px; }
-  .update-box-coda p { font-size: 16px; }
-
-  /* ── Ref links ── */
-  .ref-links { padding: 18px 18px; margin: 24px 0 6px; }
-  .ref-link-card strong { font-size: 15px; }
-  .ref-link-card span { font-size: 13px; }
-
-  /* ── Table scroll hint ── */
+  .update-box-coda p { font-size: 18px; }
+  .ref-links { padding: 20px 20px; margin: 24px 0 6px; }
+  .ref-link-card strong { font-size: 17px; }
+  .ref-link-card span { font-size: 15px; }
   .table-wrapper::after {
-    content: 'swipe to scroll 92';
+    content: 'swipe \2192';
     display: block;
     text-align: right;
     font-family: 'Outfit', sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-muted);
     padding: 4px 8px 2px;
-    letter-spacing: 0.04em;
   }
-
-  /* ── Diagram containers ── */
   .diagram-container { padding: 20px 12px; border-radius: 8px; margin: 24px 0 8px; }
-
-  /* ── Byline ── */
-  .byline { font-size: 14px; margin-bottom: 22px; }
-
-  /* ── Section divider ── */
+  .byline { font-size: 16px; margin-bottom: 22px; }
   .section-divider { margin: 40px 0; }
-
-  /* ── LinkedIn float stays in the corner (no bottom button to conflict with) ── */
   .linkedin-float { bottom: 20px; }
 }
 
 @media (max-width: 480px) {
-  /* ── Even larger relative to screen ── */
-  p { font-size: 18px; }
-  .content-area { padding: 32px 20px 100px; }
-
-  /* ── Pull-quotes and epigraph ── */
-  .pull-quote { font-size: 18px; padding: 14px 16px; margin: 24px 0; }
-  .epigraph { font-size: 17px; padding: 16px 18px; }
-
-  /* ── Hero ── */
+  p { font-size: 19px; }
+  .content-area { padding: 32px 22px 100px; }
+  .pull-quote { font-size: 19px; padding: 16px 18px; margin: 24px 0; }
+  .epigraph { font-size: 18px; padding: 16px 18px; }
   .hero { padding: 32px 0 24px; }
-  .hero-meta { font-size: 13px; line-height: 1.9; }
-
-  /* ── Update box text ── */
-  .update-box { font-size: 15px; }
-
-  /* ── Table and diagram captions ── */
-  .table-caption, .diagram-caption { font-size: 13px; }
+  .hero-meta { font-size: 14px; line-height: 1.9; }
+  .update-box { font-size: 17px; }
+  .info-box p { font-size: 17px; }
+  .concern-block p { font-size: 17px; }
+  .update-box-coda p { font-size: 17px; }
+  .table-caption, .diagram-caption { font-size: 14px; }
 }
 </style>
 </head>
@@ -1251,10 +1207,11 @@ tbody td:first-child {
   <!-- Semver widget -->
   <div class="semver-widget">
     <div class="semver-badge" id="semverToggle" role="button" tabindex="0" aria-expanded="false">
-      <span class="semver-label">v2.5.2</span>
+      <span class="semver-label">v2.5.3</span>
       <span class="semver-date">May 2026</span>
     </div>
     <div class="semver-changelog" id="semverChangelog">
+      <div class="semver-entry"><strong>v2.5.3</strong> <span>May 2026</span> &mdash; Mobile edition: body copy 21px (was 18px), line-height 1.85, boxed text no longer shrunk below body size.</div>
       <div class="semver-entry"><strong>v2.5.2</strong> <span>May 2026</span> &mdash; Mobile edition (index-mobile.html): all SVG diagrams made responsive (width: 100%), sticky top-bar nav trigger for drawer sidebar, body copy increased to 19px, reduced horizontal padding for comfortable line length on small screens.</div>
       <div class="semver-entry"><strong>v2.5.1</strong> <span>May 2026</span> &mdash; Em-dashes audited in new content. Prose em-dashes removed from Dispatch 06 update box; structural separators in labels retained for visual consistency with the rest of the site.</div>
       <div class="semver-entry"><strong>v2.5.0</strong> <span>May 2026</span> &mdash; Rebranded from &ldquo;editorial package&rdquo; to &ldquo;field notes&rdquo;. Date trail reconciled across hero, footer, and meta. Coda opening rewritten to drop unverified literary claim. Section 6 (build/buy/borrow) restructured as narrative ladder with cards as takeaway summary.</div>
