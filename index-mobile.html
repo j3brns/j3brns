@@ -136,6 +136,9 @@ body {
 
 @media (max-width: 1024px) {
   .site-wrapper { grid-template-columns: 1fr; }
+  /* Grid items default to min-width:auto which lets content blow out
+     the viewport. min-width:0 forces them to honour the 1fr constraint. */
+  .site-wrapper > * { min-width: 0; }
 }
 
 /* ════════════════════════════════════════════
@@ -1222,10 +1225,11 @@ img, svg, video, iframe, pre, table { max-width: 100%; }
   <!-- Semver widget -->
   <div class="semver-widget">
     <div class="semver-badge" id="semverToggle" role="button" tabindex="0" aria-expanded="false">
-      <span class="semver-label">v2.5.5</span>
+      <span class="semver-label">v2.5.6</span>
       <span class="semver-date">May 2026</span>
     </div>
     <div class="semver-changelog" id="semverChangelog">
+      <div class="semver-entry"><strong>v2.5.6</strong> <span>May 2026</span> &mdash; Mobile edition: fixed CSS grid blowout (min-width:0 on grid children) which was the root cause of horizontal overflow despite overflow-wrap being set.</div>
       <div class="semver-entry"><strong>v2.5.5</strong> <span>May 2026</span> &mdash; Mobile edition: fluid clamp() typography throughout, overflow-x: clip (restores pinch-zoom), overflow-wrap + hyphens prevent text overflow without hiding content.</div>
       <div class="semver-entry"><strong>v2.5.4</strong> <span>May 2026</span> &mdash; Mobile edition: fixed horizontal overflow (hero overline, SVGs, viewport bleed), replaced topbar with repositioned top-right FAB, body copy 21px, boxed text 18px.</div>
       <div class="semver-entry"><strong>v2.5.3</strong> <span>May 2026</span> &mdash; Mobile edition: body copy 21px (was 18px), line-height 1.85, boxed text no longer shrunk below body size.</div>
