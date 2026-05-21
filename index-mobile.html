@@ -1216,11 +1216,82 @@ img, svg, video, iframe, pre { max-width: 100%; }
   .dispatch-cards { grid-template-columns: 1fr; }
   .table-caption, .diagram-caption { font-size: 13px; }
 }
+
+/* ── Reading toolbar (mobile-only) ── */
+.reading-toolbar {
+  display: none;
+  position: fixed;
+  top: 3px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  height: 40px;
+  padding: 0 10px 0 14px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border-light);
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 1px 6px var(--shadow);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.toolbar-section-name {
+  flex: 1;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toolbar-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+  padding: 0;
+  line-height: 1;
+}
+.toolbar-btn:active { background: var(--sidebar-box); }
+.toolbar-btn:disabled { opacity: 0.25; cursor: default; }
+
+@media (max-width: 1024px) {
+  .reading-toolbar { display: flex; }
+  body { padding-top: 43px; }
+  /* Sidebar draws above toolbar and overlay when open */
+  .sidebar { z-index: 1002; }
+  .nav-overlay { z-index: 1001 !important; }
+}
+
+/* Landscape line-length cap prevents over-long lines on wide phones */
+@media (max-width: 1024px) and (orientation: landscape) {
+  .content-area p,
+  .pull-quote,
+  .epigraph { max-width: 68ch; }
+}
 </style>
 </head>
 
 <body>
 <div id="progress-bar"></div>
+<div class="reading-toolbar" id="readingToolbar">
+  <span class="toolbar-section-name" id="toolbarSectionName">Agentic Protocols</span>
+  <button class="toolbar-btn" id="toolbarDark" aria-label="Toggle dark mode">&#9790;</button>
+  <button class="toolbar-btn" id="toolbarTop" aria-label="Scroll to top" disabled>&#8679;</button>
+</div>
 <div class="nav-overlay" id="navOverlay"></div>
 
 <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">&#9776;</button>
@@ -1237,10 +1308,11 @@ img, svg, video, iframe, pre { max-width: 100%; }
   <!-- Semver widget -->
   <div class="semver-widget">
     <div class="semver-badge" id="semverToggle" role="button" tabindex="0" aria-expanded="false">
-      <span class="semver-label">v2.5.8</span>
+      <span class="semver-label">v2.6.0</span>
       <span class="semver-date">May 2026</span>
     </div>
     <div class="semver-changelog" id="semverChangelog">
+      <div class="semver-entry"><strong>v2.6.0</strong> <span>May 2026</span> &mdash; Mobile UX overhaul: fixed reading toolbar (section indicator, dark-mode toggle, back-to-top); swipe-to-open sidebar from left edge; landscape line-length cap (68ch); overlay z-index fix so sidebar properly covers toolbar when open.</div>
       <div class="semver-entry"><strong>v2.5.8</strong> <span>May 2026</span> &mdash; Mobile edition: FAB moved to bottom-right, font minimum raised to 21px with clamp() fluid scaling, line-height 1.9, antialiased rendering, generous padding for comfortable line length.</div>
       <div class="semver-entry"><strong>v2.5.7</strong> <span>May 2026</span> &mdash; Mobile edition: overflow-x: hidden on body (not html, preserves zoom), min-width: 0 on grid children, explicit width/overflow on .content-area, font minimum raised to 19px.</div>
       <div class="semver-entry"><strong>v2.5.6</strong> <span>May 2026</span> &mdash; Mobile edition: fixed CSS grid blowout (min-width:0 on grid children) which was the root cause of horizontal overflow despite overflow-wrap being set.</div>
@@ -2538,6 +2610,84 @@ window.addEventListener('scroll', () => {
   document.querySelectorAll('.sidebar nav .nav-link').forEach(link => {
     link.addEventListener('click', close);
   });
+})();
+
+// ── Reading toolbar: section indicator + dark mode + back-to-top ──
+(function() {
+  const toolbar = document.getElementById('readingToolbar');
+  if (!toolbar) return;
+  const sectionEl = document.getElementById('toolbarSectionName');
+  const darkBtn   = document.getElementById('toolbarDark');
+  const topBtn    = document.getElementById('toolbarTop');
+
+  function syncDarkIcon() {
+    const isDark = document.documentElement.classList.contains('theme-dark');
+    darkBtn.innerHTML = isDark ? '&#9728;' : '&#9790;'; // ☀ : ☾
+    darkBtn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  syncDarkIcon();
+
+  darkBtn.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.contains('theme-dark');
+    const next = isDark ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    document.documentElement.classList.toggle('theme-dark', next === 'dark');
+    const icon  = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    if (icon)  icon.textContent  = next === 'dark' ? '☀' : '☾';
+    if (label) label.textContent = next === 'dark' ? 'Light mode' : 'Dark mode';
+    syncDarkIcon();
+  });
+
+  topBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  window.addEventListener('scroll', () => {
+    topBtn.disabled = document.documentElement.scrollTop < 300;
+  }, { passive: true });
+
+  // Track current section name
+  const sections  = document.querySelectorAll('.section[id]');
+  const navLinks  = document.querySelectorAll('.sidebar nav .nav-link[data-target]');
+  const nameMap   = {};
+  navLinks.forEach(link => {
+    const target = link.getAttribute('data-target');
+    const clone  = link.cloneNode(true);
+    const rt     = clone.querySelector('.reading-time');
+    if (rt) rt.remove();
+    nameMap[target] = clone.textContent.trim();
+  });
+  const secObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && nameMap[e.target.id]) {
+        sectionEl.textContent = nameMap[e.target.id];
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
+  sections.forEach(s => secObs.observe(s));
+})();
+
+// ── Swipe to open / close sidebar ──
+(function() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('navOverlay');
+  if (!sidebar) return;
+  let startX = 0, startY = 0;
+  document.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = Math.abs(e.changedTouches[0].clientY - startY);
+    if (dy > 80) return;
+    if (startX < 40 && dx > 60) {
+      sidebar.classList.add('open'); overlay.classList.add('open');
+    } else if (sidebar.classList.contains('open') && dx < -60) {
+      sidebar.classList.remove('open'); overlay.classList.remove('open');
+    }
+  }, { passive: true });
 })();
 </script>
 
