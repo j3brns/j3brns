@@ -1076,53 +1076,27 @@ tbody td:first-child {
    MOBILE-FIRST ENHANCEMENTS (mobile copy)
    ════════════════════════════════════════════ */
 
-/* ── Sticky mobile top bar ── */
-.mobile-topbar {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 54px;
-  background: var(--bg-alt);
-  border-bottom: 1px solid var(--border);
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  z-index: 150;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: background 0.3s ease, border-color 0.3s ease;
-}
-.mobile-topbar-title {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.mobile-topbar-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text);
-  font-size: 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.2s ease;
-}
-.mobile-topbar-btn:hover { background: var(--sidebar-box); }
+/* ── Prevent any element from blowing out the viewport width ── */
+html, body { max-width: 100%; overflow-x: hidden; }
+*, *::before, *::after { max-width: 100%; }
+img, svg, table { max-width: 100%; }
 
 @media (max-width: 1024px) {
-  .mobile-topbar { display: flex; }
-  .mobile-nav-toggle { display: none !important; }
-  body { padding-top: 54px; }
-  html { scroll-padding-top: 70px; }
+  /* ── Reposition the existing toggle to top-right ── */
+  .mobile-nav-toggle {
+    display: flex !important;
+    top: 14px;
+    right: 14px;
+    bottom: auto;
+    left: auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--accent);
+    font-size: 19px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  }
+  /* Nav links: bigger tap targets */
   .sidebar nav .nav-link {
     padding: 12px 14px;
     font-size: 15px;
@@ -1134,26 +1108,53 @@ tbody td:first-child {
   }
 }
 
+/* ── Hide mobile topbar (not used in this version) ── */
+.mobile-topbar { display: none !important; }
+
 @media (max-width: 768px) {
+  /* ── Body ── */
   body { line-height: 1.85; }
   p { font-size: 21px; }
-  .content-area { padding: 40px 28px 100px; }
+
+  /* ── Content column ── */
+  .content-area { padding: 60px 24px 100px; }
+
+  /* ── Hero: fix overflow from letter-spacing + long overline ── */
   .hero { padding: 40px 0 32px; margin-bottom: 28px; }
+  .hero-overline {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    white-space: normal;
+    line-height: 1.7;
+    word-break: break-word;
+  }
   .hero-divider { margin: 28px 0 0; }
-  .epigraph { padding: 18px 20px; font-size: 20px; }
-  .pull-quote { padding: 18px 22px; font-size: 21px; margin: 28px 0; }
-  .update-box { padding: 16px 20px; font-size: 18px; }
-  .info-box { padding: 20px 22px; margin: 28px 0; }
-  .info-box p { font-size: 18px; }
+
+  /* ── Headings ── */
   .section h3 { margin-top: 32px; font-size: clamp(20px, 5vw, 24px); }
-  .concern-block { padding: 16px 18px; margin: 16px 0; }
-  .concern-block p { font-size: 18px; }
-  .stat-row { gap: 12px; padding: 16px 18px; }
-  .update-box-coda { padding: 18px 20px 20px; }
+
+  /* ── Pull-quotes & epigraph ── */
+  .pull-quote { padding: 18px 20px; font-size: 21px; margin: 28px 0; }
+  .epigraph   { padding: 18px 20px; font-size: 20px; }
+
+  /* ── Boxed content: never smaller than body ── */
+  .update-box       { padding: 16px 20px; font-size: 18px; }
+  .update-box-coda  { padding: 18px 20px 20px; }
   .update-box-coda p { font-size: 18px; }
-  .ref-links { padding: 20px 20px; margin: 24px 0 6px; }
+  .info-box         { padding: 20px 22px; margin: 28px 0; }
+  .info-box p       { font-size: 18px; }
+  .concern-block    { padding: 16px 18px; margin: 16px 0; }
+  .concern-block p  { font-size: 18px; }
+
+  /* ── Stat rows ── */
+  .stat-row { gap: 12px; padding: 16px 18px; }
+
+  /* ── Ref links ── */
+  .ref-links { padding: 20px; margin: 24px 0 6px; }
   .ref-link-card strong { font-size: 17px; }
-  .ref-link-card span { font-size: 15px; }
+  .ref-link-card span   { font-size: 15px; }
+
+  /* ── Table scroll hint ── */
   .table-wrapper::after {
     content: 'swipe \2192';
     display: block;
@@ -1163,21 +1164,26 @@ tbody td:first-child {
     color: var(--text-muted);
     padding: 4px 8px 2px;
   }
-  .diagram-container { padding: 20px 12px; border-radius: 8px; margin: 24px 0 8px; }
-  .byline { font-size: 16px; margin-bottom: 22px; }
+
+  /* ── Diagrams ── */
+  .diagram-container { padding: 16px 8px; overflow-x: auto; }
+  .diagram-container svg { min-width: 0; }
+
+  /* ── Misc ── */
+  .byline         { font-size: 16px; margin-bottom: 22px; }
   .section-divider { margin: 40px 0; }
-  .linkedin-float { bottom: 20px; }
+  .linkedin-float  { bottom: 72px; }
 }
 
 @media (max-width: 480px) {
-  p { font-size: 19px; }
-  .content-area { padding: 32px 22px 100px; }
-  .pull-quote { font-size: 19px; padding: 16px 18px; margin: 24px 0; }
-  .epigraph { font-size: 18px; padding: 16px 18px; }
-  .hero { padding: 32px 0 24px; }
-  .hero-meta { font-size: 14px; line-height: 1.9; }
-  .update-box { font-size: 17px; }
-  .info-box p { font-size: 17px; }
+  p                { font-size: 19px; }
+  .content-area    { padding: 56px 20px 100px; }
+  .pull-quote      { font-size: 19px; padding: 16px 18px; margin: 24px 0; }
+  .epigraph        { font-size: 18px; padding: 16px 18px; }
+  .hero            { padding: 32px 0 24px; }
+  .hero-meta       { font-size: 14px; line-height: 1.9; }
+  .update-box      { font-size: 17px; }
+  .info-box p      { font-size: 17px; }
   .concern-block p { font-size: 17px; }
   .update-box-coda p { font-size: 17px; }
   .table-caption, .diagram-caption { font-size: 14px; }
@@ -1187,10 +1193,6 @@ tbody td:first-child {
 
 <body>
 <div id="progress-bar"></div>
-<div class="mobile-topbar" id="mobileTopbar">
-  <span class="mobile-topbar-title">Agentic Protocols</span>
-  <button class="mobile-topbar-btn" id="mobileTopbarBtn" aria-label="Toggle navigation">&#9776;</button>
-</div>
 <div class="nav-overlay" id="navOverlay"></div>
 
 <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">&#9776;</button>
@@ -1207,10 +1209,11 @@ tbody td:first-child {
   <!-- Semver widget -->
   <div class="semver-widget">
     <div class="semver-badge" id="semverToggle" role="button" tabindex="0" aria-expanded="false">
-      <span class="semver-label">v2.5.3</span>
+      <span class="semver-label">v2.5.4</span>
       <span class="semver-date">May 2026</span>
     </div>
     <div class="semver-changelog" id="semverChangelog">
+      <div class="semver-entry"><strong>v2.5.4</strong> <span>May 2026</span> &mdash; Mobile edition: fixed horizontal overflow (hero overline, SVGs, viewport bleed), replaced topbar with repositioned top-right FAB, body copy 21px, boxed text 18px.</div>
       <div class="semver-entry"><strong>v2.5.3</strong> <span>May 2026</span> &mdash; Mobile edition: body copy 21px (was 18px), line-height 1.85, boxed text no longer shrunk below body size.</div>
       <div class="semver-entry"><strong>v2.5.2</strong> <span>May 2026</span> &mdash; Mobile edition (index-mobile.html): all SVG diagrams made responsive (width: 100%), sticky top-bar nav trigger for drawer sidebar, body copy increased to 19px, reduced horizontal padding for comfortable line length on small screens.</div>
       <div class="semver-entry"><strong>v2.5.1</strong> <span>May 2026</span> &mdash; Em-dashes audited in new content. Prose em-dashes removed from Dispatch 06 update box; structural separators in labels retained for visual consistency with the rest of the site.</div>
