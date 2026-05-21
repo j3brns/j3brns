@@ -1200,7 +1200,14 @@ img, svg, video, iframe, pre { max-width: 100%; }
   .dispatch-cards   { grid-template-columns: repeat(2, 1fr); }
 
   /* LinkedIn pill: just above FAB */
-  .linkedin-float { bottom: 90px; }
+  .linkedin-float {
+    top: 14px;
+    bottom: auto;
+    left: 14px;
+    padding: 7px 12px;
+    border-radius: 20px;
+  }
+  .linkedin-float span { display: inline; }
 }
 
 @media (max-width: 480px) {
