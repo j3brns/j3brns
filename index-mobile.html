@@ -1076,11 +1076,61 @@ tbody td:first-child {
    MOBILE-FIRST ENHANCEMENTS (mobile copy)
    ════════════════════════════════════════════ */
 
-/* ── Touch-friendly sidebar nav links ── */
+/* ── Sticky mobile top bar ── */
+.mobile-topbar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 54px;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 150;
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.mobile-topbar-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.mobile-topbar-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+.mobile-topbar-btn:hover { background: var(--sidebar-box); }
+
 @media (max-width: 1024px) {
+  /* Show top bar, hide floating bottom button */
+  .mobile-topbar { display: flex; }
+  .mobile-nav-toggle { display: none !important; }
+
+  /* Push everything down so topbar doesn't overlap content */
+  body { padding-top: 54px; }
+  html { scroll-padding-top: 70px; }
+
+  /* Touch-friendly sidebar nav links */
   .sidebar nav .nav-link {
-    padding: 11px 14px;
-    font-size: 14px;
+    padding: 12px 14px;
+    font-size: 15px;
     margin-bottom: 4px;
   }
   .sidebar nav .nav-link .reading-time {
@@ -1090,77 +1140,51 @@ tbody td:first-child {
 }
 
 @media (max-width: 768px) {
+  /* ── Larger body text ── */
+  p { font-size: 19px; }
+
+  /* ── More breathing room in content column ── */
+  .content-area { padding: 40px 24px 100px; }
+
   /* ── Hero ── */
-  .hero {
-    padding: 40px 0 32px;
-    margin-bottom: 28px;
-  }
+  .hero { padding: 40px 0 32px; margin-bottom: 28px; }
   .hero-divider { margin: 28px 0 0; }
 
   /* ── Epigraph ── */
-  .epigraph {
-    padding: 18px 20px;
-    font-size: 17px;
-  }
+  .epigraph { padding: 18px 20px; font-size: 18px; }
 
   /* ── Pull-quotes ── */
-  .pull-quote {
-    padding: 16px 20px;
-    font-size: 18px;
-    margin: 28px 0;
-  }
+  .pull-quote { padding: 16px 20px; font-size: 19px; margin: 28px 0; }
 
   /* ── Update boxes ── */
-  .update-box {
-    padding: 14px 18px;
-  }
+  .update-box { padding: 14px 18px; font-size: 16px; }
 
   /* ── Info boxes ── */
-  .info-box {
-    padding: 18px 20px;
-    margin: 28px 0;
-  }
-  .info-box p { font-size: 15px; }
+  .info-box { padding: 18px 20px; margin: 28px 0; }
+  .info-box p { font-size: 16px; }
 
   /* ── Section headings ── */
-  .section h3 {
-    margin-top: 32px;
-    font-size: clamp(18px, 5vw, 22px);
-  }
+  .section h3 { margin-top: 32px; font-size: clamp(19px, 5vw, 22px); }
 
   /* ── Concern blocks ── */
-  .concern-block {
-    padding: 14px 16px;
-    margin: 16px 0;
-  }
-  .concern-block p { font-size: 15px; }
+  .concern-block { padding: 14px 16px; margin: 16px 0; }
+  .concern-block p { font-size: 16px; }
 
   /* ── Stat rows ── */
-  .stat-row {
-    gap: 12px;
-    padding: 16px 18px;
-  }
+  .stat-row { gap: 12px; padding: 16px 18px; }
 
   /* ── Coda update box ── */
-  .update-box-coda {
-    padding: 18px 20px 20px;
-  }
-  .update-box-coda p { font-size: 15px; }
+  .update-box-coda { padding: 18px 20px 20px; }
+  .update-box-coda p { font-size: 16px; }
 
   /* ── Ref links ── */
-  .ref-links {
-    padding: 18px 18px;
-    margin: 24px 0 6px;
-  }
+  .ref-links { padding: 18px 18px; margin: 24px 0 6px; }
   .ref-link-card strong { font-size: 15px; }
   .ref-link-card span { font-size: 13px; }
 
   /* ── Table scroll hint ── */
-  .table-wrapper {
-    position: relative;
-  }
   .table-wrapper::after {
-    content: 'scroll 92';
+    content: 'swipe to scroll 92';
     display: block;
     text-align: right;
     font-family: 'Outfit', sans-serif;
@@ -1171,11 +1195,7 @@ tbody td:first-child {
   }
 
   /* ── Diagram containers ── */
-  .diagram-container {
-    padding: 20px 12px;
-    border-radius: 8px;
-    margin: 24px 0 8px;
-  }
+  .diagram-container { padding: 20px 12px; border-radius: 8px; margin: 24px 0 8px; }
 
   /* ── Byline ── */
   .byline { font-size: 14px; margin-bottom: 22px; }
@@ -1183,59 +1203,38 @@ tbody td:first-child {
   /* ── Section divider ── */
   .section-divider { margin: 40px 0; }
 
-  /* ── LinkedIn float: raise it above the mobile nav toggle ── */
-  .linkedin-float {
-    bottom: 84px;
-  }
-
-  /* ── Mobile nav toggle: slightly larger ── */
-  .mobile-nav-toggle {
-    width: 56px;
-    height: 56px;
-    font-size: 24px;
-  }
+  /* ── LinkedIn float stays in the corner (no bottom button to conflict with) ── */
+  .linkedin-float { bottom: 20px; }
 }
 
 @media (max-width: 480px) {
-  /* ── Body copy ── */
-  p { font-size: 17px; }
+  /* ── Even larger relative to screen ── */
+  p { font-size: 18px; }
+  .content-area { padding: 32px 20px 100px; }
 
   /* ── Pull-quotes and epigraph ── */
-  .pull-quote {
-    font-size: 17px;
-    padding: 14px 16px;
-    margin: 24px 0;
-  }
-  .epigraph {
-    font-size: 16px;
-    padding: 16px 18px;
-  }
+  .pull-quote { font-size: 18px; padding: 14px 16px; margin: 24px 0; }
+  .epigraph { font-size: 17px; padding: 16px 18px; }
 
   /* ── Hero ── */
   .hero { padding: 32px 0 24px; }
-  .hero-meta { font-size: 12px; line-height: 1.9; }
-
-  /* ── Info boxes ── */
-  .info-box p { font-size: 14px; }
-
-  /* ── Content area padding ── */
-  .content-area { padding: 32px 16px 100px; }
-
-  /* ── Table caption / diagram caption ── */
-  .table-caption, .diagram-caption { font-size: 13px; }
+  .hero-meta { font-size: 13px; line-height: 1.9; }
 
   /* ── Update box text ── */
   .update-box { font-size: 15px; }
 
-  /* ── Ref link arrow text ── */
-  .ref-link-arrow { font-size: 13px; }
+  /* ── Table and diagram captions ── */
+  .table-caption, .diagram-caption { font-size: 13px; }
 }
-
 </style>
 </head>
 
 <body>
 <div id="progress-bar"></div>
+<div class="mobile-topbar" id="mobileTopbar">
+  <span class="mobile-topbar-title">Agentic Protocols</span>
+  <button class="mobile-topbar-btn" id="mobileTopbarBtn" aria-label="Toggle navigation">&#9776;</button>
+</div>
 <div class="nav-overlay" id="navOverlay"></div>
 
 <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">&#9776;</button>
@@ -2528,12 +2527,16 @@ window.addEventListener('scroll', () => {
 (function() {
   const sidebar = document.getElementById('sidebar');
   const toggleBtn = document.getElementById('mobileNavToggle');
+  const topbarBtn = document.getElementById('mobileTopbarBtn');
   const overlay = document.getElementById('navOverlay');
 
   function open() { sidebar.classList.add('open'); overlay.classList.add('open'); }
   function close() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
 
-  toggleBtn.addEventListener('click', () => {
+  if (toggleBtn) toggleBtn.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? close() : open();
+  });
+  if (topbarBtn) topbarBtn.addEventListener('click', () => {
     sidebar.classList.contains('open') ? close() : open();
   });
   overlay.addEventListener('click', close);
