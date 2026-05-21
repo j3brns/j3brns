@@ -1079,52 +1079,47 @@ tbody td:first-child {
    MOBILE-FIRST ENHANCEMENTS (mobile copy)
    ════════════════════════════════════════════ */
 
-/*
- * overflow-x: hidden on BODY (not html) stops the viewport expanding
- * to fit wide content on Android/iOS without breaking pinch-zoom.
- * overflow on html blocks zoom; overflow on body does not.
- * width: 100% on .content-area and min-width: 0 on grid children
- * ensure the layout never generates the overflow in the first place.
- */
 body {
   overflow-x: hidden;
   overflow-wrap: break-word;
   word-break:    break-word;
   -webkit-hyphens: auto;
   hyphens: auto;
+  hyphenate-limit-chars: 12 5 4;
+  /* Crisper text rendering on mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 img, svg, video, iframe, pre { max-width: 100%; }
 
 @media (max-width: 1024px) {
-  /* Grid children must be able to shrink below their content size */
   .site-wrapper > * { min-width: 0; }
 
-  /* Content area explicitly contained */
   .content-area {
     width: 100%;
     overflow-x: hidden;
   }
 
-  /* Reposition FAB to top-right */
+  /* FAB: bottom-right, accent coloured, rounded square */
   .mobile-nav-toggle {
-    display: flex !important;
-    top:    14px;
-    right:  14px;
-    bottom: auto;
-    left:   auto;
-    width:  44px;
-    height: 44px;
-    border-radius: 10px;
-    background: var(--accent);
-    font-size: 19px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    display:       flex !important;
+    bottom:        24px;
+    right:         24px;
+    top:           auto;
+    left:          auto;
+    width:         52px;
+    height:        52px;
+    border-radius: 14px;
+    background:    var(--accent);
+    font-size:     22px;
+    box-shadow:    0 4px 16px rgba(0,0,0,0.30);
   }
 
-  /* Bigger drawer tap targets */
   .sidebar nav .nav-link {
-    padding:      12px 14px;
-    font-size:    15px;
+    padding:       12px 14px;
+    font-size:     15px;
     margin-bottom: 4px;
   }
   .sidebar nav .nav-link .reading-time {
@@ -1136,35 +1131,38 @@ img, svg, video, iframe, pre { max-width: 100%; }
 .mobile-topbar { display: none !important; }
 
 @media (max-width: 768px) {
-  body { line-height: 1.85; }
+  body { line-height: 1.9; }
 
-  /* Fluid type — minimum raised to 19px so small phones get real size */
-  p             { font-size: clamp(19px, 4.8vw, 21px); }
-  .pull-quote   { font-size: clamp(19px, 4.8vw, 21px); padding: 18px 20px; margin: 28px 0; }
-  .epigraph     { font-size: clamp(17px, 4.5vw, 20px); padding: 18px 20px; }
-  .update-box   { font-size: clamp(17px, 4.2vw, 19px); padding: 16px 20px; }
-  .info-box p            { font-size: clamp(17px, 4.2vw, 19px); }
-  .concern-block p       { font-size: clamp(17px, 4.2vw, 19px); }
-  .update-box-coda p     { font-size: clamp(17px, 4.2vw, 19px); }
+  /* ── Fluid type — minimum 21px so every phone gets genuinely large text ── */
+  p           { font-size: clamp(21px, 5vw, 23px); }
+  .pull-quote { font-size: clamp(21px, 5vw, 23px); padding: 18px 20px; margin: 28px 0; }
+  .epigraph   { font-size: clamp(19px, 4.8vw, 22px); padding: 18px 20px; }
 
-  .content-area { padding: 52px 22px 100px; }
+  /* Boxed content: large but slightly subordinate to body */
+  .update-box        { font-size: clamp(18px, 4.5vw, 20px); padding: 16px 20px; }
+  .info-box p        { font-size: clamp(18px, 4.5vw, 20px); }
+  .concern-block p   { font-size: clamp(18px, 4.5vw, 20px); }
+  .update-box-coda p { font-size: clamp(18px, 4.5vw, 20px); }
+
+  /* Content column — generous side padding for comfortable line length */
+  .content-area { padding: 32px 24px 120px; }
 
   /* Hero */
   .hero          { padding: 40px 0 32px; margin-bottom: 28px; }
-  .hero h1       { font-size: clamp(28px, 8.5vw, 52px); }
-  .hero-subtitle { font-size: clamp(17px, 5vw, 26px); }
+  .hero h1       { font-size: clamp(30px, 9vw, 52px); letter-spacing: -0.02em; }
+  .hero-subtitle { font-size: clamp(18px, 5.5vw, 26px); }
   .hero-overline {
-    font-size:      clamp(8px, 2.2vw, 11px);
+    font-size:      clamp(9px, 2.5vw, 11px);
     letter-spacing: 0.05em;
     white-space:    normal;
     line-height:    1.7;
   }
-  .hero-meta     { font-size: clamp(11px, 3vw, 13px); }
-  .hero-divider  { margin: 28px 0 0; }
+  .hero-meta    { font-size: clamp(12px, 3.2vw, 14px); line-height: 1.8; }
+  .hero-divider { margin: 28px 0 0; }
 
-  /* Headings */
-  .section h2 { font-size: clamp(22px, 6.5vw, 34px); }
-  .section h3 { font-size: clamp(18px, 5vw, 24px); margin-top: 32px; }
+  /* Section headings */
+  .section h2 { font-size: clamp(24px, 7vw, 34px); }
+  .section h3 { font-size: clamp(20px, 5.5vw, 24px); margin-top: 32px; }
 
   /* Boxes */
   .info-box        { padding: 20px 22px; margin: 28px 0; }
@@ -1174,8 +1172,8 @@ img, svg, video, iframe, pre { max-width: 100%; }
 
   /* Ref links */
   .ref-links            { padding: 20px; margin: 24px 0 6px; }
-  .ref-link-card strong { font-size: clamp(14px, 4vw, 17px); }
-  .ref-link-card span   { font-size: clamp(12px, 3.5vw, 15px); }
+  .ref-link-card strong { font-size: clamp(15px, 4.2vw, 18px); }
+  .ref-link-card span   { font-size: clamp(13px, 3.8vw, 16px); }
 
   /* Tables */
   .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -1197,14 +1195,16 @@ img, svg, video, iframe, pre { max-width: 100%; }
   }
 
   /* Misc */
-  .byline          { font-size: clamp(13px, 3.5vw, 16px); margin-bottom: 22px; }
-  .section-divider { margin: 40px 0; }
-  .dispatch-cards  { grid-template-columns: repeat(2, 1fr); }
-  .linkedin-float  { bottom: 72px; }
+  .byline           { font-size: clamp(14px, 3.8vw, 16px); margin-bottom: 22px; }
+  .section-divider  { margin: 40px 0; }
+  .dispatch-cards   { grid-template-columns: repeat(2, 1fr); }
+
+  /* LinkedIn pill: just above FAB */
+  .linkedin-float { bottom: 90px; }
 }
 
 @media (max-width: 480px) {
-  .content-area { padding: 48px 18px 100px; }
+  .content-area   { padding: 28px 20px 120px; }
   .dispatch-cards { grid-template-columns: 1fr; }
   .table-caption, .diagram-caption { font-size: 13px; }
 }
@@ -1229,10 +1229,11 @@ img, svg, video, iframe, pre { max-width: 100%; }
   <!-- Semver widget -->
   <div class="semver-widget">
     <div class="semver-badge" id="semverToggle" role="button" tabindex="0" aria-expanded="false">
-      <span class="semver-label">v2.5.7</span>
+      <span class="semver-label">v2.5.8</span>
       <span class="semver-date">May 2026</span>
     </div>
     <div class="semver-changelog" id="semverChangelog">
+      <div class="semver-entry"><strong>v2.5.8</strong> <span>May 2026</span> &mdash; Mobile edition: FAB moved to bottom-right, font minimum raised to 21px with clamp() fluid scaling, line-height 1.9, antialiased rendering, generous padding for comfortable line length.</div>
       <div class="semver-entry"><strong>v2.5.7</strong> <span>May 2026</span> &mdash; Mobile edition: overflow-x: hidden on body (not html, preserves zoom), min-width: 0 on grid children, explicit width/overflow on .content-area, font minimum raised to 19px.</div>
       <div class="semver-entry"><strong>v2.5.6</strong> <span>May 2026</span> &mdash; Mobile edition: fixed CSS grid blowout (min-width:0 on grid children) which was the root cause of horizontal overflow despite overflow-wrap being set.</div>
       <div class="semver-entry"><strong>v2.5.5</strong> <span>May 2026</span> &mdash; Mobile edition: fluid clamp() typography throughout, overflow-x: clip (restores pinch-zoom), overflow-wrap + hyphens prevent text overflow without hiding content.</div>
